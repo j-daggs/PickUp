@@ -2,4 +2,4 @@
 Evan Perez-Navarro
 Jacob Utecht
 Nick Buono
-John Daggs
+Johnny Daggs
