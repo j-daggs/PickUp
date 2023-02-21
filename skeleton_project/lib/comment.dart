@@ -26,7 +26,7 @@ class Comment {
   /// getter for text 
   String get getText => text;
   /// setter for text , accepts a variable of type String
-  set setText(String text) => this.text = username;
+  set setText(String text) => this.text = text;
   
   /// Overridden toString() method for printing a Comment instance in the format 'username: text (dateTime)'
   @override
