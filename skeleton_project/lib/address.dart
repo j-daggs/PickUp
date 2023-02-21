@@ -29,5 +29,6 @@ class Address {
 Address address1 = Address("280 Woodsia Way", "Wilmington", "NC", "28411");
 Address address2 = Address("302 Racine Drive", "Wilmington", "NC", "28403");
 Address address3 = Address("5006 Carlton Drive", "Wilmington", "NC", "28403");
+Address address4 = Address("314 Pine Grove Dr", "Wilmington", "NC", "28409");
 
-var addressArray = [address1, address2, address3]
+var addressArray = [address1, address2, address3, address4];
