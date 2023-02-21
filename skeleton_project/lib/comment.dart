@@ -1,17 +1,32 @@
 /// A class Implementing a Comment object. Includes instances variables dateTime (DateTime), username (String), text (String)
 class Comment {
   /// instance variable dateTime (type:DateTime) for keeping the date and time of the comment
-  final DateTime dateTime;
+  DateTime dateTime;
   /// instance variable username (type:String) for keeping the username associated with the comment
-  final String username;
+  String username;
   /// instance variable text (type:String) for keeping the text associated with the comment
-  final String text;
+  String text;
   /// List of Comment instances for testing
   static var testingList = [comment_1, comment_2, comment_3, comment_4, comment_5]; 
   
   /// The Comment class constructor. 
   /// Format for initializing a Comment object: var comment = Comment(DateTime.now(),"Username", "Comment Text");
   Comment(this.dateTime , this.username, this.text);
+
+  /// getter for dateTime 
+  DateTime get getDateTime => dateTime;
+  /// setter for dateTime 
+  set setDateTime(DateTime dateTime) => this.dateTime = dateTime;
+
+  /// getter for username 
+  String get getUsername => username;
+  // setter for username 
+  set setUsername(String username) => this.username = username;
+
+  /// getter for text 
+  String get getText => text;
+  /// setter for text 
+  set setText(String text) => this.text = username;
   
   /// Overridden toString() method for printing a Comment instance in the format 'username: text (dateTime)'
   @override
