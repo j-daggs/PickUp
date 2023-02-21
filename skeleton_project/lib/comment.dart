@@ -7,10 +7,10 @@ class Comment {
   /// instance variable text (type:String) for keeping the text associated with the comment
   String text;
   /// List of Comment instances for testing
-  static var testingList = [comment_1, comment_2, comment_3, comment_4, comment_5]; 
+  static var testingList = [comment1, comment2, comment3, comment4, comment5]; 
   
   /// The Comment class constructor. 
-  /// Format for initializing a Comment object: var comment = Comment(DateTime.now(),"Username", "Comment Text");
+  /// Format for initializing a Comment object: var comment = Comment(DateTime, String, String);
   Comment(this.dateTime , this.username, this.text);
 
   /// getter for dateTime 
@@ -33,14 +33,14 @@ class Comment {
   String toString() => '$username: $text ($dateTime)';
 
   /// instance of Comment for testing
-  static var comment_1 = Comment(DateTime.now(),"John D", "I will be attending!");
+  static var comment1 = Comment(DateTime.now(),"John D", "I will be attending!");
   /// instance of Comment for testing
-  static var comment_2 = Comment(DateTime.now(),"Nick B", "I'm going to share this event around, would like more people than last time.");
+  static var comment2 = Comment(DateTime.now(),"Nick B", "I'm going to share this event around, would like more people than last time.");
   /// instance of Comment for testing
-  static var comment_3 = Comment(DateTime.now(),"Jacob J", "I've attended this host's pickup events before, they ran it well!");
+  static var comment3 = Comment(DateTime.now(),"Jacob J", "I've attended this host's pickup events before, they ran it well!");
   /// instance of Comment for testing
-  static var comment_4 = Comment(DateTime.now(),"Jacob U", "I can bring extra equipment if needed.");
+  static var comment4 = Comment(DateTime.now(),"Jacob U", "I can bring extra equipment if needed.");
   /// instance of Comment for testing
-  static var comment_5 = Comment(DateTime.now(),"Evan P", "Can I bring some extra friends to this event?");
+  static var comment5 = Comment(DateTime.now(),"Evan P", "Can I bring some extra friends to this event?");
   
   }  
