@@ -1,27 +1,31 @@
+/// A class Implementing a Comment object. Includes instances variables dateTime (DateTime), username (String), text (String)
 class Comment {
+  /// instance variable dateTime (type:DateTime) for keeping the date and time of the comment
   final DateTime dateTime;
+  /// instance variable username (type:String) for keeping the username associated with the comment
   final String username;
+  /// instance variable text (type:String) for keeping the text associated with the comment
   final String text;
-  // List of Comment instances for testing
+  /// List of Comment instances for testing
   static var testingList = [comment_1, comment_2, comment_3, comment_4, comment_5]; 
   
-  // Example of how testingList can be accessed and utilized:
-  // var testing = Comment.testingList;
-  // var commentOne = testing[0];
-  // print(commentOne);
-  
-
+  /// The Comment class constructor. 
+  /// Format for initializing a Comment object: var comment = Comment(DateTime.now(),"Username", "Comment Text");
   Comment(this.dateTime , this.username, this.text);
   
+  /// Overridden toString() method for printing a Comment instance in the format 'username: text (dateTime)'
   @override
   String toString() => '$username: $text ($dateTime)';
 
-  // Format for initializing a Comment object: var comment = Comment(DateTime.now(),"Username", "Comment Text");
-  // instances of Comment for testing:
+  /// instance of Comment for testing
   static var comment_1 = Comment(DateTime.now(),"John D", "I will be attending!");
+  /// instance of Comment for testing
   static var comment_2 = Comment(DateTime.now(),"Nick B", "I'm going to share this event around, would like more people than last time.");
+  /// instance of Comment for testing
   static var comment_3 = Comment(DateTime.now(),"Jacob J", "I've attended this host's pickup events before, they ran it well!");
+  /// instance of Comment for testing
   static var comment_4 = Comment(DateTime.now(),"Jacob U", "I can bring extra equipment if needed.");
+  /// instance of Comment for testing
   static var comment_5 = Comment(DateTime.now(),"Evan P", "Can I bring some extra friends to this event?");
   
   
