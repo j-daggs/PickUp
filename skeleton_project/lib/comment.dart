@@ -15,17 +15,17 @@ class Comment {
 
   /// getter for dateTime 
   DateTime get getDateTime => dateTime;
-  /// setter for dateTime 
+  /// setter for dateTime, accepts a variable of type DateTime
   set setDateTime(DateTime dateTime) => this.dateTime = dateTime;
 
   /// getter for username 
   String get getUsername => username;
-  // setter for username 
+  // setter for username, accepts a variable of type String 
   set setUsername(String username) => this.username = username;
 
   /// getter for text 
   String get getText => text;
-  /// setter for text 
+  /// setter for text , accepts a variable of type String
   set setText(String text) => this.text = username;
   
   /// Overridden toString() method for printing a Comment instance in the format 'username: text (dateTime)'
