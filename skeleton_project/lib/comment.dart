@@ -1,4 +1,4 @@
-/// A class Implementing a Comment object. Includes instances variables dateTime (DateTime), username (String), text (String)
+/// A class Implementing a Comment object. Includes instance variables dateTime (DateTime), username (String), text (String)
 class Comment {
   /// instance variable dateTime (type:DateTime) for keeping the date and time of the comment
   DateTime dateTime;
@@ -42,6 +42,5 @@ class Comment {
   static var comment_4 = Comment(DateTime.now(),"Jacob U", "I can bring extra equipment if needed.");
   /// instance of Comment for testing
   static var comment_5 = Comment(DateTime.now(),"Evan P", "Can I bring some extra friends to this event?");
-  
   
   }  
