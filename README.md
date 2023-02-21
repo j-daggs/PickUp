@@ -3,5 +3,5 @@ Created by...
 - Jacob Utecht 
 - Evan Perez-Navarro 
 - Nick Buono
-- Johnny Daggs
+- Johnny Daggs (Comment Page Manager)
 - Jacob Johnson 
