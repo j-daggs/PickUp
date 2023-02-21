@@ -4,4 +4,4 @@ Created by...
 - Evan Perez-Navarro 
 - Nick Buono
 - Johnny Daggs
-- Jacob Johnson 
+- Jacob Johnson (Responsible for implementing user management)
