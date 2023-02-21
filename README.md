@@ -5,3 +5,6 @@ Created by...
 - Nick Buono
 - Johnny Daggs
 - Jacob Johnson 
+
+Implemented...
+- Address Component - Nick
