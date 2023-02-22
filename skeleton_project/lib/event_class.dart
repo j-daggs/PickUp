@@ -63,5 +63,15 @@ var SAMPLE_EVENTS = [
       "589 Seahawk Dr. Wilimington, NC",
       "Intermediate",
       "5v5 soccer game, already have 7 need 3 more",
+      8756),
+  Event(
+      "user3",
+      "Basketball",
+      1700,
+      2000,
+      "02/28/2023",
+      "927 Market St. Wilimington, NC",
+      "Expert",
+      "4v4 pickup basketball game, I have a team and am looking for another team of 4.",
       8756)
 ];
