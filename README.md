@@ -1,11 +1,10 @@
 ## csc450-sp23-project-team-4
 Created by...
-- Jacob Utecht (implemented Event class)
-- Evan Perez-Navarro
+- Jacob Utecht (Event Class) 
+- Evan Perez-Navarro (Location Management)
 - Nick Buono
-- Johnny Daggs
-- Jacob Johnson
-
+- Johnny Daggs (Comment Page Manager)
+- Jacob Johnson 
 
 **To build/run the project:**
 - Make sure you have the updated files using git pull
