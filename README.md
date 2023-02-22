@@ -4,7 +4,7 @@ Created by...
 - Evan Perez-Navarro (Location Management)
 - Nick Buono (Address Component)
 - Johnny Daggs (Comment Page Manager)
-- Jacob Johnson (Responsible for implementing user management)
+- Jacob Johnson (User management)
 
 **To build/run the project:**
 - Make sure you have the updated files using git pull
