@@ -2,9 +2,9 @@
 Created by...
 - Jacob Utecht (Event Class) 
 - Evan Perez-Navarro (Location Management)
-- Nick Buono
+- Nick Buono (Address Component)
 - Johnny Daggs (Comment Page Manager)
-- Jacob Johnson 
+- Jacob Johnson (Responsible for implementing user management)
 
 **To build/run the project:**
 - Make sure you have the updated files using git pull
