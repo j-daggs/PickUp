@@ -5,3 +5,6 @@ Created by...
 - Nick Buono
 - Johnny Daggs (Comment Page Manager)
 - Jacob Johnson (Responsible for implementing user management)
+
+Implemented...
+- Address Component - Nick
