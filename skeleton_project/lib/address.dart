@@ -1,4 +1,5 @@
 class Address {
+  /// Address class containing String variables for defining an Address for an event/loaction.
   String streetName;
   String city;
   String state;
