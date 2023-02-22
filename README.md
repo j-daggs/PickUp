@@ -4,4 +4,4 @@ Created by...
 - Evan Perez-Navarro (Location Management)
 - Nick Buono
 - Johnny Daggs (Comment Page Manager)
-- Jacob Johnson 
+- Jacob Johnson (Responsible for implementing user management)
