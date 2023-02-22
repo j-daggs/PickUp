@@ -1,0 +1,107 @@
+[33mcommit 7629e40d0c3f0d24887121d6025424609e4556ae[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m
+Author: j-daggs <johnadaggs@gmail.com>
+Date:   Thu Feb 16 10:36:26 2023 -0500
+
+    changed filename skeleton.dart in lib folder to main.dart
+
+[33mcommit e2158a0a43d8229fe415c6f2d9303c085ec1b541[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: jbutecht <89483702+jbutecht@users.noreply.github.com>
+Date:   Thu Feb 16 10:11:33 2023 -0500
+
+    Delete .DS_Store
+
+[33mcommit a8b42b65e47a5fe912f580af6d303752069a3c56[m
+Author: jbutecht <89483702+jbutecht@users.noreply.github.com>
+Date:   Thu Feb 16 10:11:01 2023 -0500
+
+    added entire skeleton project folders
+
+[33mcommit 3585bd25ab1881448d6c93b02c0e8cddcb1c9a80[m
+Author: jbutecht <89483702+jbutecht@users.noreply.github.com>
+Date:   Wed Feb 15 18:26:27 2023 -0500
+
+    updated skeleton file name from "main" to "skeleton"
+
+[33mcommit 23ac4b5771e1a105b0d6033f3b89c3a15f83c8c1[m
+Author: jbutecht <89483702+jbutecht@users.noreply.github.com>
+Date:   Tue Feb 14 20:13:40 2023 -0500
+
+    Update README.md
+
+[33mcommit e6280dd16cf68f0e350db866ee48914e0875070d[m
+Author: jbutecht <89483702+jbutecht@users.noreply.github.com>
+Date:   Tue Feb 14 20:13:00 2023 -0500
+
+    added header to README
+
+[33mcommit d1ccc7f95985697e6c54c548ec55c0598a8f7064[m
+Author: jbutecht <89483702+jbutecht@users.noreply.github.com>
+Date:   Tue Feb 14 12:12:29 2023 -0500
+
+    Skeleton Flutter File
+    
+    This is the skeleton "home file" for Flutter applications
+
+[33mcommit fecc1f805600499d2362be176484497497fad236[m
+Author: jbutecht <89483702+jbutecht@users.noreply.github.com>
+Date:   Tue Feb 14 12:10:09 2023 -0500
+
+    updated README
+    
+    added header
+
+[33mcommit 72157f541a69e6426d7c4692481abf8426ebd627[m
+Author: jbutecht <89483702+jbutecht@users.noreply.github.com>
+Date:   Tue Feb 14 12:02:43 2023 -0500
+
+    updated README file
+    
+    added "Created by" and list of names
+
+[33mcommit a800e7c151722e698e71ad71c083216100187366[m
+Author: jajohn3102 <114176693+jajohn3102@users.noreply.github.com>
+Date:   Tue Feb 14 10:59:26 2023 -0500
+
+    Added first/last name
+
+[33mcommit b11a780286ed4ed03bc57d3597a7edcf45adb8ab[m
+Author: jbutecht <89483702+jbutecht@users.noreply.github.com>
+Date:   Tue Feb 14 10:45:48 2023 -0500
+
+    added name
+
+[33mcommit 3dd31b1bca658dc94afbcbcb3db49d72adcdc11d[m
+Author: j-daggs <johnadaggs@gmail.com>
+Date:   Tue Feb 14 01:50:18 2023 -0500
+
+    my first commit
+
+[33mcommit 46b1c02fdbbd0b5854545e2cfe1e7d945d2c83e2[m
+Author: j-daggs <122485585+j-daggs@users.noreply.github.com>
+Date:   Tue Feb 14 01:18:20 2023 -0500
+
+    Update README.md
+
+[33mcommit 4e73071f4791c4525479ec489cd4217ea1daf8fc[m
+Author: Nick Buono <nbuono23@gmail.com>
+Date:   Mon Feb 13 23:20:34 2023 -0500
+
+    added my name
+
+[33mcommit bcaf0837b17cd490d1801ea9e01b593a6f27c3cc[m
+Author: jbutecht <89483702+jbutecht@users.noreply.github.com>
+Date:   Thu Feb 9 12:11:53 2023 -0500
+
+    Update README.md
+
+[33mcommit 198b41a1d7a0046b8b2cfd9449bed24a96fa59bd[m
+Author: evanspn <espn135@gmail.com>
+Date:   Thu Feb 9 12:10:18 2023 -0500
+
+    Milestone 4 - commit name
+
+[33mcommit 9e071062b4693411f9bd3e9e6e790b24e0577273[m
+Author: Nick Buono <nbuono23@gmail.com>
+Date:   Thu Feb 9 12:04:27 2023 -0500
+
+    first commit
