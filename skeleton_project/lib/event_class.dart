@@ -15,30 +15,39 @@ class Event {
   Event(this.username, this.sport, this.starttime, this.endtime, this.date,
       this.address, this.skill, this.description, this.postid);
 
+  //getter and setter for username
   String get getUsername => username;
   set setUsername(String name) => username = name;
 
+  //getter and setter for sport
   String get getSport => sport;
   set setSport(String sportname) => sport = sportname;
 
+  //getter and setter for starttime
   int get getStartTime => starttime;
   set setStartTime(int time) => starttime = time;
 
+  //getter and setter for endtime
   int get getEndTime => endtime;
   set setEndTime(int time) => endtime = time;
 
+  //getter and setter for date
   String get getDate => date;
   set setDate(String eventdate) => date = eventdate;
 
+  //getter and setter for address
   String get getAddress => address;
   set setAddress(String eventaddress) => address = eventaddress;
 
+  //getter and setter for skill
   String get getSkillLevel => skill;
   set setSkillLevel(String skilllevel) => skill = skilllevel;
 
+  //getter and setter for description
   String get getDescription => description;
   set setDescription(String eventdescription) => description = eventdescription;
 
+  //getter and setter for postid
   int get getPostID => postid;
   set setPostID(int id) => postid = id;
 }
@@ -73,5 +82,5 @@ var SAMPLE_EVENTS = [
       "927 Market St. Wilimington, NC",
       "Expert",
       "4v4 pickup basketball game, I have a team and am looking for another team of 4.",
-      8756)
+      9768)
 ];
