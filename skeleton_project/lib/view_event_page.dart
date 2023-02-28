@@ -13,7 +13,6 @@ class MyApp extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          /*2*/
           Container(
             padding: const EdgeInsets.all(20),
             child: const Text(
@@ -61,6 +60,16 @@ class MyApp extends StatelessWidget {
             child: const Text(
               'Comments:',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: FloatingActionButton(
+              onPressed: () {},
+              child: const Icon(
+                Icons.star,
+                color: Colors.white,
+              ),
             ),
           ),
         ],
