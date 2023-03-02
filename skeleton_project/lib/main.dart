@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'comment.dart';
+import 'comment.dart'; 
 void main() {
   runApp(const MyApp());
 }
@@ -177,11 +177,23 @@ class _MyCommentPage extends State<CommentPage>{
   }
   
   /// build for Modal Bottom Sheet Comment section
-  Widget buildSheet() => Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
+  Widget buildSheet() => DraggableScrollableSheet(
+    initialChildSize: 1.0,
+    builder: (_, controller) => Container(
+      color: Colors.white,
+      padding: const EdgeInsets.all(16),
+      child: ListView(
+    //crossAxisAlignment: CrossAxisAlignment.start,
     // comments added for testing 
     children: [
-      Text(
+      // text field for input of a comment
+      const TextField( 
+        decoration: InputDecoration(
+          border: OutlineInputBorder(),
+          hintText: 'Add a comment'
+          )
+      ),
+      Text( 
         commentList[0].toString(),
       ),
       Text(
@@ -196,6 +208,60 @@ class _MyCommentPage extends State<CommentPage>{
       Text(
         commentList[4].toString(),
       ),
+            Text( 
+        commentList[0].toString(),
+      ),
+      Text(
+        commentList[1].toString(),
+      ),
+      Text(
+        commentList[2].toString(),
+      ),
+      Text(
+        commentList[3].toString(),
+      ),
+      Text(
+        commentList[4].toString(),
+      ),
+            Text( 
+        commentList[0].toString(),
+      ),
+      Text(
+        commentList[1].toString(),
+      ),
+      Text(
+        commentList[2].toString(),
+      ),
+      Text(
+        commentList[3].toString(),
+      ),
+      Text(
+        commentList[4].toString(),
+      ),
+            Text( 
+        commentList[0].toString(),
+      ),
+      Text(
+        commentList[1].toString(),
+      ),
+      Text(
+        commentList[2].toString(),
+      ),
+      Text(
+        commentList[3].toString(),
+      ),
+      Text(
+        commentList[4].toString(),
+      ),
+      Center(
+        child: 
+        FloatingActionButton(
+          child: const Text('Close'),
+          onPressed: () => Navigator.of(context).pop(),
+          ),
+      ),
     ],
+  ),
+  ),
   );
 }
