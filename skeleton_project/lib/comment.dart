@@ -7,8 +7,8 @@ class Comment {
   /// instance variable text (type:String) for keeping the text associated with the comment
   String text;
   /// List of Comment instances for testing
-  static var testingList = [comment1, comment2, comment3, comment4, comment5]; 
-  
+  static List testingList = [comment1, comment2, comment3, comment4, comment5, comment1, comment2, comment3]; 
+
   /// The Comment class constructor. 
   /// Format for initializing a Comment object: var comment = Comment(DateTime, String, String);
   Comment(this.dateTime , this.username, this.text);

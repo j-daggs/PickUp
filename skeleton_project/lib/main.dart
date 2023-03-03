@@ -124,8 +124,8 @@ class CommentPage extends StatefulWidget{
 }
 
 class _MyCommentPage extends State<CommentPage>{
-  var commentList = Comment.testingList;
-
+  List commentList = Comment.testingList;
+  TextEditingController textController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -178,90 +178,51 @@ class _MyCommentPage extends State<CommentPage>{
   
   /// build for Modal Bottom Sheet Comment section
   Widget buildSheet() => DraggableScrollableSheet(
+    
     initialChildSize: 1.0,
     builder: (_, controller) => Container(
-      color: Colors.white,
-      padding: const EdgeInsets.all(16),
-      child: ListView(
+    color: Colors.white,
+    padding: const EdgeInsets.all(16),
+      
+      child:
+      MaterialApp(
+        home: Scaffold(
+          appBar: AppBar(
+            title: TextField( 
+              controller: textController,
+              decoration: const InputDecoration(
+              border:  OutlineInputBorder(),
+              hintText: 'Add a comment'
+              ),
+            ),
+          ),
+        body:commentList.isNotEmpty 
+          ? ListView.builder(
     //crossAxisAlignment: CrossAxisAlignment.start,
     // comments added for testing 
-    children: [
-      // text field for input of a comment
-      const TextField( 
-        decoration: InputDecoration(
-          border: OutlineInputBorder(),
-          hintText: 'Add a comment'
-          )
+            itemCount: commentList.length,
+            itemBuilder: (context, index){
+              return Card(child: ListTile(title: Text('${commentList[index]}'),
+            ),
+            );
+            },
+)
+          : const Center (
+              child: Text("No Comments yet.")),
+        floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.add_comment_rounded),
+          onPressed: (){
+            setState((){ 
+              commentList.insert(0, Comment(DateTime.now(), "username", textController.text));
+              textController.clear();
+              Navigator.of(context).pop();
+              showModalBottomSheet(context: context, builder: (context) => buildSheet());
+        });
+        
+      },
       ),
-      Text( 
-        commentList[0].toString(),
       ),
-      Text(
-        commentList[1].toString(),
       ),
-      Text(
-        commentList[2].toString(),
-      ),
-      Text(
-        commentList[3].toString(),
-      ),
-      Text(
-        commentList[4].toString(),
-      ),
-            Text( 
-        commentList[0].toString(),
-      ),
-      Text(
-        commentList[1].toString(),
-      ),
-      Text(
-        commentList[2].toString(),
-      ),
-      Text(
-        commentList[3].toString(),
-      ),
-      Text(
-        commentList[4].toString(),
-      ),
-            Text( 
-        commentList[0].toString(),
-      ),
-      Text(
-        commentList[1].toString(),
-      ),
-      Text(
-        commentList[2].toString(),
-      ),
-      Text(
-        commentList[3].toString(),
-      ),
-      Text(
-        commentList[4].toString(),
-      ),
-            Text( 
-        commentList[0].toString(),
-      ),
-      Text(
-        commentList[1].toString(),
-      ),
-      Text(
-        commentList[2].toString(),
-      ),
-      Text(
-        commentList[3].toString(),
-      ),
-      Text(
-        commentList[4].toString(),
-      ),
-      Center(
-        child: 
-        FloatingActionButton(
-          child: const Text('Close'),
-          onPressed: () => Navigator.of(context).pop(),
-          ),
-      ),
-    ],
-  ),
   ),
   );
 }
