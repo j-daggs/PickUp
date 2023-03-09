@@ -46,7 +46,7 @@ class Comment {
   
   }  
 
-/// Page to hold comment section, comment section will be integrated into Event Page
+/// Statefule Widget - Page to hold comment section, comment section will be integrated into Event Page
 class CommentPage extends StatefulWidget{
   const CommentPage ({super.key, required this.title});
   final String title;
@@ -97,8 +97,17 @@ class _MyCommentPage extends State<CommentPage>{
               controller: textController,
               decoration: const InputDecoration(
               border:  OutlineInputBorder(),
-              hintText: 'Add a comment'
+              hintText: 'Add a comment',
               ),
+              onSubmitted: (String value) {
+                            if (textController.text.isNotEmpty) { 
+              setState((){ 
+              commentList.insert(0, Comment(DateTime.now(), "username", textController.text));
+              textController.clear();
+              Navigator.of(context).pop();
+              showModalBottomSheet(context: context, builder: (context) => buildSheet());
+        });}
+              },
             ),
           ),
         body:commentList.isNotEmpty 
@@ -120,12 +129,14 @@ class _MyCommentPage extends State<CommentPage>{
         floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add_comment_rounded),
           onPressed: (){
-            setState((){ 
+            if (textController.text.isNotEmpty) { 
+              setState((){ 
               commentList.insert(0, Comment(DateTime.now(), "username", textController.text));
               textController.clear();
               Navigator.of(context).pop();
               showModalBottomSheet(context: context, builder: (context) => buildSheet());
-        });        
+        });
+            }        
       },
       ),
       ),
