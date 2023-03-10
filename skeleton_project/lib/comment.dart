@@ -112,14 +112,14 @@ class _MyCommentPage extends State<CommentPage>{
           ),
         body:commentList.isNotEmpty 
           ? ListView.builder(
-    //crossAxisAlignment: CrossAxisAlignment.start,
+    // crossAxisAlignment: CrossAxisAlignment.start,
     // comments added for testing 
             itemCount: commentList.length,
             itemBuilder: (context, index){
               return Card(
                 child: ListTile(
                   title: Text('${commentList[index]}'),
-                  trailing: Text('${commentList[index].dateTime}'),
+                  trailing: Text('${commentList[index].dateTime.month.toString()}-${commentList[index].dateTime.day.toString().padLeft(2,'0')}-${commentList[index].dateTime.year.toString().padLeft(2,'0')} (${commentList[index].dateTime.hour.toString().padLeft(2,'0')}:${commentList[index].dateTime.minute.toString().padLeft(2,'0')})'),
             ),
             );
             },
