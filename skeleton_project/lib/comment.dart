@@ -97,9 +97,11 @@ class _MyCommentPage extends State<CommentPage> {
           ],
         ),
       ),
+      // This Floating Action Button section can be added into the State class for the event page in order to integrate the comment section in
       floatingActionButton: FloatingActionButton(
         // button that opens the comment section, a Modal Bottom Sheet
         onPressed: () => showModalBottomSheet(
+          // this is what opens the modal bottom sheet that the comment section will be in
           context: context,
           builder: (context) =>
               buildSheet(), // Call to buildSheet() method that builds the sheet into the comment section
@@ -110,7 +112,7 @@ class _MyCommentPage extends State<CommentPage> {
     );
   }
 
-  /// build for Modal Bottom Sheet Comment section
+  /// build method for Modal Bottom Sheet Comment section
   Widget buildSheet() => DraggableScrollableSheet(
         initialChildSize: 1.0,
         builder: (_, controller) => Container(
