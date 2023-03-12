@@ -64,7 +64,7 @@ class Comment {
     else if (hour <= 12 && hour >=0) {
       time = "$hour:$minute$time";
     }else if (hour >= 12 && hour <= 24) {
-      time = "${hour+12}:$minute$time";
+      time = "${hour-12}:$minute$time";
     }
 
     return time;
@@ -171,7 +171,8 @@ class _MyCommentPage extends State<CommentPage> {
                       // comments added for testing
                       itemCount: commentList.length,
                       itemBuilder: (context, index) {
-                        return Card(
+                        
+                                               return Card(
                           child: ListTile(
                             title: Text('${commentList[index]}'),
                             trailing: Text(
