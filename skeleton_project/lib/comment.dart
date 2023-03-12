@@ -47,7 +47,28 @@ class Comment {
   /// Overridden toString() method for printing a Comment instance in the format 'username: text (dateTime)'
   @override
   String toString() => '$username: $text';
+  
+  /// This function takes in two parameters (hour:integer, minute:integer) from a 24-hour time (military) and returns the string of its converted 12 hour time (normal)
+  static String militaryToNormal(int hour, int minute) {
+    String time;
 
+    if(hour >= 12 && hour <= 24){
+      time = " PM";
+    }else{
+      time = " AM";
+    }
+
+    if (hour == 00){
+      time = "12:$minute$time"; 
+    }
+    else if (hour <= 12 && hour >=0) {
+      time = "$hour:$minute$time";
+    }else if (hour >= 12 && hour <= 24) {
+      time = "${hour+12}:$minute$time";
+    }
+
+    return time;
+  }
   /// instance of Comment for testing
   static var comment1 =
       Comment(DateTime.now(), "John D", "I will be attending!");
@@ -154,7 +175,7 @@ class _MyCommentPage extends State<CommentPage> {
                           child: ListTile(
                             title: Text('${commentList[index]}'),
                             trailing: Text(
-                                '${commentList[index].dateTime.month.toString()}-${commentList[index].dateTime.day.toString().padLeft(2, '0')}-${commentList[index].dateTime.year.toString().padLeft(2, '0')} (${commentList[index].dateTime.hour.toString().padLeft(2, '0')}:${commentList[index].dateTime.minute.toString().padLeft(2, '0')})'),
+                                '${commentList[index].dateTime.month.toString()}-${commentList[index].dateTime.day.toString().padLeft(2, '0')}-${commentList[index].dateTime.year.toString().padLeft(2, '0')} (${Comment.militaryToNormal(commentList[index].dateTime.hour, commentList[index].dateTime.minute)})'),
                           ),
                         );
                       },
