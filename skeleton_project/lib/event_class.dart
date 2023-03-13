@@ -4,7 +4,7 @@ class Event {
   String username;
   String sport;
   DateTime starttime;
-  DateTime endtime;
+  var duration;
   DateTime date;
   String address;
   String skill;
@@ -12,19 +12,19 @@ class Event {
   List comments;
   int postid;
 
-  Event(this.username, this.sport, this.starttime, this.endtime, this.date,
+  Event(this.username, this.sport, this.starttime, this.duration, this.date,
       this.address, this.skill, this.description, this.comments, this.postid);
 }
 
-var sampleDate1 = DateTime.utc(2023, 15, 3, 15, 30);
-var sampleDate2 = DateTime.utc(2023, 20, 4, 9, 00);
-var sampleDate3 = DateTime.utc(2023, 18, 2, 17, 15);
+var sampleDate1 = DateTime(2022, 15, 3, 15, 30);
+var sampleDate2 = DateTime(2022, 20, 4, 9, 00);
+var sampleDate3 = DateTime(2022, 18, 2, 17, 15);
 var SAMPLE_EVENTS = [
   Event(
       "user1",
       "Tennis",
       sampleDate1,
-      sampleDate1,
+      2,
       sampleDate1,
       "1234 Tennis Dr. Wilmington, NC",
       "Beginner",
@@ -35,7 +35,7 @@ var SAMPLE_EVENTS = [
       "user2",
       "Soccer",
       sampleDate2,
-      sampleDate2,
+      3,
       sampleDate2,
       "589 Seahawk Dr. Wilimington, NC",
       "Intermediate",
@@ -46,7 +46,7 @@ var SAMPLE_EVENTS = [
       "user3",
       "Basketball",
       sampleDate3,
-      sampleDate3,
+      1.5,
       sampleDate3,
       "927 Market St. Wilimington, NC",
       "Expert",

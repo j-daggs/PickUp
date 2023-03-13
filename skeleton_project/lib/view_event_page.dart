@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 import 'package:flutter/material.dart';
 import 'event_class.dart';
+import 'package:intl/intl.dart';
 
 void main() => runApp(const MyApp());
 
@@ -24,7 +25,7 @@ class EventData {
       "user1",
       "Tennis",
       sampleDate1,
-      sampleDate1,
+      2,
       sampleDate1,
       "1234 Tennis Dr. Wilmington, NC",
       "Beginner",
@@ -35,7 +36,7 @@ class EventData {
       "user2",
       "Soccer",
       sampleDate2,
-      sampleDate2,
+      3,
       sampleDate2,
       "589 Seahawk Dr. Wilimington, NC",
       "Intermediate",
@@ -46,7 +47,7 @@ class EventData {
       "user3",
       "Basketball",
       sampleDate3,
-      sampleDate3,
+      1.5,
       sampleDate3,
       "927 Market St. Wilimington, NC",
       "Expert",
@@ -57,9 +58,15 @@ class EventData {
 
 class MyHomePage extends StatelessWidget {
   get onPressed => null;
+  Event currentEvent = EventData().event3;
 
   @override
   Widget build(BuildContext context) {
+    String date = DateFormat.yMd().format(currentEvent.date);
+    String time = DateFormat.jm().format(currentEvent.date);
+    String month = currentEvent.date.month.toString();
+    String day = currentEvent.date.day.toString();
+    String year = currentEvent.date.year.toString();
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(30),
@@ -69,7 +76,7 @@ class MyHomePage extends StatelessWidget {
             child: Align(
               alignment: Alignment.topLeft,
               child: Text(
-                'Sport: ${EventData().event1.sport}',
+                'Sport: ${currentEvent.sport}',
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.left,
               ),
@@ -79,7 +86,7 @@ class MyHomePage extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             child: Align(
               alignment: Alignment.topLeft,
-              child: Text('Skill: ${EventData().event1.skill}',
+              child: Text('Skill: ${currentEvent.skill}',
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.left),
             ),
@@ -88,7 +95,7 @@ class MyHomePage extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             child: Align(
               alignment: Alignment.topLeft,
-              child: Text('Location: ${EventData().event1.address}',
+              child: Text('Location: ${currentEvent.address}',
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
             ),
           ),
@@ -96,7 +103,7 @@ class MyHomePage extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             child: Align(
               alignment: Alignment.topLeft,
-              child: Text('Date: ${EventData().event1.date}',
+              child: Text('Date: $date',
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
             ),
           ),
@@ -104,7 +111,7 @@ class MyHomePage extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             child: Align(
               alignment: Alignment.topLeft,
-              child: Text('Start Time: ${EventData().event1.starttime}',
+              child: Text('Start Time: $time',
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
             ),
           ),
@@ -112,7 +119,7 @@ class MyHomePage extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             child: Align(
               alignment: Alignment.topLeft,
-              child: Text('End Time: ${EventData().event1.endtime}',
+              child: Text('Duration: ${currentEvent.duration} hrs',
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
             ),
           ),
@@ -120,7 +127,7 @@ class MyHomePage extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             child: Align(
               alignment: Alignment.topLeft,
-              child: Text('Description: ${EventData().event1.description}',
+              child: Text('Description: ${currentEvent.description}',
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
             ),
           ),
@@ -144,7 +151,7 @@ class _InterestButtonState extends State<InterestButton> {
   Widget build(BuildContext context) {
     var current = EventData().event1.postid;
     var interested = [];
-    Icon icon = Icon(Icons.star_border_rounded);
+    Icon icon = Icon(Icons.star_border_rounded, size: 35);
     int iconNumber = 0;
     return FloatingActionButton(
       child: icon,
@@ -156,15 +163,18 @@ class _InterestButtonState extends State<InterestButton> {
         }
         if (iconNumber == 0) {
           icon = Icon(
-            Icons.star,
+            Icons.circle,
+            size: 35,
           );
           iconNumber = 1;
         } else {
-          icon = Icon(Icons.star_border_rounded);
+          icon = Icon(
+            Icons.star_border_rounded,
+            size: 35,
+          );
           iconNumber = 0;
         }
         print(interested);
-        print(icon);
       },
       tooltip: 'Interested',
     );
