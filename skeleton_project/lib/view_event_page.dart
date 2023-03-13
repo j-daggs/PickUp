@@ -57,13 +57,7 @@ class EventData {
 
 class MyHomePage extends StatelessWidget {
   get onPressed => null;
-  var eventSport = EventData().event1.sport;
-  var eventSkill = EventData().event1.skill;
-  var eventLoc = EventData().event1.address;
-  var eventDate = EventData().event1.date;
-  var eventStart = EventData().event1.starttime;
-  var eventEnd = EventData().event1.endtime;
-  var eventDesc = EventData().event1.description;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,7 +69,7 @@ class MyHomePage extends StatelessWidget {
             child: Align(
               alignment: Alignment.topLeft,
               child: Text(
-                'Sport: $eventSport',
+                'Sport: ${EventData().event1.sport}',
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.left,
               ),
@@ -85,7 +79,7 @@ class MyHomePage extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             child: Align(
               alignment: Alignment.topLeft,
-              child: Text('Skill: $eventSkill',
+              child: Text('Skill: ${EventData().event1.skill}',
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.left),
             ),
@@ -94,7 +88,7 @@ class MyHomePage extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             child: Align(
               alignment: Alignment.topLeft,
-              child: Text('Location: $eventLoc',
+              child: Text('Location: ${EventData().event1.address}',
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
             ),
           ),
@@ -102,7 +96,7 @@ class MyHomePage extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             child: Align(
               alignment: Alignment.topLeft,
-              child: Text('Date: $eventDate',
+              child: Text('Date: ${EventData().event1.date}',
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
             ),
           ),
@@ -110,7 +104,7 @@ class MyHomePage extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             child: Align(
               alignment: Alignment.topLeft,
-              child: Text('Start Time: $eventStart',
+              child: Text('Start Time: ${EventData().event1.starttime}',
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
             ),
           ),
@@ -118,7 +112,7 @@ class MyHomePage extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             child: Align(
               alignment: Alignment.topLeft,
-              child: Text('End Time: $eventEnd',
+              child: Text('End Time: ${EventData().event1.endtime}',
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
             ),
           ),
@@ -126,22 +120,53 @@ class MyHomePage extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             child: Align(
               alignment: Alignment.topLeft,
-              child: Text('Description: $eventDesc',
+              child: Text('Description: ${EventData().event1.description}',
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
             ),
           ),
           Align(
             alignment: Alignment.bottomRight,
-            child: FloatingActionButton(
-                onPressed: onPressed,
-                tooltip: 'Interested',
-                child: Icon(
-                  Icons.star_border_rounded,
-                  size: 35,
-                )),
+            child: InterestButton(),
           ),
         ]),
       ),
+    );
+  }
+}
+
+class InterestButton extends StatefulWidget {
+  @override
+  State<InterestButton> createState() => _InterestButtonState();
+}
+
+class _InterestButtonState extends State<InterestButton> {
+  @override
+  Widget build(BuildContext context) {
+    var current = EventData().event1.postid;
+    var interested = [];
+    Icon icon = Icon(Icons.star_border_rounded);
+    int iconNumber = 0;
+    return FloatingActionButton(
+      child: icon,
+      onPressed: () {
+        if (interested.contains(current)) {
+          interested.remove(current);
+        } else {
+          interested.add(current);
+        }
+        if (iconNumber == 0) {
+          icon = Icon(
+            Icons.star,
+          );
+          iconNumber = 1;
+        } else {
+          icon = Icon(Icons.star_border_rounded);
+          iconNumber = 0;
+        }
+        print(interested);
+        print(icon);
+      },
+      tooltip: 'Interested',
     );
   }
 }
