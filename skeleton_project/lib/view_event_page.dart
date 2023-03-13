@@ -58,15 +58,13 @@ class EventData {
 
 class MyHomePage extends StatelessWidget {
   get onPressed => null;
-  Event currentEvent = EventData().event3;
+  Event currentEvent = EventData().event2;
 
   @override
   Widget build(BuildContext context) {
     String date = DateFormat.yMd().format(currentEvent.date);
     String time = DateFormat.jm().format(currentEvent.date);
-    String month = currentEvent.date.month.toString();
-    String day = currentEvent.date.day.toString();
-    String year = currentEvent.date.year.toString();
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(30),
@@ -147,36 +145,29 @@ class InterestButton extends StatefulWidget {
 }
 
 class _InterestButtonState extends State<InterestButton> {
+  var current = MyHomePage().currentEvent.postid;
+  var interested = [];
+  bool click = true;
   @override
   Widget build(BuildContext context) {
-    var current = EventData().event1.postid;
-    var interested = [];
     Icon icon = Icon(Icons.star_border_rounded, size: 35);
-    int iconNumber = 0;
     return FloatingActionButton(
-      child: icon,
       onPressed: () {
+        setState(() {
+          click = !click;
+        });
         if (interested.contains(current)) {
           interested.remove(current);
         } else {
           interested.add(current);
         }
-        if (iconNumber == 0) {
-          icon = Icon(
-            Icons.circle,
-            size: 35,
-          );
-          iconNumber = 1;
-        } else {
-          icon = Icon(
-            Icons.star_border_rounded,
-            size: 35,
-          );
-          iconNumber = 0;
-        }
         print(interested);
       },
       tooltip: 'Interested',
+      child: Icon(
+          (click == false) ? Icons.star_rounded : Icons.star_border_rounded,
+          size: 40,
+          color: Colors.yellow),
     );
   }
 }
