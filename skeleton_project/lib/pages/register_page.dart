@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../login_button.dart';
@@ -16,7 +17,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
-  // final _usernameController = TextEditingController();
+  final _usernameController = TextEditingController();
 
   @override
   // Memory Management
@@ -25,25 +26,34 @@ class _RegisterPageState extends State<RegisterPage> {
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
-    // _usernameController.dispose();
+    _usernameController.dispose();
     super.dispose();
   }
 
   Future signUp() async {
     try {
       if (_passwordController.text == _confirmPasswordController.text) {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: _emailController.text.trim(),
-          password: _passwordController.text.trim());
-    }
-    else {
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            email: _emailController.text.trim(),
+            password: _passwordController.text.trim());
+      } else {
         wrongDetailsMessage('Passwords don\'t match');
       }
-    }
-    on FirebaseAuthException catch(e) {
+    } on FirebaseAuthException catch (e) {
       Navigator.pop(context);
       wrongDetailsMessage(e.code);
     }
+
+    // call method to add user details
+    addUserDetails(_usernameController.text.trim(),
+        _emailController.text.trim(), _passwordController.text.trim());
+  }
+
+  // adds user details to Firestore Database in User collection
+  Future addUserDetails(String username, String email, String password) async {
+    await FirebaseFirestore.instance
+        .collection('User')
+        .add({'Username': username, 'Email:': email, 'Password': password});
   }
 
   // wrong details message popup
@@ -92,16 +102,15 @@ class _RegisterPageState extends State<RegisterPage> {
                   const Text('Register below with your details',
                       style: TextStyle(fontSize: 20)),
                   const SizedBox(height: 50),
-                  
+
                   // Username text field and controller (ADDING LATER)
-                  // Padding(
-                  //     padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                  //     child: TextFieldObject(
-                  //         controller: _usernameController,
-                  //         hintText: 'Username',
-                  //         obscureText: false)
-                  //   ),
-                  // const SizedBox(height: 10),
+                  Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                      child: TextFieldObject(
+                          controller: _usernameController,
+                          hintText: 'Username',
+                          obscureText: false)),
+                  const SizedBox(height: 10),
 
                   // email textfield UI and controller
                   Padding(
@@ -109,8 +118,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: TextFieldObject(
                           controller: _emailController,
                           hintText: 'Email',
-                          obscureText: false)
-                    ),
+                          obscureText: false)),
                   const SizedBox(height: 10),
 
                   // password textfield and controller
@@ -119,8 +127,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: TextFieldObject(
                           controller: _passwordController,
                           hintText: 'Password',
-                          obscureText: true)
-                    ),
+                          obscureText: true)),
                   const SizedBox(height: 10),
 
                   // confirm password textfield and controller
@@ -129,8 +136,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: TextFieldObject(
                           controller: _confirmPasswordController,
                           hintText: 'Re-enter password',
-                          obscureText: true)
-                    ),
+                          obscureText: true)),
                   const SizedBox(height: 10),
 
                   // Register Button and on button click sign up new user
