@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:my_app/text_field_class.dart';
+import 'package:my_app/classes/text_field_class.dart';
 
 import '../login_button.dart';
 
