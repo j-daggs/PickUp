@@ -64,8 +64,8 @@ class MyHomePage extends StatefulWidget {
   _MyHomePage createState() => _MyHomePage();
   @override
   Widget build(BuildContext context) {
-    String date = DateFormat.yMd().format(currentEvent.date);
-    String time = DateFormat.jm().format(currentEvent.date);
+    String date = DateFormat.yMd().format(currentEvent.dateposted);
+    String time = DateFormat.jm().format(currentEvent.dateposted);
 
     return Scaffold(
       body: Padding(
@@ -147,8 +147,8 @@ class _MyHomePage extends State<MyHomePage> {
   Event currentEvent = EventData().event2;
   @override
   Widget build(BuildContext context) {
-    String date = DateFormat.yMd().format(currentEvent.date);
-    String time = DateFormat.jm().format(currentEvent.date);
+    String date = DateFormat.yMd().format(currentEvent.dateposted);
+    String time = DateFormat.jm().format(currentEvent.dateposted);
 
     return Scaffold(
       body: Padding(
