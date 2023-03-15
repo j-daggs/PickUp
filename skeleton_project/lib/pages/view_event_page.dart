@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/classes/event_class.dart';
 import 'package:intl/intl.dart';
-import 'classes/comment.dart';
+import '../classes/comment.dart';
 
 void main() => runApp(const MyApp());
 
