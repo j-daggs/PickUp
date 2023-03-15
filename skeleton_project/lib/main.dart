@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'auth/main_page.dart';
+import 'view_event_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
