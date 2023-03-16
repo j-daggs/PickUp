@@ -213,11 +213,10 @@ class _CreateEventPage extends State<CreateEventPage> {
         ]),
       ),
       floatingActionButton: FloatingActionButton(
-        // button that opens the comment section, a Modal Bottom Sheet
         onPressed: () => Navigator.push(context,
           MaterialPageRoute(builder: (context) => HomePage())),
         child: const Icon(
-            Icons.add), // add comment icon to floating button,
+            Icons.add), 
       ),
     );
   }
