@@ -216,6 +216,8 @@ class _CreateEventPage extends State<CreateEventPage> {
           textControllerDescription.clear();
           textControllerLocation.clear();
           textControllerDuration.clear();
+          dateText = 'select a date';
+          timeText = 'select a time';
           Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));},
         child: const Icon(
             Icons.add), 
