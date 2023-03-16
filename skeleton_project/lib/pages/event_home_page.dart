@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/classes/event_class.dart';
 
+// This page is the page a user sees after logging in
 class HomePage extends StatelessWidget {
   var sampleEvents = Event.getEvent;
 
@@ -9,10 +10,24 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: _title,
-        home: Scaffold(
-            appBar: AppBar(title: const Text(_title)),
-            body: cardBuilder(sampleEvents)));
+      title: _title,
+      home: Scaffold(
+          appBar: AppBar(
+            title: const Text(_title),
+            actions: <Widget>[
+              IconButton(
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text('Opening create event page...')));
+                },
+                tooltip: 'Create an Event',
+                icon: const Icon(Icons.add_alert),
+              )
+            ],
+          ),
+          body: cardBuilder(sampleEvents)),
+      debugShowCheckedModeBanner: false,
+    );
   }
 
   Widget cardBuilder(data) {
