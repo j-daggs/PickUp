@@ -209,8 +209,14 @@ class _CreateEventPage extends State<CreateEventPage> {
         ]),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.push(context,
-          MaterialPageRoute(builder: (context) => HomePage())),
+        onPressed: () { 
+          newEvent.description = textControllerDescription.text;
+          newEvent.address = textControllerLocation.text;
+          newEvent.duration = textControllerDuration.text;
+          textControllerDescription.clear();
+          textControllerLocation.clear();
+          textControllerDuration.clear();
+          Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));},
         child: const Icon(
             Icons.add), 
       ),
