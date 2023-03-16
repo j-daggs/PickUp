@@ -45,7 +45,7 @@ class _CreateEventPage extends State<CreateEventPage> {
   TextEditingController textControllerLocation = TextEditingController();
   TextEditingController textControllerDate = TextEditingController(); //datetime
   TextEditingController textControllerDuration = TextEditingController();
-   TextEditingController textControllerDescription = TextEditingController();
+  TextEditingController textControllerDescription = TextEditingController();
   Event currentEvent = EventData().event2;
   @override
   Widget build(BuildContext context) {
@@ -209,18 +209,23 @@ class _CreateEventPage extends State<CreateEventPage> {
         ]),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () { 
-          newEvent.description = textControllerDescription.text;
-          newEvent.address = textControllerLocation.text;
-          newEvent.duration = textControllerDuration.text;
-          textControllerDescription.clear();
-          textControllerLocation.clear();
-          textControllerDuration.clear();
-          dateText = 'select a date';
-          timeText = 'select a time';
-          Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));},
-        child: const Icon(
-            Icons.add), 
+        onPressed: () {
+          if (textControllerDescription.text.isNotEmpty &&
+              textControllerDuration.text.isNotEmpty &&
+              textControllerLocation.text.isNotEmpty) {
+            newEvent.description = textControllerDescription.text;
+            newEvent.address = textControllerLocation.text;
+            newEvent.duration = textControllerDuration.text;
+            textControllerDescription.clear();
+            textControllerLocation.clear();
+            textControllerDuration.clear();
+            dateText = 'select a date';
+            timeText = 'select a time';
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => HomePage()));
+          }
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }
