@@ -4,6 +4,7 @@ import 'package:my_app/classes/event_class.dart';
 import 'package:intl/intl.dart';
 import '../classes/comment.dart';
 import '../pages/event_home_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CreateEventPage extends StatefulWidget {
   const CreateEventPage({super.key, required this.title});
@@ -13,6 +14,26 @@ class CreateEventPage extends StatefulWidget {
 }
 
 class _CreateEventPage extends State<CreateEventPage> {
+  // adds event details to Firestore Database in Event collection
+  Future addEventDetails(
+      String sport,
+      DateTime starttime,
+      String duration,
+      DateTime dateposted,
+      String address,
+      String skill,
+      String description) async {
+    await FirebaseFirestore.instance.collection('Event').add({
+      'Sport:': sport,
+      'StartTime': starttime,
+      'Duration': duration,
+      "DatePosted": dateposted,
+      'Address': address,
+      'Skill': skill,
+      'Description': description
+    });
+  }
+
   get onPressed => null;
   String dateText = 'select a date';
   String timeText = 'select a time';
@@ -221,6 +242,14 @@ class _CreateEventPage extends State<CreateEventPage> {
             textControllerDuration.clear();
             dateText = 'select a date';
             timeText = 'select a time';
+            addEventDetails(
+                newEvent.sport,
+                newEvent.starttime,
+                newEvent.duration,
+                newEvent.dateposted,
+                newEvent.address,
+                newEvent.skill,
+                newEvent.description);
             Navigator.push(
                 context, MaterialPageRoute(builder: (context) => HomePage()));
           }
