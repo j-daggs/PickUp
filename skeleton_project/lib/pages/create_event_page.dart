@@ -3,6 +3,7 @@ import 'view_event_page.dart';
 import 'package:my_app/classes/event_class.dart';
 import 'package:intl/intl.dart';
 import '../classes/comment.dart';
+import '../pages/event_home_page.dart';
 
 class CreateEventPage extends StatefulWidget {
   const CreateEventPage({super.key, required this.title});
@@ -48,6 +49,7 @@ class _CreateEventPage extends State<CreateEventPage> {
   TextEditingController textControllerStart =
       TextEditingController(); //datetime
   TextEditingController textControllerDuration = TextEditingController();
+   TextEditingController textControllerDescription = TextEditingController();
   Event currentEvent = EventData().event2;
   @override
   Widget build(BuildContext context) {
@@ -198,7 +200,7 @@ class _CreateEventPage extends State<CreateEventPage> {
             child: Align(
               alignment: Alignment.topLeft,
               child: TextField(
-                  controller: textControllerDuration,
+                  controller: textControllerDescription,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     hintText: 'Add a description',
@@ -209,6 +211,13 @@ class _CreateEventPage extends State<CreateEventPage> {
             ),
           ),
         ]),
+      ),
+      floatingActionButton: FloatingActionButton(
+        // button that opens the comment section, a Modal Bottom Sheet
+        onPressed: () => Navigator.push(context,
+          MaterialPageRoute(builder: (context) => HomePage())),
+        child: const Icon(
+            Icons.add), // add comment icon to floating button,
       ),
     );
   }
