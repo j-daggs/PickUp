@@ -42,12 +42,8 @@ class _CreateEventPage extends State<CreateEventPage> {
   //_MyHomePage createState() => _MyHomePage();
   //@override
 
-  TextEditingController textControllerSport = TextEditingController();
-  TextEditingController textControllerSkill = TextEditingController();
   TextEditingController textControllerLocation = TextEditingController();
   TextEditingController textControllerDate = TextEditingController(); //datetime
-  TextEditingController textControllerStart =
-      TextEditingController(); //datetime
   TextEditingController textControllerDuration = TextEditingController();
    TextEditingController textControllerDescription = TextEditingController();
   Event currentEvent = EventData().event2;
