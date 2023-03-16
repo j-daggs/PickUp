@@ -10,53 +10,110 @@ class CreateEventPage extends StatefulWidget {
   @override
   State<CreateEventPage> createState() => _CreateEventPage();
 }
+
 class _CreateEventPage extends State<CreateEventPage> {
   get onPressed => null;
-  Event newEvent = Event('username', "sport", DateTime.now(), "duration", DateTime.now(), "add", "skill", "description", Comment.testingList, 1234);
+  String dateText = 'select a date';
+  String timeText = 'select a time';
+  Event newEvent = Event(
+      'username',
+      "Football",
+      DateTime.now(),
+      "duration",
+      DateTime.now(),
+      "add",
+      "Beginner",
+      "description",
+      Comment.testingList,
+      1234);
+  List sportList = [
+    'Football',
+    'Volleyball',
+    'Basketball',
+    'Soccer',
+    'Kickball',
+    'Baseball',
+    'Wiffleball',
+    'Rugby'
+  ];
+  List skillList = ['Beginner', 'Intermediate', 'Advanced', 'All Skill Levels'];
   //@override
   //_MyHomePage createState() => _MyHomePage();
   //@override
-  
+
   TextEditingController textControllerSport = TextEditingController();
   TextEditingController textControllerSkill = TextEditingController();
   TextEditingController textControllerLocation = TextEditingController();
   TextEditingController textControllerDate = TextEditingController(); //datetime
-  TextEditingController textControllerStart = TextEditingController(); //datetime
+  TextEditingController textControllerStart =
+      TextEditingController(); //datetime
   TextEditingController textControllerDuration = TextEditingController();
   Event currentEvent = EventData().event2;
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(30),
         child: Column(children: [
-          Padding(
-            padding: const EdgeInsets.all(10),
+          const Padding(
+            padding: EdgeInsets.all(2),
             child: Align(
               alignment: Alignment.topLeft,
-              child: TextField(
-                  controller: textControllerSport,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'What is the Sport',
-                  ),
-              ),
+              child: Text("Select a sport using the dropdown below: ",
+                  textAlign: TextAlign.left),
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(10),
             child: Align(
               alignment: Alignment.topLeft,
-              child: TextField(
-                  controller: textControllerSkill,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Enter a Skill Level',
-                  ),
-              onSubmitted: (String value){
-                  newEvent.skill = value;
-                }
+              child: DropdownButton(
+                hint: const Text("select a sport"),
+                icon: const Icon(Icons.arrow_drop_down),
+                isExpanded: true,
+                value: newEvent.sport,
+                onChanged: (newValue) {
+                  setState(() {
+                    newEvent.sport = newValue.toString();
+                  });
+                },
+                items: sportList.map((valueItem) {
+                  return DropdownMenuItem(
+                    value: valueItem,
+                    child: Text(valueItem),
+                  );
+                }).toList(),
+              ),
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.all(2),
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: Text("Select a skill level using the dropdown below: ",
+                  textAlign: TextAlign.left),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: DropdownButton(
+                hint: const Text("select a skill level"),
+                icon: const Icon(Icons.arrow_drop_down),
+                isExpanded: true,
+                value: newEvent.skill,
+                onChanged: (newValue) {
+                  setState(() {
+                    newEvent.skill = newValue.toString();
+                  });
+                },
+                items: skillList.map((valueItem) {
+                  return DropdownMenuItem(
+                    value: valueItem,
+                    child: Text(valueItem),
+                  );
+                }).toList(),
               ),
             ),
           ),
@@ -70,27 +127,56 @@ class _CreateEventPage extends State<CreateEventPage> {
                     border: OutlineInputBorder(),
                     hintText: 'Choose a Location',
                   ),
-                onSubmitted: (String value){
-                  newEvent.address = value;
-                }
-              ),
+                  onSubmitted: (String value) {
+                    newEvent.address = value;
+                  }),
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(10),
             child: Align(
-              alignment: Alignment.topLeft,
-              child: TextField(
-                  controller: textControllerStart,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Enter a StartTime',
-                  ),
-                  onSubmitted: (String value){
-                    newEvent.starttime = DateTime();
-                }
-                  ),
-            ),
+                alignment: Alignment.topLeft,
+                child: FloatingActionButton.extended(
+                    label: Text(dateText),
+                    icon: const Icon(Icons.calendar_today_rounded),
+                    onPressed: () {
+                      showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime.now(),
+                        lastDate: DateTime(2222),
+                      ).then((date) {
+                        setState(() {
+                          newEvent.starttime = date!;
+                          dateText =
+                              DateFormat.yMd().format(newEvent.starttime);
+                        });
+                      });
+                    })),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Align(
+                alignment: Alignment.topLeft,
+                child: FloatingActionButton.extended(
+                    label: Text(timeText),
+                    icon: const Icon(Icons.access_time_filled_rounded),
+                    onPressed: () async {
+                      TimeOfDay? newTime = await showTimePicker(
+                        context: context,
+                        initialTime: TimeOfDay.fromDateTime(newEvent.starttime),
+                      );
+                      if (newTime == null) return;
+                      setState(() {
+                        newEvent.starttime = DateTime(
+                            newEvent.starttime.year,
+                            newEvent.starttime.month,
+                            newEvent.starttime.day,
+                            newTime.hour,
+                            newTime.minute);
+                        timeText = DateFormat.jm().format(newEvent.starttime);
+                      });
+                    })),
           ),
           Padding(
             padding: const EdgeInsets.all(10),
@@ -102,10 +188,9 @@ class _CreateEventPage extends State<CreateEventPage> {
                     border: OutlineInputBorder(),
                     hintText: 'Enter the Duration',
                   ),
-                onSubmitted: (String value){
-                  newEvent.duration = value;
-                }
-                  ),
+                  onSubmitted: (String value) {
+                    newEvent.duration = value;
+                  }),
             ),
           ),
           Padding(
@@ -118,10 +203,9 @@ class _CreateEventPage extends State<CreateEventPage> {
                     border: OutlineInputBorder(),
                     hintText: 'Add a description',
                   ),
-              onSubmitted: (String value){
-                newEvent.description = value;
-              }
-                  ),
+                  onSubmitted: (String value) {
+                    newEvent.description = value;
+                  }),
             ),
           ),
         ]),
