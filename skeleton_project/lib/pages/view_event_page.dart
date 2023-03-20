@@ -57,8 +57,9 @@ class EventData {
 }
 
 class MyHomePage extends StatelessWidget {
+    MyHomePage({Key? key}) : super(key: key);
   get onPressed => null;
-  Event currentEvent = EventData().event2;
+  final Event currentEvent = EventData().event2;
 
   @override
   Widget build(BuildContext context) {
@@ -140,6 +141,7 @@ class MyHomePage extends StatelessWidget {
 }
 
 class InterestButton extends StatefulWidget {
+    const InterestButton({Key? key}) : super(key: key);
   @override
   State<InterestButton> createState() => _InterestButtonState();
 }

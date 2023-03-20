@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:my_app/classes/event_class.dart';
 
 class HomePage extends StatelessWidget {
-  var sampleEvents = Event.getEvent;
+  HomePage({Key? key}) : super(key: key);
+  final sampleEvents = Event.getEvent;
 
   static const String _title = 'Flutter Code Sample';
 
@@ -101,7 +102,7 @@ class HomePage extends StatelessWidget {
       child: RichText(
         text: TextSpan(
           text: '${data['username']}',
-          style: TextStyle(
+          style: const TextStyle(
               fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
         ),
       ),
