@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/classes/event_class.dart';
 
+const List<String> list = <String>[
+  'Basketball',
+  'Kickball',
+  'Ultimate Frisbee',
+  'Bowling'
+];
+
 // This page is the page a user sees after logging in
 class HomePage extends StatelessWidget {
   var sampleEvents = Event.getEvent;
 
-  static const String _title = 'Flutter Code Sample';
+  static const String _title = 'PickUP';
+
+  bool shadowColor = false;
+  double? scrolledUnderElevation;
 
   @override
   Widget build(BuildContext context) {
@@ -14,18 +24,30 @@ class HomePage extends StatelessWidget {
       home: Scaffold(
           appBar: AppBar(
             title: const Text(_title),
+            scrolledUnderElevation: scrolledUnderElevation,
+            shadowColor: Colors.grey,
+            backgroundColor: Colors.green,
             actions: <Widget>[
+              const DropdownButtonExample(),
+              const SizedBox(
+                width: 50,
+              ),
               IconButton(
                 onPressed: () {
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text('Opening create event page...')));
                 },
                 tooltip: 'Create an Event',
-                icon: const Icon(Icons.add_alert),
-              )
+                icon: const Icon(Icons.add_box_outlined),
+                color: Colors.white,
+              ),
+              const SizedBox(
+                width: 50,
+              ),
             ],
           ),
           body: cardBuilder(sampleEvents)),
+      color: Colors.grey,
       debugShowCheckedModeBanner: false,
     );
   }
@@ -116,7 +138,7 @@ class HomePage extends StatelessWidget {
       child: RichText(
         text: TextSpan(
           text: '${data['username']}',
-          style: TextStyle(
+          style: const TextStyle(
               fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
         ),
       ),
@@ -196,6 +218,44 @@ class HomePage extends StatelessWidget {
               fontSize: 20),
         ),
       ),
+    );
+  }
+}
+
+class DropdownButtonExample extends StatefulWidget {
+  const DropdownButtonExample({super.key});
+
+  @override
+  State<DropdownButtonExample> createState() => _DropdownButtonExampleState();
+}
+
+class _DropdownButtonExampleState extends State<DropdownButtonExample> {
+  String dropdownValue = list.first;
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<String>(
+      value: dropdownValue,
+      icon: const Icon(Icons.arrow_drop_down_rounded),
+      elevation: 16,
+      style: const TextStyle(color: Colors.white),
+      underline: Container(
+        height: 2,
+        color: Colors.white,
+      ),
+      onChanged: (String? value) {
+        // This is called when the user selects an item.
+        setState(() {
+          dropdownValue = value!;
+        });
+      },
+      items: list.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+      dropdownColor: Colors.black,
     );
   }
 }
