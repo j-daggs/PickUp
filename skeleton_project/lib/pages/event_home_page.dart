@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/classes/event_class.dart';
 
@@ -13,86 +14,95 @@ class HomePage extends StatelessWidget {
         title: _title,
         home: Scaffold(
             appBar: AppBar(title: const Text(_title)),
-            body: cardBuilder(sampleEvents)));
+            body: StreamBuilder(
+              stream:
+                  FirebaseFirestore.instance.collection('Event').snapshots(),
+              builder: (context,
+                  AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                return ListView.builder(
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (context, index) {
+                      return cardBuilder(snapshot.data!.docs[index].data());
+                    });
+              },
+            )));
   }
 
   Widget cardBuilder(data) {
-    return Container(
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Expanded(
-            child: ListView.builder(
-                itemCount: data.length,
-                itemBuilder: (context, index) {
-                  return Container(
-                    padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                    height: 220,
-                    width: double.maxFinite,
-                    child: Card(
-                      elevation: 5,
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          border: Border(
-                            top: BorderSide(width: 2.0, color: Colors.black),
-                          ),
-                          color: Colors.white,
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Expanded(
+          child: ListView.builder(
+              itemCount: data.length,
+              itemBuilder: (context, index) {
+                return Container(
+                  padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                  height: 220,
+                  width: double.maxFinite,
+                  child: Card(
+                    elevation: 5,
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        border: Border(
+                          top: BorderSide(width: 2.0, color: Colors.black),
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(7),
-                          child: Stack(children: <Widget>[
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: Stack(
-                                children: <Widget>[
-                                  Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 10,
-                                          top: 5,
-                                          right: 10,
-                                          bottom: 5),
-                                      child: Column(
-                                        children: <Widget>[
-                                          Row(
-                                            children: <Widget>[
-                                              const SizedBox(height: 0),
-                                              displayUsername(data[index]),
-                                              const Spacer(),
-                                              displaySportSkill(data[index]),
-                                              const Spacer(),
-                                              displayDate(data[index]),
-                                            ],
-                                          ),
-                                          const Spacer(),
-                                          Row(
-                                            children: <Widget>[
-                                              const SizedBox(height: 0),
-                                              displayTime(data[index]),
-                                              const Spacer(),
-                                              displayAddress(data[index])
-                                            ],
-                                          ),
-                                          Row(
-                                            children: <Widget>[
-                                              const SizedBox(height: 10),
-                                              displayDescription(data[index]),
-                                            ],
-                                          )
-                                        ],
-                                      ))
-                                ],
-                              ),
-                            )
-                          ]),
-                        ),
+                        color: Colors.white,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(7),
+                        child: Stack(children: <Widget>[
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: Stack(
+                              children: <Widget>[
+                                Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 10, top: 5, right: 10, bottom: 5),
+                                    child: Column(
+                                      children: <Widget>[
+                                        Row(
+                                          children: <Widget>[
+                                            const SizedBox(height: 0),
+                                            displayUsername(data[index]),
+                                            const Spacer(),
+                                            displaySportSkill(data[index]),
+                                            const Spacer(),
+                                            displayDate(data[index]),
+                                          ],
+                                        ),
+                                        const Spacer(),
+                                        Row(
+                                          children: <Widget>[
+                                            const SizedBox(height: 0),
+                                            displayTime(data[index]),
+                                            const Spacer(),
+                                            displayAddress(data[index])
+                                          ],
+                                        ),
+                                        Row(
+                                          children: <Widget>[
+                                            const SizedBox(height: 10),
+                                            displayDescription(data[index]),
+                                          ],
+                                        )
+                                      ],
+                                    ))
+                              ],
+                            ),
+                          )
+                        ]),
                       ),
                     ),
-                  );
-                }),
-          ),
-        ],
-      ),
+                  ),
+                );
+              }),
+        ),
+      ],
     );
   }
 
