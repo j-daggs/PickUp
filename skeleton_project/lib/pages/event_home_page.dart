@@ -14,19 +14,18 @@ class HomePage extends StatelessWidget {
         title: _title,
         home: Scaffold(
             appBar: AppBar(title: const Text(_title)),
+            // Builds stream to pull events from database
             body: StreamBuilder(
               stream:
                   FirebaseFirestore.instance.collection('Event').snapshots(),
               builder: (context,
+              // Grabs snapshot of database events and uses this as context
                   AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
                 }
-                return ListView.builder(
-                    itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (context, index) {
-                      return cardBuilder(snapshot.data!.docs[index].data());
-                    });
+                // Returns cardBuilder with instance of snapshot(database)
+                return cardBuilder(snapshot);
               },
             )));
   }
@@ -38,8 +37,9 @@ class HomePage extends StatelessWidget {
       children: <Widget>[
         Expanded(
           child: ListView.builder(
-              itemCount: data.length,
+              itemCount: data.data!.docs.length,
               itemBuilder: (context, index) {
+                dynamic snap = data.data!.docs[index].data();
                 return Container(
                   padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                   height: 220,
@@ -68,26 +68,26 @@ class HomePage extends StatelessWidget {
                                         Row(
                                           children: <Widget>[
                                             const SizedBox(height: 0),
-                                            displayUsername(data[index]),
+                                            //displayUsername(data[index]),
                                             const Spacer(),
-                                            displaySportSkill(data[index]),
+                                            displaySportSkill(snap),
                                             const Spacer(),
-                                            displayDate(data[index]),
+                                            // displayDate(data[index]),
                                           ],
                                         ),
                                         const Spacer(),
                                         Row(
                                           children: <Widget>[
                                             const SizedBox(height: 0),
-                                            displayTime(data[index]),
+                                            // displayTime(data[index]),
                                             const Spacer(),
-                                            displayAddress(data[index])
+                                            displayAddress(snap)
                                           ],
                                         ),
                                         Row(
                                           children: <Widget>[
                                             const SizedBox(height: 10),
-                                            displayDescription(data[index]),
+                                            displayDescription(snap),
                                           ],
                                         )
                                       ],
@@ -124,12 +124,12 @@ class HomePage extends StatelessWidget {
       alignment: Alignment.topCenter,
       child: RichText(
         text: TextSpan(
-          text: '${data['sport']}',
+          text: data['Sport'],
           style: const TextStyle(
               fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
           children: <TextSpan>[
             TextSpan(
-                text: '\n${data['skill']}',
+                text: data['Skill'],
                 style: const TextStyle(
                   color: Colors.black,
                   fontSize: 15,
@@ -146,7 +146,7 @@ class HomePage extends StatelessWidget {
       alignment: Alignment.topRight,
       child: RichText(
         text: TextSpan(
-          text: '${data['date']}',
+          text: '${data['StartTime']}',
           style: const TextStyle(
               fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
         ),
@@ -159,7 +159,7 @@ class HomePage extends StatelessWidget {
       alignment: Alignment.centerLeft,
       child: RichText(
         text: TextSpan(
-          text: '${data['starttime']} to ${data['endtime']}',
+          text: '${data['StartTime']} to end time',
           style: const TextStyle(
               fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
         ),
@@ -172,7 +172,7 @@ class HomePage extends StatelessWidget {
       alignment: Alignment.centerRight,
       child: RichText(
         text: TextSpan(
-          text: '${data['address']}',
+          text: data['Address'],
           style: const TextStyle(
               fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
         ),
@@ -185,7 +185,7 @@ class HomePage extends StatelessWidget {
       alignment: Alignment.bottomCenter,
       child: RichText(
         text: TextSpan(
-          text: '${data['description']}',
+          text: data['Description'],
           style: const TextStyle(
               fontWeight: FontWeight.normal,
               color: Colors.blueGrey,
