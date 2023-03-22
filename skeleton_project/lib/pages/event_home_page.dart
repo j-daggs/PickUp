@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:my_app/classes/event_class.dart';
 
 class HomePage extends StatelessWidget {
@@ -72,14 +73,14 @@ class HomePage extends StatelessWidget {
                                             const Spacer(),
                                             displaySportSkill(snap),
                                             const Spacer(),
-                                            // displayDate(data[index]),
+                                            displayDate(snap),
                                           ],
                                         ),
                                         const Spacer(),
                                         Row(
                                           children: <Widget>[
                                             const SizedBox(height: 0),
-                                            // displayTime(data[index]),
+                                            displayDuration(snap),
                                             const Spacer(),
                                             displayAddress(snap)
                                           ],
@@ -119,17 +120,17 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget displaySportSkill(data) {
+  Widget displaySportSkill(snap) {
     return Align(
       alignment: Alignment.topCenter,
       child: RichText(
         text: TextSpan(
-          text: data['Sport'],
+          text: snap['Sport'],
           style: const TextStyle(
               fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
           children: <TextSpan>[
             TextSpan(
-                text: data['Skill'],
+                text: snap['Skill'],
                 style: const TextStyle(
                   color: Colors.black,
                   fontSize: 15,
@@ -141,12 +142,12 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget displayDate(data) {
+  Widget displayDate(snap) {
     return Align(
       alignment: Alignment.topRight,
       child: RichText(
         text: TextSpan(
-          text: '${data['StartTime']}',
+          text: DateFormat.yMMMd().format(snap['StartTime'].toDate()),
           style: const TextStyle(
               fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
         ),
@@ -154,12 +155,12 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget displayTime(data) {
+  Widget displayDuration(snap) {
     return Align(
       alignment: Alignment.centerLeft,
       child: RichText(
         text: TextSpan(
-          text: '${data['StartTime']} to end time',
+          text: snap['Duration'],
           style: const TextStyle(
               fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
         ),
@@ -167,12 +168,12 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget displayAddress(data) {
+  Widget displayAddress(snap) {
     return Align(
       alignment: Alignment.centerRight,
       child: RichText(
         text: TextSpan(
-          text: data['Address'],
+          text: snap['Address'],
           style: const TextStyle(
               fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
         ),
@@ -180,12 +181,12 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget displayDescription(data) {
+  Widget displayDescription(snap) {
     return Align(
       alignment: Alignment.bottomCenter,
       child: RichText(
         text: TextSpan(
-          text: data['Description'],
+          text: snap['Description'],
           style: const TextStyle(
               fontWeight: FontWeight.normal,
               color: Colors.blueGrey,
