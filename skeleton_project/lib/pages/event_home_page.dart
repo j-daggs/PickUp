@@ -28,7 +28,7 @@ class HomePage extends StatelessWidget {
             shadowColor: Colors.grey,
             backgroundColor: Colors.green,
             actions: <Widget>[
-              const DropdownButtonExample(),
+              const DropdownSports(),
               const SizedBox(
                 width: 50,
               ),
@@ -67,60 +67,69 @@ class HomePage extends StatelessWidget {
                     height: 220,
                     width: double.maxFinite,
                     child: Card(
+                      clipBehavior: Clip.hardEdge,
                       elevation: 5,
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          border: Border(
-                            top: BorderSide(width: 2.0, color: Colors.black),
+                      child: InkWell(
+                        splashColor: Colors.green.withAlpha(50),
+                        onTap: () {
+                          debugPrint('Card tapped. ${data[index]}}');
+                        },
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            border: Border(
+                              top: BorderSide(width: 2.0, color: Colors.black),
+                            ),
+                            color: Color.fromARGB(98, 255, 255, 255),
                           ),
-                          color: Colors.white,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(7),
-                          child: Stack(children: <Widget>[
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: Stack(
-                                children: <Widget>[
-                                  Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 10,
-                                          top: 5,
-                                          right: 10,
-                                          bottom: 5),
-                                      child: Column(
-                                        children: <Widget>[
-                                          Row(
-                                            children: <Widget>[
-                                              const SizedBox(height: 0),
-                                              displayUsername(data[index]),
-                                              const Spacer(),
-                                              displaySportSkill(data[index]),
-                                              const Spacer(),
-                                              displayDate(data[index]),
-                                            ],
-                                          ),
-                                          const Spacer(),
-                                          Row(
-                                            children: <Widget>[
-                                              const SizedBox(height: 0),
-                                              displayTime(data[index]),
-                                              const Spacer(),
-                                              displayAddress(data[index])
-                                            ],
-                                          ),
-                                          Row(
-                                            children: <Widget>[
-                                              const SizedBox(height: 10),
-                                              displayDescription(data[index]),
-                                            ],
-                                          )
-                                        ],
-                                      ))
-                                ],
-                              ),
-                            )
-                          ]),
+                          child: Padding(
+                            padding: const EdgeInsets.all(7),
+                            child: Stack(children: <Widget>[
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: Stack(
+                                  children: <Widget>[
+                                    Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 10,
+                                            top: 5,
+                                            right: 10,
+                                            bottom: 5),
+                                        child: Column(
+                                          children: <Widget>[
+                                            Row(
+                                              children: <Widget>[
+                                                const SizedBox(height: 0),
+                                                displayUsername(data[index]),
+                                                const Spacer(),
+                                                displaySportSkill(data[index]),
+                                                const Spacer(),
+                                                displayDate(data[index]),
+                                              ],
+                                            ),
+                                            const Spacer(),
+                                            Row(
+                                              children: <Widget>[
+                                                const SizedBox(height: 0),
+                                                displayTime(data[index]),
+                                                const Spacer(),
+                                                displayAddress(data[index])
+                                              ],
+                                            ),
+                                            Row(
+                                              children: <Widget>[
+                                                const SizedBox(
+                                                  height: 10,
+                                                ),
+                                                displayDescription(data[index]),
+                                              ],
+                                            )
+                                          ],
+                                        ))
+                                  ],
+                                ),
+                              )
+                            ]),
+                          ),
                         ),
                       ),
                     ),
@@ -222,14 +231,14 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class DropdownButtonExample extends StatefulWidget {
-  const DropdownButtonExample({super.key});
+class DropdownSports extends StatefulWidget {
+  const DropdownSports({super.key});
 
   @override
-  State<DropdownButtonExample> createState() => _DropdownButtonExampleState();
+  State<DropdownSports> createState() => _DropdownSportsState();
 }
 
-class _DropdownButtonExampleState extends State<DropdownButtonExample> {
+class _DropdownSportsState extends State<DropdownSports> {
   String dropdownValue = list.first;
 
   @override
