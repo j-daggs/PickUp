@@ -4,10 +4,10 @@ import 'package:my_app/classes/event_class.dart';
 import 'package:intl/intl.dart';
 import '../classes/comment.dart';
 
-void main() => runApp(const MyApp());
+void main() => runApp(const ViewEventPage());
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class ViewEventPage extends StatelessWidget {
+  const ViewEventPage({super.key});
 
   @override
   Widget build(BuildContext context) {
