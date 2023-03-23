@@ -126,7 +126,7 @@ class HomePage extends StatelessWidget {
       alignment: Alignment.topCenter,
       child: RichText(
         text: TextSpan(
-          text: '${snap['Sport:']} \n',
+          text: '${snap['Sport']} \n',
           style: const TextStyle(
               fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
           children: <TextSpan>[
