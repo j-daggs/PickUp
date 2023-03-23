@@ -7,8 +7,7 @@ import '../pages/event_home_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CreateEventPage extends StatefulWidget {
-  const CreateEventPage({super.key, required this.title});
-  final String title;
+  const CreateEventPage({super.key});
   @override
   State<CreateEventPage> createState() => _CreateEventPage();
 }
