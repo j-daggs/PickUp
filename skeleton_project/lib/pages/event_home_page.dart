@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/classes/event_class.dart';
+import 'package:my_app/pages/create_event_page.dart';
 
 const List<String> list = <String>[
   'Basketball',
@@ -34,8 +35,11 @@ class HomePage extends StatelessWidget {
               ),
               IconButton(
                 onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text('Opening create event page...')));
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const CreateEventPage()),
+                  );
                 },
                 tooltip: 'Create an Event',
                 icon: const Icon(Icons.add_box_outlined),
