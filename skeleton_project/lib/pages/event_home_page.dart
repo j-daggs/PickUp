@@ -1,20 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:my_app/classes/event_class.dart';
 
 class HomePage extends StatelessWidget {
-  HomePage({Key? key}) : super(key: key);
-  final sampleEvents = Event.getEvent;
-
-  static const String _title = 'Flutter Code Sample';
+  const HomePage({Key? key}) : super(key: key);
+  static const String _title = 'Home';
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         title: _title,
         home: Scaffold(
-            appBar: AppBar(title: const Text(_title)),
+            appBar: AppBar(
+              title: const Text(_title)),
             // Builds stream to pull events from database
             body: StreamBuilder(
               stream:
@@ -40,6 +38,7 @@ class HomePage extends StatelessWidget {
           child: ListView.builder(
               itemCount: data.data!.docs.length,
               itemBuilder: (context, index) {
+                // Gets each individual doc and its current data from Firestore
                 dynamic snap = data.data!.docs[index].data();
                 return Container(
                   padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
@@ -107,12 +106,12 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget displayUsername(data) {
+  Widget displayUsername(snap) {
     return Align(
       alignment: Alignment.topLeft,
       child: RichText(
         text: TextSpan(
-          text: '${data['username']}',
+          text: '${snap['username']}',
           style: const TextStyle(
               fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
         ),
@@ -147,7 +146,7 @@ class HomePage extends StatelessWidget {
       alignment: Alignment.topRight,
       child: RichText(
         text: TextSpan(
-          text: DateFormat.yMMMd().format(snap['StartTime'].toDate()),
+          text: 'Start Time: ${DateFormat.yMMMd().format(snap['StartTime'].toDate())}',
           style: const TextStyle(
               fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
         ),
