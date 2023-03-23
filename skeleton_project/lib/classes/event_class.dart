@@ -1,18 +1,17 @@
-
 import 'dart:js_util';
 class Event {
   String username;
   String sport;
   DateTime starttime;
   var duration;
-  DateTime date;
+  DateTime dateposted;
   String address;
   String skill;
   String description;
   List comments;
   int postid;
 
-  Event(this.username, this.sport, this.starttime, this.duration, this.date,
+  Event(this.username, this.sport, this.starttime, this.duration, this.dateposted,
       this.address, this.skill, this.description, this.comments, this.postid);
 
   static final getEvent = [
