@@ -251,7 +251,7 @@ class _CreateEventPage extends State<CreateEventPage> {
                 newEvent.skill,
                 newEvent.description);
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => HomePage()));
+                context, MaterialPageRoute(builder: (context) => const HomePage()));
           }
         },
         child: const Icon(Icons.add),

@@ -9,24 +9,26 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: _title,
-        home: Scaffold(
-            appBar: AppBar(
-              title: const Text(_title)),
-            // Builds stream to pull events from database
-            body: StreamBuilder(
-              stream:
-                  FirebaseFirestore.instance.collection('Event').snapshots(),
-              builder: (context,
+      title: _title,
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text(_title),
+        ),
+        // Builds stream to pull events from database
+        body: StreamBuilder(
+          stream: FirebaseFirestore.instance.collection('Event').snapshots(),
+          builder: (context,
               // Grabs snapshot of database events and uses this as context
-                  AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-                // Returns cardBuilder with instance of snapshot(database)
-                return cardBuilder(snapshot);
-              },
-            )));
+              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            // Returns cardBuilder with instance of snapshot(database)
+            return cardBuilder(snapshot);
+          },
+        ),
+      ),
+    );
   }
 
   Widget cardBuilder(data) {
@@ -124,7 +126,7 @@ class HomePage extends StatelessWidget {
       alignment: Alignment.topCenter,
       child: RichText(
         text: TextSpan(
-          text: snap['Sport'],
+          text: '${snap['Sport:']} \n',
           style: const TextStyle(
               fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
           children: <TextSpan>[
@@ -146,7 +148,8 @@ class HomePage extends StatelessWidget {
       alignment: Alignment.topRight,
       child: RichText(
         text: TextSpan(
-          text: 'Start Time: ${DateFormat.yMMMd().format(snap['StartTime'].toDate())}',
+          text:
+              'Start Time: ${DateFormat.yMMMd().format(snap['StartTime'].toDate())}',
           style: const TextStyle(
               fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
         ),
