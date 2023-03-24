@@ -60,9 +60,6 @@ class _CreateEventPage extends State<CreateEventPage> {
   ];
   List skillList = ['Beginner', 'Intermediate', 'Advanced', 'All Skill Levels'];
   //@override
-  //_MyHomePage createState() => _MyHomePage();
-  //@override
-
   TextEditingController textControllerLocation = TextEditingController();
   TextEditingController textControllerDate = TextEditingController(); //datetime
   TextEditingController textControllerDuration = TextEditingController();
@@ -154,24 +151,24 @@ class _CreateEventPage extends State<CreateEventPage> {
           Padding(
             padding: const EdgeInsets.all(10),
             child: Align(
-                alignment: Alignment.topLeft,
-                child: FloatingActionButton.extended(
-                    label: Text(dateText),
-                    icon: const Icon(Icons.calendar_today_rounded),
-                    onPressed: () {
-                      showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime.now(),
-                        lastDate: DateTime(2222),
-                      ).then((date) {
-                        setState(() {
-                          newEvent.starttime = date!;
-                          dateText =
-                              DateFormat.yMd().format(newEvent.starttime);
-                        });
+              alignment: Alignment.topLeft,
+              child: FloatingActionButton.extended(
+                  label: Text(dateText),
+                  icon: const Icon(Icons.calendar_today_rounded),
+                  onPressed: () {
+                    showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime.now(),
+                      lastDate: DateTime(2222),
+                    ).then((date) {
+                      setState(() {
+                        newEvent.starttime = date!;
+                        dateText = DateFormat.yMd().format(newEvent.starttime);
                       });
-                    })),
+                    });
+                  }),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(10),
@@ -251,7 +248,9 @@ class _CreateEventPage extends State<CreateEventPage> {
                 newEvent.skill,
                 newEvent.description);
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => HomePage()));
+              context,
+              MaterialPageRoute(builder: (context) => const HomePage()),
+            );
           }
         },
         child: const Icon(Icons.add),

@@ -45,8 +45,8 @@ class _RegisterPageState extends State<RegisterPage> {
     }
 
     // call method to add user details
-    addUserDetails(_usernameController.text.trim(),
-        _emailController.text.trim(), _passwordController.text.trim());
+    // addUserDetails(_usernameController.text.trim(),
+    //     _emailController.text.trim(), _passwordController.text.trim());
   }
 
   // adds user details to Firestore Database in User collection

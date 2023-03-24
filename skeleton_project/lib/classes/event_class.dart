@@ -1,4 +1,3 @@
-import 'dart:js_util';
 class Event {
   String username;
   String sport;
@@ -89,7 +88,7 @@ class Event {
 var sampleDate1 = DateTime(2022, 15, 3, 15, 30);
 var sampleDate2 = DateTime(2022, 20, 4, 9, 00);
 var sampleDate3 = DateTime(2022, 18, 2, 17, 15);
-var SAMPLE_EVENTS = [
+var sampleEvents = [
   Event(
       "user1",
       "Tennis",

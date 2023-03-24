@@ -1,7 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:my_app/classes/event_class.dart';
+import 'package:intl/intl.dart';
 import 'package:my_app/pages/create_event_page.dart';
-
 const List<String> list = <String>[
   'Basketball',
   'Kickball',
@@ -11,146 +11,148 @@ const List<String> list = <String>[
 
 // This page is the page a user sees after logging in
 class HomePage extends StatelessWidget {
-  var sampleEvents = Event.getEvent;
-
+  const HomePage({super.key, this.scrolledUnderElevation});
   static const String _title = 'PickUP';
 
-  bool shadowColor = false;
-  double? scrolledUnderElevation;
+  final bool shadowColor = false;
+  final double? scrolledUnderElevation;
+
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: _title,
       home: Scaffold(
-          appBar: AppBar(
-            title: const Text(_title),
-            scrolledUnderElevation: scrolledUnderElevation,
-            shadowColor: Colors.grey,
-            backgroundColor: Colors.green,
-            actions: <Widget>[
-              const DropdownSports(),
-              const SizedBox(
-                width: 50,
-              ),
-              IconButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const CreateEventPage()),
-                  );
-                },
-                tooltip: 'Create an Event',
-                icon: const Icon(Icons.add_box_outlined),
-                color: Colors.white,
-              ),
-              const SizedBox(
-                width: 50,
-              ),
-            ],
-          ),
-          body: cardBuilder(sampleEvents)),
+        appBar: AppBar(
+          title: const Text(_title),
+          scrolledUnderElevation: scrolledUnderElevation,
+          shadowColor: Colors.grey,
+          backgroundColor: Colors.green,
+          actions: <Widget>[
+            const DropdownSports(),
+            const SizedBox(
+              width: 50,
+            ),
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const CreateEventPage()),
+                );
+              },
+              tooltip: 'Create an Event',
+              icon: const Icon(Icons.add_box_outlined),
+              color: Colors.white,
+            ),
+            const SizedBox(
+              width: 50,
+            ),
+          ],
+        ),
+        body: StreamBuilder(
+          stream: FirebaseFirestore.instance.collection('Event').snapshots(),
+          builder: (context,
+              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            return cardBuilder(snapshot);
+          },
+        ),
+      ),
       color: Colors.grey,
       debugShowCheckedModeBanner: false,
     );
   }
 
   Widget cardBuilder(data) {
-    return Container(
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Expanded(
-            child: ListView.builder(
-                itemCount: data.length,
-                itemBuilder: (context, index) {
-                  return Container(
-                    padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                    height: 220,
-                    width: double.maxFinite,
-                    child: Card(
-                      clipBehavior: Clip.hardEdge,
-                      elevation: 5,
-                      child: InkWell(
-                        splashColor: Colors.green.withAlpha(50),
-                        onTap: () {
-                          debugPrint('Card tapped. ${data[index]}}');
-                        },
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            border: Border(
-                              top: BorderSide(width: 2.0, color: Colors.black),
-                            ),
-                            color: Color.fromARGB(98, 255, 255, 255),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(7),
-                            child: Stack(children: <Widget>[
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: Stack(
-                                  children: <Widget>[
-                                    Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 10,
-                                            top: 5,
-                                            right: 10,
-                                            bottom: 5),
-                                        child: Column(
-                                          children: <Widget>[
-                                            Row(
-                                              children: <Widget>[
-                                                const SizedBox(height: 0),
-                                                displayUsername(data[index]),
-                                                const Spacer(),
-                                                displaySportSkill(data[index]),
-                                                const Spacer(),
-                                                displayDate(data[index]),
-                                              ],
-                                            ),
-                                            const Spacer(),
-                                            Row(
-                                              children: <Widget>[
-                                                const SizedBox(height: 0),
-                                                displayTime(data[index]),
-                                                const Spacer(),
-                                                displayAddress(data[index])
-                                              ],
-                                            ),
-                                            Row(
-                                              children: <Widget>[
-                                                const SizedBox(
-                                                  height: 10,
-                                                ),
-                                                displayDescription(data[index]),
-                                              ],
-                                            )
-                                          ],
-                                        ))
-                                  ],
-                                ),
-                              )
-                            ]),
-                          ),
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Expanded(
+          child: ListView.builder(
+              itemCount: data.data!.docs.length,
+              itemBuilder: (context, index) {
+                dynamic snap = data.data!.docs[index].data();
+                return Container(
+                  padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                  height: 220,
+                  width: double.maxFinite,
+                  child: Card(
+                    elevation: 5,
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        border: Border(
+                          top: BorderSide(width: 2.0, color: Colors.black),
                         ),
+                        color: Colors.white,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(7),
+                        child: Stack(children: <Widget>[
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: Stack(
+                              children: <Widget>[
+                                Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 10,
+                                        top: 5,
+                                        right: 10,
+                                        bottom: 5),
+                                    child: Column(
+                                      children: <Widget>[
+                                        Row(
+                                          children: <Widget>[
+                                            const SizedBox(height: 0),
+                                            displayUsername(snap),
+                                            const Spacer(),
+                                            displaySportSkill(snap),
+                                            const Spacer(),
+                                            displayDate(snap),
+                                          ],
+                                        ),
+                                        const Spacer(),
+                                        Row(
+                                          children: <Widget>[
+                                            const SizedBox(height: 0),
+                                            displayDuration(snap),
+                                            const Spacer(),
+                                            displayAddress(snap)
+                                          ],
+                                        ),
+                                        Row(
+                                          children: <Widget>[
+                                            const SizedBox(height: 10),
+                                            displayDescription(snap),
+                                          ],
+                                        )
+                                      ],
+                                    ))
+                              ],
+                            ),
+                          )
+                        ]),
                       ),
                     ),
-                  );
-                }),
-          ),
-        ],
-      ),
+                  ),
+                );
+              }),
+        ),
+      ],
     );
   }
 
-  Widget displayUsername(data) {
+  Widget displayUsername(snap) {
     return Align(
       alignment: Alignment.topLeft,
       child: RichText(
         text: TextSpan(
-          text: '${data['username']}',
+          text: '${snap['username']}',
           style: const TextStyle(
               fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
         ),
@@ -158,17 +160,17 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget displaySportSkill(data) {
+  Widget displaySportSkill(snap) {
     return Align(
       alignment: Alignment.topCenter,
       child: RichText(
         text: TextSpan(
-          text: '${data['sport']}',
+          text: '${snap['Sport']} \n',
           style: const TextStyle(
               fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
           children: <TextSpan>[
             TextSpan(
-                text: '\n${data['skill']}',
+                text: snap['Skill'],
                 style: const TextStyle(
                   color: Colors.black,
                   fontSize: 15,
@@ -180,12 +182,13 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget displayDate(data) {
+  Widget displayDate(snap) {
     return Align(
       alignment: Alignment.topRight,
       child: RichText(
         text: TextSpan(
-          text: '${data['date']}',
+          text:
+              'Start Time: ${DateFormat.yMMMd().format(snap['StartTime'].toDate())}',
           style: const TextStyle(
               fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
         ),
@@ -193,12 +196,12 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget displayTime(data) {
+  Widget displayDuration(snap) {
     return Align(
       alignment: Alignment.centerLeft,
       child: RichText(
         text: TextSpan(
-          text: '${data['starttime']} to ${data['endtime']}',
+          text: snap['Duration'],
           style: const TextStyle(
               fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
         ),
@@ -206,12 +209,12 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget displayAddress(data) {
+  Widget displayAddress(snap) {
     return Align(
       alignment: Alignment.centerRight,
       child: RichText(
         text: TextSpan(
-          text: '${data['address']}',
+          text: snap['Address'],
           style: const TextStyle(
               fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
         ),
@@ -219,12 +222,12 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget displayDescription(data) {
+  Widget displayDescription(snap) {
     return Align(
       alignment: Alignment.bottomCenter,
       child: RichText(
         text: TextSpan(
-          text: '${data['description']}',
+          text: snap['Description'],
           style: const TextStyle(
               fontWeight: FontWeight.normal,
               color: Colors.blueGrey,
