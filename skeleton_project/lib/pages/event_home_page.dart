@@ -1,10 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:my_app/pages/create_event_page.dart';
+const List<String> list = <String>[
+  'Basketball',
+  'Kickball',
+  'Ultimate Frisbee',
+  'Bowling'
+];
 
+// This page is the page a user sees after logging in
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
-  static const String _title = 'Home';
+  const HomePage({super.key, this.scrolledUnderElevation});
+  static const String _title = 'PickUP';
+
+  final bool shadowColor = false;
+  final double? scrolledUnderElevation;
+
 
   @override
   Widget build(BuildContext context) {
@@ -13,21 +25,46 @@ class HomePage extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(
           title: const Text(_title),
+          scrolledUnderElevation: scrolledUnderElevation,
+          shadowColor: Colors.grey,
+          backgroundColor: Colors.green,
+          actions: <Widget>[
+            const DropdownSports(),
+            const SizedBox(
+              width: 50,
+            ),
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const CreateEventPage()),
+                );
+              },
+              tooltip: 'Create an Event',
+              icon: const Icon(Icons.add_box_outlined),
+              color: Colors.white,
+            ),
+            const SizedBox(
+              width: 50,
+            ),
+          ],
         ),
-        // Builds stream to pull events from database
         body: StreamBuilder(
           stream: FirebaseFirestore.instance.collection('Event').snapshots(),
           builder: (context,
-              // Grabs snapshot of database events and uses this as context
               AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
             }
-            // Returns cardBuilder with instance of snapshot(database)
             return cardBuilder(snapshot);
           },
         ),
       ),
+      color: Colors.grey,
+      debugShowCheckedModeBanner: false,
     );
   }
 
@@ -40,7 +77,6 @@ class HomePage extends StatelessWidget {
           child: ListView.builder(
               itemCount: data.data!.docs.length,
               itemBuilder: (context, index) {
-                // Gets each individual doc and its current data from Firestore
                 dynamic snap = data.data!.docs[index].data();
                 return Container(
                   padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
@@ -64,13 +100,16 @@ class HomePage extends StatelessWidget {
                               children: <Widget>[
                                 Padding(
                                     padding: const EdgeInsets.only(
-                                        left: 10, top: 5, right: 10, bottom: 5),
+                                        left: 10,
+                                        top: 5,
+                                        right: 10,
+                                        bottom: 5),
                                     child: Column(
                                       children: <Widget>[
                                         Row(
                                           children: <Widget>[
                                             const SizedBox(height: 0),
-                                            //displayUsername(data[index]),
+                                            displayUsername(snap),
                                             const Spacer(),
                                             displaySportSkill(snap),
                                             const Spacer(),
@@ -195,6 +234,44 @@ class HomePage extends StatelessWidget {
               fontSize: 20),
         ),
       ),
+    );
+  }
+}
+
+class DropdownSports extends StatefulWidget {
+  const DropdownSports({super.key});
+
+  @override
+  State<DropdownSports> createState() => _DropdownSportsState();
+}
+
+class _DropdownSportsState extends State<DropdownSports> {
+  String dropdownValue = list.first;
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<String>(
+      value: dropdownValue,
+      icon: const Icon(Icons.arrow_drop_down_rounded),
+      elevation: 16,
+      style: const TextStyle(color: Colors.white),
+      underline: Container(
+        height: 2,
+        color: Colors.white,
+      ),
+      onChanged: (String? value) {
+        // This is called when the user selects an item.
+        setState(() {
+          dropdownValue = value!;
+        });
+      },
+      items: list.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+      dropdownColor: Colors.black,
     );
   }
 }

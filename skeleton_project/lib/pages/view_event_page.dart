@@ -58,11 +58,13 @@ class EventData {
 }
 
 class MyHomePage extends StatefulWidget {
+  MyHomePage({super.key});
+
   get onPressed => null;
   Event currentEvent = EventData().event2;
   @override
-  _MyHomePage createState() => _MyHomePage();
-  @override
+  State<MyHomePage> createState() => _MyHomePage();
+  
   Widget build(BuildContext context) {
     String date = DateFormat.yMd().format(currentEvent.dateposted);
     String time = DateFormat.jm().format(currentEvent.dateposted);
