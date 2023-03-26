@@ -16,57 +16,16 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
-      home: MyHomePage(),
+      home: ViewEventPage(),
     );
   }
 }
 
-class EventData {
-  Event event1 = Event(
-      "user1",
-      "Tennis",
-      sampleDate1,
-      2,
-      sampleDate1,
-      "1234 Tennis Dr. Wilmington, NC",
-      "Beginner",
-      "Looking for another beginner level player to play a singles match.",
-      ['comment1', 'comment2'],
-      123);
-  Event event2 = Event(
-      "user2",
-      "Soccer",
-      sampleDate2,
-      3,
-      sampleDate2,
-      "589 Seahawk Dr. Wilimington, NC",
-      "Intermediate",
-      "5v5 soccer game, already have 7 need 3 more",
-      ['comment3', 'comment4'],
-      8756);
-  Event event3 = Event(
-      "user3",
-      "Basketball",
-      sampleDate3,
-      1.5,
-      sampleDate3,
-      "927 Market St. Wilimington, NC",
-      "Expert",
-      "4v4 pickup basketball game, I have a team and am looking for another team of 4.",
-      ['comment5', 'comment6'],
-      9768);
-}
-
-class MyHomePage extends StatefulWidget {
-  get onPressed => null;
-  Event currentEvent = EventData().event2;
+class ViewEventPage extends StatefulWidget {
+  const ViewEventPage({super.key});
   @override
-  _MyHomePage createState() => _MyHomePage();
-  @override
-  Widget build(BuildContext context) {
-    String date = DateFormat.yMd().format(currentEvent.dateposted);
-    String time = DateFormat.jm().format(currentEvent.dateposted);
-
+  _ViewEventPage createState() => _ViewEventPage();
+/*
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(30),
@@ -137,16 +96,15 @@ class MyHomePage extends StatefulWidget {
           ),
         ]),
       ),
-    );
-  }
+    );*/
 }
 
-class _MyHomePage extends State<MyHomePage> {
+class _ViewEventPage extends State<ViewEventPage> {
   List commentList = Comment.testingList;
   TextEditingController textController = TextEditingController();
-  Event currentEvent = EventData().event2;
   @override
   Widget build(BuildContext context) {
+    final currentEvent = ModalRoute.of(context)!.settings.arguments as Event;
     String date = DateFormat.yMd().format(currentEvent.dateposted);
     String time = DateFormat.jm().format(currentEvent.dateposted);
 
@@ -314,7 +272,7 @@ class InterestButton extends StatefulWidget {
 }
 
 class _InterestButtonState extends State<InterestButton> {
-  var current = MyHomePage().currentEvent.postid;
+  var current = ViewEventPage();
   var interested = [];
   bool click = true;
   @override

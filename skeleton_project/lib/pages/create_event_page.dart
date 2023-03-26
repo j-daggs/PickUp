@@ -67,7 +67,6 @@ class _CreateEventPage extends State<CreateEventPage> {
   TextEditingController textControllerDate = TextEditingController(); //datetime
   TextEditingController textControllerDuration = TextEditingController();
   TextEditingController textControllerDescription = TextEditingController();
-  Event currentEvent = EventData().event2;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/classes/event_class.dart';
 import 'package:my_app/pages/create_event_page.dart';
+import 'package:my_app/pages/view_event_page.dart';
 
 const List<String> list = <String>[
   'Basketball',
@@ -11,7 +12,7 @@ const List<String> list = <String>[
 
 // This page is the page a user sees after logging in
 class HomePage extends StatelessWidget {
-  var sampleEvents = Event.getEvent;
+  var sampleEvents = SAMPLE_EVENTS;
 
   static const String _title = 'PickUP';
 
@@ -77,6 +78,14 @@ class HomePage extends StatelessWidget {
                         splashColor: Colors.green.withAlpha(50),
                         onTap: () {
                           debugPrint('Card tapped. ${data[index]}}');
+                          Navigator.push(
+                              // send data to next page
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ViewEventPage(),
+                                  settings: RouteSettings(
+                                    arguments: data[index],
+                                  )));
                         },
                         child: Container(
                           decoration: const BoxDecoration(
@@ -150,7 +159,7 @@ class HomePage extends StatelessWidget {
       alignment: Alignment.topLeft,
       child: RichText(
         text: TextSpan(
-          text: '${data['username']}',
+          text: '${data.username}',
           style: const TextStyle(
               fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
         ),
@@ -163,12 +172,12 @@ class HomePage extends StatelessWidget {
       alignment: Alignment.topCenter,
       child: RichText(
         text: TextSpan(
-          text: '${data['sport']}',
+          text: '${data.sport}',
           style: const TextStyle(
               fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
           children: <TextSpan>[
             TextSpan(
-                text: '\n${data['skill']}',
+                text: '\n${data.skill}',
                 style: const TextStyle(
                   color: Colors.black,
                   fontSize: 15,
@@ -185,7 +194,7 @@ class HomePage extends StatelessWidget {
       alignment: Alignment.topRight,
       child: RichText(
         text: TextSpan(
-          text: '${data['date']}',
+          text: '${data.starttime}',
           style: const TextStyle(
               fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
         ),
@@ -198,7 +207,7 @@ class HomePage extends StatelessWidget {
       alignment: Alignment.centerLeft,
       child: RichText(
         text: TextSpan(
-          text: '${data['starttime']} to ${data['endtime']}',
+          text: '${data.starttime}, ${data.duration}',
           style: const TextStyle(
               fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
         ),
@@ -211,7 +220,7 @@ class HomePage extends StatelessWidget {
       alignment: Alignment.centerRight,
       child: RichText(
         text: TextSpan(
-          text: '${data['address']}',
+          text: '${data.address}',
           style: const TextStyle(
               fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
         ),
@@ -224,7 +233,7 @@ class HomePage extends StatelessWidget {
       alignment: Alignment.bottomCenter,
       child: RichText(
         text: TextSpan(
-          text: '${data['description']}',
+          text: '${data.description}',
           style: const TextStyle(
               fontWeight: FontWeight.normal,
               color: Colors.blueGrey,

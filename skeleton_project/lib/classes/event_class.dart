@@ -1,4 +1,5 @@
 import 'dart:js_util';
+
 class Event {
   String username;
   String sport;
@@ -11,8 +12,17 @@ class Event {
   List comments;
   int postid;
 
-  Event(this.username, this.sport, this.starttime, this.duration, this.dateposted,
-      this.address, this.skill, this.description, this.comments, this.postid);
+  Event(
+      this.username,
+      this.sport,
+      this.starttime,
+      this.duration,
+      this.dateposted,
+      this.address,
+      this.skill,
+      this.description,
+      this.comments,
+      this.postid);
 
   static final getEvent = [
     {
