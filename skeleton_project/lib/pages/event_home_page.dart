@@ -194,7 +194,7 @@ class HomePage extends StatelessWidget {
       alignment: Alignment.topRight,
       child: RichText(
         text: TextSpan(
-          text: '${data.starttime}',
+          text: '${data.getDate}',
           style: const TextStyle(
               fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
         ),
@@ -207,7 +207,7 @@ class HomePage extends StatelessWidget {
       alignment: Alignment.centerLeft,
       child: RichText(
         text: TextSpan(
-          text: '${data.starttime}, ${data.duration}',
+          text: '${data.getTime}, ${data.duration}',
           style: const TextStyle(
               fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
         ),

@@ -25,78 +25,6 @@ class ViewEventPage extends StatefulWidget {
   const ViewEventPage({super.key});
   @override
   _ViewEventPage createState() => _ViewEventPage();
-/*
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(30),
-        child: Column(children: [
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                'Sport: ${currentEvent.sport}',
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.left,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Text('Skill: ${currentEvent.skill}',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.left),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Text('Location: ${currentEvent.address}',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Text('Date: $date',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Text('Start Time: $time',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Text('Duration: ${currentEvent.duration} hrs',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Text('Description: ${currentEvent.description}',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: InterestButton(),
-          ),
-        ]),
-      ),
-    );*/
 }
 
 class _ViewEventPage extends State<ViewEventPage> {
@@ -105,8 +33,6 @@ class _ViewEventPage extends State<ViewEventPage> {
   @override
   Widget build(BuildContext context) {
     final currentEvent = ModalRoute.of(context)!.settings.arguments as Event;
-    String date = DateFormat.yMd().format(currentEvent.dateposted);
-    String time = DateFormat.jm().format(currentEvent.dateposted);
 
     return Scaffold(
       body: Padding(
@@ -144,7 +70,7 @@ class _ViewEventPage extends State<ViewEventPage> {
             padding: const EdgeInsets.all(10),
             child: Align(
               alignment: Alignment.topLeft,
-              child: Text('Date: $date',
+              child: Text('Date: ${currentEvent.getDate}',
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
             ),
           ),
@@ -152,7 +78,7 @@ class _ViewEventPage extends State<ViewEventPage> {
             padding: const EdgeInsets.all(10),
             child: Align(
               alignment: Alignment.topLeft,
-              child: Text('Start Time: $time',
+              child: Text('Start Time: ${currentEvent.getTime}',
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
             ),
           ),

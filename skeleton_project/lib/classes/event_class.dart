@@ -1,5 +1,7 @@
 import 'dart:js_util';
 
+import 'package:intl/intl.dart';
+
 class Event {
   String username;
   String sport;
@@ -24,76 +26,8 @@ class Event {
       this.comments,
       this.postid);
 
-  static final getEvent = [
-    {
-      'username': 'Bob',
-      'sport': 'Tennis',
-      'starttime': '1330',
-      'endtime': '1530',
-      'date': '03/15/2023',
-      'address': '1234 Tennis Dr. Wilmington, NC',
-      'skill': 'Intermediate',
-      'description': 'Hot single looking to play a singles match.',
-      'postid': '123'
-    },
-    {
-      'username': 'George',
-      'sport': 'Basketball',
-      'starttime': '1330',
-      'endtime': '1530',
-      'date': '03/15/2023',
-      'address': '1234 Tennis Dr. Wilmington, NC',
-      'skill': 'Beginner',
-      'description':
-          'I am george w. bush and my favorite cheese is chuck e cheese.',
-      'postid': '123'
-    },
-    {
-      'username': 'Ronald',
-      'sport': 'Darts',
-      'starttime': '1330',
-      'endtime': '1530',
-      'date': '04/21/2068',
-      'address': '1234 Tennis Dr. Wilmington, NC',
-      'skill': 'Beginner',
-      'description': 'Looking to play a singles match.',
-      'postid': '123'
-    },
-    {
-      'username': 'Hamburgaler',
-      'sport': 'Stealing',
-      'starttime': '1330',
-      'endtime': '1530',
-      'date': '03/15/2023',
-      'address': '1234 Tennis Dr. Wilmington, NC',
-      'skill': 'Expert',
-      'description': 'Looking to play a singles match.',
-      'postid': '123'
-    },
-    {
-      'username': 'Clyde',
-      'sport': 'Bowling',
-      'starttime': '1330',
-      'endtime': '1530',
-      'date': '03/15/2023',
-      'address': '1234 Tennis Dr. Wilmington, NC',
-      'skill': 'Beginner',
-      'description':
-          'I have too much to say because I believe that everything i have to say is important. 42',
-      'postid': '123'
-    },
-    {
-      'username': 'Tyler',
-      'sport': 'Kickball',
-      'starttime': '1330',
-      'endtime': '1530',
-      'date': '03/15/2023',
-      'address': '1234 Tennis Dr. Wilmington, NC',
-      'skill': 'Beginner',
-      'description': 'Must be tall enough to ride splash mountain.',
-      'postid': '123'
-    }
-  ];
+  get getDate => DateFormat.yMd().format(dateposted);
+  get getTime => DateFormat.jm().format(dateposted);
 }
 
 var sampleDate1 = DateTime(2022, 15, 3, 15, 30);
