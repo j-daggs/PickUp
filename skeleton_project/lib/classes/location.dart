@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:geolocator/geolocator.dart';
 
 Position userPosition = Position(longitude: 0.0, latitude: 0.0, timestamp: DateTime.now(), accuracy: 0, altitude: 0.0, heading: 0.0, speed: 0.0, speedAccuracy: 0.0); 

@@ -12,6 +12,8 @@ class Event {
 
   Event(this.username, this.sport, this.starttime, this.duration, this.dateposted,
       this.address, this.skill, this.description, this.comments, this.postid);
+  
+  
 
   static final getEvent = [
     {

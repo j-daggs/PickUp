@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:search_map_location/utils/google_search/place.dart';
 import 'view_event_page.dart';
 import 'package:my_app/classes/event_class.dart';
 import 'package:intl/intl.dart';
 import '../classes/comment.dart';
 import '../pages/event_home_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_google_places/flutter_google_places.dart';
+import 'package:search_map_location/search_map_location.dart';
 
 class CreateEventPage extends StatefulWidget {
   const CreateEventPage({super.key});
@@ -37,6 +41,7 @@ class _CreateEventPage extends State<CreateEventPage> {
   get onPressed => null;
   String dateText = 'select a date';
   String timeText = 'select a time';
+  String locationText = 'search for the location';
   Event newEvent = Event(
       'username',
       "Football",
@@ -135,18 +140,11 @@ class _CreateEventPage extends State<CreateEventPage> {
           ),
           Padding(
             padding: const EdgeInsets.all(10),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: TextField(
-                  controller: textControllerLocation,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Choose a Location',
-                  ),
-                  onSubmitted: (String value) {
-                    newEvent.address = value;
-                  }),
-            ),
+            child: SearchLocation(
+              apiKey: "api key goes here", // google maps api key goes here
+              onSelected: (place) {
+                    newEvent.address = place.description;
+              },),
           ),
           Padding(
             padding: const EdgeInsets.all(10),
@@ -226,6 +224,7 @@ class _CreateEventPage extends State<CreateEventPage> {
           ),
         ]),
       ),
+      
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           if (textControllerDescription.text.isNotEmpty &&
@@ -258,3 +257,7 @@ class _CreateEventPage extends State<CreateEventPage> {
     );
   }
 }
+
+
+
+      
