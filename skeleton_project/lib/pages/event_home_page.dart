@@ -2,8 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:my_app/pages/create_event_page.dart';
+import '../classes/location.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:my_app/pages/view_event_page.dart';
 import 'package:my_app/classes/event_class.dart';
+
+final Position currentLocation = userPosition;  // the user's current location, for calculating distances from events
+
 
 const List<String> list = <String>[
   'Basketball',
@@ -18,7 +23,7 @@ class HomePage extends StatelessWidget {
 
   const HomePage({super.key, this.scrolledUnderElevation});
   static const String _title = 'PickUP';
-
+  
   final bool shadowColor = false;
   final double? scrolledUnderElevation;
 

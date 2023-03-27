@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:search_map_location/utils/google_search/place.dart';
 import 'view_event_page.dart';
 import 'package:my_app/classes/event_class.dart';
 import 'package:intl/intl.dart';
 import '../classes/comment.dart';
 import '../pages/event_home_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_google_places/flutter_google_places.dart';
+import 'package:search_map_location/search_map_location.dart';
 
 class CreateEventPage extends StatefulWidget {
   const CreateEventPage({super.key});
@@ -37,6 +41,7 @@ class _CreateEventPage extends State<CreateEventPage> {
   get onPressed => null;
   String dateText = 'select a date';
   String timeText = 'select a time';
+  String locationText = 'search for the location';
   Event newEvent = Event(
       'username',
       "Football",
@@ -67,6 +72,7 @@ class _CreateEventPage extends State<CreateEventPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Padding(
         padding: const EdgeInsets.all(30),
         child: Column(children: [
@@ -132,23 +138,17 @@ class _CreateEventPage extends State<CreateEventPage> {
               ),
             ),
           ),
+          Expanded(child: Column(
+            children: [Expanded(child: SearchLocation(  // this allows the user to search for a location to add to the event
+              apiKey: "api key goes here", // google maps api key will go here
+              onSelected: (place) {
+                    newEvent.address = place.description;  // right now this is passing the String of the address to address, will need to be updated so address holds a place object so that the geolocation can be accessed for distance calculations 
+              },
+              placeholder: "Search for a location",),
+          ),],),),
           Padding(
             padding: const EdgeInsets.all(10),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: TextField(
-                  controller: textControllerLocation,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Choose a Location',
-                  ),
-                  onSubmitted: (String value) {
-                    newEvent.address = value;
-                  }),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10),
+            
             child: Align(
               alignment: Alignment.topLeft,
               child: FloatingActionButton.extended(
@@ -225,6 +225,7 @@ class _CreateEventPage extends State<CreateEventPage> {
           ),
         ]),
       ),
+      
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           if (textControllerDescription.text.isNotEmpty &&
@@ -257,3 +258,7 @@ class _CreateEventPage extends State<CreateEventPage> {
     );
   }
 }
+
+
+
+      
