@@ -140,11 +140,12 @@ class _CreateEventPage extends State<CreateEventPage> {
           ),
           Padding(
             padding: const EdgeInsets.all(10),
-            child: SearchLocation(
-              apiKey: "api key goes here", // google maps api key goes here
+            child: SearchLocation(  // this allows the user to search for a location to add to the event
+              apiKey: "api key goes here", // google maps api key will go here
               onSelected: (place) {
-                    newEvent.address = place.description;
-              },),
+                    newEvent.address = place.description;  // right now this is passing the String of the address to address, will need to be updated so address holds a place object so that the geolocation can be accessed for distance calculations 
+              },
+              placeholder: "Search for a location",),
           ),
           Padding(
             padding: const EdgeInsets.all(10),
