@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:my_app/classes/event_class.dart';
 import 'package:intl/intl.dart';
 import '../classes/comment.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-void main() => runApp(const MyApp());
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class ViewEventPage extends StatelessWidget {
+  const ViewEventPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,23 +15,37 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
-      home: ViewEventPage(),
+      home: ViewEvent(),
     );
   }
 }
 
-class ViewEventPage extends StatefulWidget {
-  const ViewEventPage({super.key});
+class ViewEvent extends StatefulWidget {
+  const ViewEvent({super.key});
   @override
-  _ViewEventPage createState() => _ViewEventPage();
+  _ViewEvent createState() => _ViewEvent();
 }
 
-class _ViewEventPage extends State<ViewEventPage> {
+class _ViewEvent extends State<ViewEvent> {
   List commentList = Comment.testingList;
   TextEditingController textController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final currentEvent = ModalRoute.of(context)!.settings.arguments as Event;
+    final snap = ModalRoute.of(context)!.settings.arguments as dynamic;
+    debugPrint('Snap: $snap');
+    DateTime dateTimeStartTime = (snap['StartTime']).toDate();
+    DateTime dateTimeDatePosted = (snap['DatePosted']).toDate();
+    Event currentEvent = Event(
+        'Username',
+        snap['Sport'],
+        dateTimeStartTime,
+        snap['Duration'],
+        dateTimeDatePosted,
+        snap['Address'],
+        snap['Skill'],
+        snap['Description'],
+        ['comment'],
+        9);
 
     return Scaffold(
       body: Padding(
@@ -178,10 +191,6 @@ class _ViewEventPage extends State<ViewEventPage> {
                           0,
                           Comment(
                               DateTime.now(), "username", textController.text));
-                      textController.clear();
-                      Navigator.of(context).pop();
-                      showModalBottomSheet(
-                          context: context, builder: (context) => buildSheet());
                     });
                   }
                 },
@@ -193,6 +202,7 @@ class _ViewEventPage extends State<ViewEventPage> {
 }
 
 class InterestButton extends StatefulWidget {
+  const InterestButton({Key? key}) : super(key: key);
   @override
   State<InterestButton> createState() => _InterestButtonState();
 }

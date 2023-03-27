@@ -1,13 +1,14 @@
 import 'dart:js_util';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
 class Event {
   String username;
   String sport;
-  DateTime starttime;
+  var starttime;
   var duration;
-  DateTime dateposted;
+  var dateposted;
   String address;
   String skill;
   String description;
@@ -27,13 +28,13 @@ class Event {
       this.postid);
 
   get getDate => DateFormat.yMd().format(dateposted);
-  get getTime => DateFormat.jm().format(dateposted);
+  get getTime => DateFormat.jm().format(starttime);
 }
-
+/*
 var sampleDate1 = DateTime(2022, 15, 3, 15, 30);
 var sampleDate2 = DateTime(2022, 20, 4, 9, 00);
 var sampleDate3 = DateTime(2022, 18, 2, 17, 15);
-var SAMPLE_EVENTS = [
+var sampleEvents = [
   Event(
       "user1",
       "Tennis",
@@ -68,3 +69,4 @@ var SAMPLE_EVENTS = [
       ['comment5', 'comment6'],
       9768)
 ];
+*/

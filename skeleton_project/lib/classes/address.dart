@@ -15,7 +15,7 @@ class Address {
 
   set setState(String state) => this.state = state;
 
-  set setZipCode(String zipCode) => this.zipcode = zipCode;
+  set setZipCode(String zipCode) => zipcode = zipCode;
 
   // Getters
   get getStreetName => streetName;
