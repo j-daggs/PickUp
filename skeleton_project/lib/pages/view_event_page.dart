@@ -27,6 +27,13 @@ class ViewEvent extends StatefulWidget {
 }
 
 class _ViewEvent extends State<ViewEvent> {
+  Future addCommentDetails(
+      DateTime dateTime, String username, String text) async {
+    await FirebaseFirestore.instance
+        .collection('Comment')
+        .add({'DateTime:': dateTime, 'Username': username, 'Text': text});
+  }
+
   List commentList = Comment.testingList;
   TextEditingController textController = TextEditingController();
   @override
@@ -99,7 +106,7 @@ class _ViewEvent extends State<ViewEvent> {
             padding: const EdgeInsets.all(10),
             child: Align(
               alignment: Alignment.topLeft,
-              child: Text('Duration: ${currentEvent.duration} hours',
+              child: Text('Duration: ${currentEvent.duration}',
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
             ),
           ),
@@ -191,6 +198,8 @@ class _ViewEvent extends State<ViewEvent> {
                           0,
                           Comment(
                               DateTime.now(), "username", textController.text));
+                      addCommentDetails(
+                          DateTime.now(), "username", textController.text);
                     });
                   }
                 },
