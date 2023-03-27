@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:my_app/pages/create_event_page.dart';
 import 'auth/check_user_login.dart';
 import 'firebase_options.dart';
 
@@ -24,7 +25,8 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'PickUP',
-      home: CheckLogin(),
+      //home: CheckLogin(),
+      home: CreateEventPage(),
     );
   }
 }
