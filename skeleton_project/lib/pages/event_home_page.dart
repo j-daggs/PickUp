@@ -4,8 +4,11 @@ import 'package:intl/intl.dart';
 import 'package:my_app/pages/create_event_page.dart';
 import '../classes/location.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:my_app/pages/view_event_page.dart';
+import 'package:my_app/classes/event_class.dart';
 
 final Position currentLocation = userPosition;  // the user's current location, for calculating distances from events
+
 
 const List<String> list = <String>[
   'Basketball',
@@ -16,12 +19,13 @@ const List<String> list = <String>[
 
 // This page is the page a user sees after logging in
 class HomePage extends StatelessWidget {
+  // var sampleEvents = SAMPLE_EVENTS;
+
   const HomePage({super.key, this.scrolledUnderElevation});
   static const String _title = 'PickUP';
   
   final bool shadowColor = false;
   final double? scrolledUnderElevation;
-
 
   @override
   Widget build(BuildContext context) {
@@ -83,68 +87,81 @@ class HomePage extends StatelessWidget {
               itemCount: data.data!.docs.length,
               itemBuilder: (context, index) {
                 dynamic snap = data.data!.docs[index].data();
+
                 return Container(
                   padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                   height: 220,
                   width: double.maxFinite,
-                  child: Card(
-                    elevation: 5,
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        border: Border(
-                          top: BorderSide(width: 2.0, color: Colors.black),
-                        ),
-                        color: Colors.white,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(7),
-                        child: Stack(children: <Widget>[
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Stack(
-                              children: <Widget>[
-                                Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 10,
-                                        top: 5,
-                                        right: 10,
-                                        bottom: 5),
-                                    child: Column(
-                                      children: <Widget>[
-                                        Row(
-                                          children: <Widget>[
-                                            const SizedBox(height: 0),
-                                            displayUsername(snap),
-                                            const Spacer(),
-                                            displaySportSkill(snap),
-                                            const Spacer(),
-                                            displayDate(snap),
-                                          ],
-                                        ),
-                                        const Spacer(),
-                                        Row(
-                                          children: <Widget>[
-                                            const SizedBox(height: 0),
-                                            displayDuration(snap),
-                                            const Spacer(),
-                                            displayAddress(snap)
-                                          ],
-                                        ),
-                                        Row(
-                                          children: <Widget>[
-                                            const SizedBox(height: 10),
-                                            displayDescription(snap),
-                                          ],
-                                        )
-                                      ],
-                                    ))
-                              ],
+                  child: InkWell(
+                      child: Card(
+                        elevation: 5,
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            border: Border(
+                              top: BorderSide(width: 2.0, color: Colors.black),
                             ),
-                          )
-                        ]),
+                            color: Colors.white,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(7),
+                            child: Stack(children: <Widget>[
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: Stack(
+                                  children: <Widget>[
+                                    Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 10,
+                                            top: 5,
+                                            right: 10,
+                                            bottom: 5),
+                                        child: Column(
+                                          children: <Widget>[
+                                            Row(
+                                              children: <Widget>[
+                                                const SizedBox(height: 0),
+                                                displayUsername(snap),
+                                                const Spacer(),
+                                                displaySportSkill(snap),
+                                                const Spacer(),
+                                                displayDate(snap),
+                                              ],
+                                            ),
+                                            const Spacer(),
+                                            Row(
+                                              children: <Widget>[
+                                                const SizedBox(height: 0),
+                                                displayDuration(snap),
+                                                const Spacer(),
+                                                displayAddress(snap)
+                                              ],
+                                            ),
+                                            Row(
+                                              children: <Widget>[
+                                                const SizedBox(height: 10),
+                                                displayDescription(snap),
+                                              ],
+                                            )
+                                          ],
+                                        ))
+                                  ],
+                                ),
+                              )
+                            ]),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
+                      onTap: () {
+                        debugPrint('Card tapped. $snap}');
+                        Navigator.push(
+                            // send data to next page
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const ViewEvent(),
+                                settings: RouteSettings(
+                                  arguments: snap,
+                                )));
+                      }),
                 );
               }),
         ),
@@ -157,7 +174,7 @@ class HomePage extends StatelessWidget {
       alignment: Alignment.topLeft,
       child: RichText(
         text: TextSpan(
-          text: '${snap['username']}',
+          text: '${snap['Username']}',
           style: const TextStyle(
               fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
         ),
@@ -175,7 +192,7 @@ class HomePage extends StatelessWidget {
               fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
           children: <TextSpan>[
             TextSpan(
-                text: snap['Skill'],
+                text: '${snap['Skill']}',
                 style: const TextStyle(
                   color: Colors.black,
                   fontSize: 15,
@@ -206,7 +223,7 @@ class HomePage extends StatelessWidget {
       alignment: Alignment.centerLeft,
       child: RichText(
         text: TextSpan(
-          text: snap['Duration'],
+          text: '${snap['Duration']} hours',
           style: const TextStyle(
               fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
         ),
@@ -219,7 +236,7 @@ class HomePage extends StatelessWidget {
       alignment: Alignment.centerRight,
       child: RichText(
         text: TextSpan(
-          text: snap['Address'],
+          text: '${snap['Address']}',
           style: const TextStyle(
               fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
         ),
@@ -232,7 +249,7 @@ class HomePage extends StatelessWidget {
       alignment: Alignment.bottomCenter,
       child: RichText(
         text: TextSpan(
-          text: snap['Description'],
+          text: '${snap['Description']}',
           style: const TextStyle(
               fontWeight: FontWeight.normal,
               color: Colors.blueGrey,

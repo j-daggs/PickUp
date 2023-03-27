@@ -15,149 +15,37 @@ class ViewEventPage extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
-      home: MyHomePage(),
+      home: ViewEvent(),
     );
   }
 }
 
-class EventData {
-  Event event1 = Event(
-      "user1",
-      "Tennis",
-      sampleDate1,
-      2,
-      sampleDate1,
-      "1234 Tennis Dr. Wilmington, NC",
-      "Beginner",
-      "Looking for another beginner level player to play a singles match.",
-      ['comment1', 'comment2'],
-      123);
-  Event event2 = Event(
-      "user2",
-      "Soccer",
-      sampleDate2,
-      3,
-      sampleDate2,
-      "589 Seahawk Dr. Wilimington, NC",
-      "Intermediate",
-      "5v5 soccer game, already have 7 need 3 more",
-      ['comment3', 'comment4'],
-      8756);
-  Event event3 = Event(
-      "user3",
-      "Basketball",
-      sampleDate3,
-      1.5,
-      sampleDate3,
-      "927 Market St. Wilimington, NC",
-      "Expert",
-      "4v4 pickup basketball game, I have a team and am looking for another team of 4.",
-      ['comment5', 'comment6'],
-      9768);
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({super.key});
-
-  get onPressed => null;
-  Event currentEvent = EventData().event2;
+class ViewEvent extends StatefulWidget {
+  const ViewEvent({super.key});
   @override
-  State<MyHomePage> createState() => _MyHomePage();
-  
-  Widget build(BuildContext context) {
-    String date = DateFormat.yMd().format(currentEvent.dateposted);
-    String time = DateFormat.jm().format(currentEvent.dateposted);
-
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(30),
-        child: Column(children: [
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                'Sport: ${currentEvent.sport}',
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.left,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Text('Skill: ${currentEvent.skill}',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.left),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Text('Location: ${currentEvent.address}',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Text('Date: $date',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Text('Start Time: $time',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Text('Duration: ${currentEvent.duration} hrs',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Text('Description: ${currentEvent.description}',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: InterestButton(),
-          ),
-        ]),
-      ),
-    );
-  }
+  _ViewEvent createState() => _ViewEvent();
 }
 
-class _MyHomePage extends State<MyHomePage> {
-  // Function for sending comment data to Firestore
-  Future addCommentDetails(
-      DateTime dateTime, String username, String text) async {
-    await FirebaseFirestore.instance
-        .collection('Comment')
-        .add({'DateTime:': dateTime, 'Username': username, 'Text': text});
-  }
-
+class _ViewEvent extends State<ViewEvent> {
   List commentList = Comment.testingList;
   TextEditingController textController = TextEditingController();
-  Event currentEvent = EventData().event2;
   @override
   Widget build(BuildContext context) {
-    String date = DateFormat.yMd().format(currentEvent.dateposted);
-    String time = DateFormat.jm().format(currentEvent.dateposted);
+    final snap = ModalRoute.of(context)!.settings.arguments as dynamic;
+    debugPrint('Snap: $snap');
+    DateTime dateTimeStartTime = (snap['StartTime']).toDate();
+    DateTime dateTimeDatePosted = (snap['DatePosted']).toDate();
+    Event currentEvent = Event(
+        'Username',
+        snap['Sport'],
+        dateTimeStartTime,
+        snap['Duration'],
+        dateTimeDatePosted,
+        snap['Address'],
+        snap['Skill'],
+        snap['Description'],
+        ['comment'],
+        9);
 
     return Scaffold(
       body: Padding(
@@ -195,7 +83,7 @@ class _MyHomePage extends State<MyHomePage> {
             padding: const EdgeInsets.all(10),
             child: Align(
               alignment: Alignment.topLeft,
-              child: Text('Date: $date',
+              child: Text('Date: ${currentEvent.getDate}',
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
             ),
           ),
@@ -203,7 +91,7 @@ class _MyHomePage extends State<MyHomePage> {
             padding: const EdgeInsets.all(10),
             child: Align(
               alignment: Alignment.topLeft,
-              child: Text('Start Time: $time',
+              child: Text('Start Time: ${currentEvent.getTime}',
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
             ),
           ),
@@ -211,7 +99,7 @@ class _MyHomePage extends State<MyHomePage> {
             padding: const EdgeInsets.all(10),
             child: Align(
               alignment: Alignment.topLeft,
-              child: Text('Duration: ${currentEvent.duration} hrs',
+              child: Text('Duration: ${currentEvent.duration} hours',
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
             ),
           ),
@@ -303,12 +191,6 @@ class _MyHomePage extends State<MyHomePage> {
                           0,
                           Comment(
                               DateTime.now(), "username", textController.text));
-                      addCommentDetails(
-                          DateTime.now(), "username", textController.text);
-                      textController.clear();
-                      Navigator.of(context).pop();
-                      showModalBottomSheet(
-                          context: context, builder: (context) => buildSheet());
                     });
                   }
                 },
@@ -320,13 +202,13 @@ class _MyHomePage extends State<MyHomePage> {
 }
 
 class InterestButton extends StatefulWidget {
-    const InterestButton({Key? key}) : super(key: key);
+  const InterestButton({Key? key}) : super(key: key);
   @override
   State<InterestButton> createState() => _InterestButtonState();
 }
 
 class _InterestButtonState extends State<InterestButton> {
-  var current = MyHomePage().currentEvent.postid;
+  var current = ViewEventPage();
   var interested = [];
   bool click = true;
   @override
