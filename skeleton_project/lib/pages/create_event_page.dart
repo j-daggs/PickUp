@@ -28,7 +28,7 @@ class _CreateEventPage extends State<CreateEventPage> {
       String skill,
       String description) async {
     await FirebaseFirestore.instance.collection('Event').add({
-      'Sport:': sport,
+      'Sport': sport,
       'StartTime': starttime,
       'Duration': duration,
       "DatePosted": dateposted,
@@ -138,17 +138,26 @@ class _CreateEventPage extends State<CreateEventPage> {
               ),
             ),
           ),
-          Expanded(child: Column(
-            children: [Expanded(child: SearchLocation(  // this allows the user to search for a location to add to the event
-              apiKey: "api key goes here", // google maps api key will go here
-              onSelected: (place) {
-                    newEvent.address = place.description;  // right now this is passing the String of the address to address, will need to be updated so address holds a place object so that the geolocation can be accessed for distance calculations 
-              },
-              placeholder: "Search for a location",),
-          ),],),),
+          Expanded(
+            child: Column(
+              children: [
+                Expanded(
+                  child: SearchLocation(
+                    // this allows the user to search for a location to add to the event
+                    apiKey:
+                        "api key goes here", // google maps api key will go here
+                    onSelected: (place) {
+                      newEvent.address = place
+                          .description; // right now this is passing the String of the address to address, will need to be updated so address holds a place object so that the geolocation can be accessed for distance calculations
+                    },
+                    placeholder: "Search for a location",
+                  ),
+                ),
+              ],
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.all(10),
-            
             child: Align(
               alignment: Alignment.topLeft,
               child: FloatingActionButton.extended(
@@ -225,7 +234,6 @@ class _CreateEventPage extends State<CreateEventPage> {
           ),
         ]),
       ),
-      
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           if (textControllerDescription.text.isNotEmpty &&
@@ -258,7 +266,3 @@ class _CreateEventPage extends State<CreateEventPage> {
     );
   }
 }
-
-
-
-      
