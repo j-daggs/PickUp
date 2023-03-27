@@ -86,7 +86,7 @@ class _ViewEventPage extends State<ViewEventPage> {
             padding: const EdgeInsets.all(10),
             child: Align(
               alignment: Alignment.topLeft,
-              child: Text('Duration: ${currentEvent.duration} hrs',
+              child: Text('Duration: ${currentEvent.duration} hours',
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
             ),
           ),
