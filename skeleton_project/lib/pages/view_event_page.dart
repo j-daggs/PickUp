@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:my_app/classes/event_class.dart';
 import 'package:intl/intl.dart';
 import '../classes/comment.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-void main() => runApp(const MyApp());
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class ViewEventPage extends StatelessWidget {
+  const ViewEventPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -144,6 +143,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePage extends State<MyHomePage> {
+  // Function for sending comment data to Firestore
+  Future addCommentDetails(
+      DateTime dateTime, String username, String text) async {
+    await FirebaseFirestore.instance
+        .collection('Comment')
+        .add({'DateTime:': dateTime, 'Username': username, 'Text': text});
+  }
+
   List commentList = Comment.testingList;
   TextEditingController textController = TextEditingController();
   Event currentEvent = EventData().event2;
@@ -296,6 +303,8 @@ class _MyHomePage extends State<MyHomePage> {
                           0,
                           Comment(
                               DateTime.now(), "username", textController.text));
+                      addCommentDetails(
+                          DateTime.now(), "username", textController.text);
                       textController.clear();
                       Navigator.of(context).pop();
                       showModalBottomSheet(
