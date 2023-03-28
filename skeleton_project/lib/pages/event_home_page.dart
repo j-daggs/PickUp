@@ -7,8 +7,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:my_app/pages/view_event_page.dart';
 import 'package:my_app/classes/event_class.dart';
 
-final Position currentLocation = userPosition;  // the user's current location, for calculating distances from events
-
+final Position currentLocation =
+    userPosition; // the user's current location, for calculating distances from events
 
 const List<String> list = <String>[
   'Basketball',
@@ -23,7 +23,7 @@ class HomePage extends StatelessWidget {
 
   const HomePage({super.key, this.scrolledUnderElevation});
   static const String _title = 'PickUP';
-  
+
   final bool shadowColor = false;
   final double? scrolledUnderElevation;
 
@@ -223,7 +223,7 @@ class HomePage extends StatelessWidget {
       alignment: Alignment.centerLeft,
       child: RichText(
         text: TextSpan(
-          text: '${snap['Duration']} hours',
+          text: '${snap['Duration']}',
           style: const TextStyle(
               fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
         ),
