@@ -23,6 +23,13 @@ const List<String> _sportList = <String>[
   'Rugby'
 ];
 
+const List<String> _skillList = [
+  'All',
+  'Beginner',
+  'Intermediate',
+  'Advanced',
+];
+
 // This page is the page a user sees after logging in
 class HomePage extends StatefulWidget {
   const HomePage({super.key, this.scrolledUnderElevation});
@@ -36,6 +43,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   String dropDownSportsValue = _sportList.first;
+  String dropDownSkillValue = _skillList.first;
 
   final bool shadowColor = false;
 
@@ -50,6 +58,10 @@ class _HomePageState extends State<HomePage> {
           shadowColor: Colors.grey,
           backgroundColor: Colors.green,
           actions: <Widget>[
+            _dropDownSkillMenu(),
+            const SizedBox(
+              width: 50,
+            ),
             _dropDownSportsMenu(),
             const SizedBox(
               width: 50,
@@ -76,40 +88,6 @@ class _HomePageState extends State<HomePage> {
       color: Colors.grey,
       debugShowCheckedModeBanner: false,
     );
-  }
-
-  // The stream will auto reload the body of the page upon changing the dropDownSportsValue
-  _filterStream() {
-    if (dropDownSportsValue != _sportList.first) {
-      return StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection('Event')
-            .where('Sport', isEqualTo: dropDownSportsValue)
-            .snapshots(),
-        builder: (context,
-            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          return _cardBuilder(snapshot);
-        },
-      );
-    } else {
-      return StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('Event').snapshots(),
-        builder: (context,
-            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          return _cardBuilder(snapshot);
-        },
-      );
-    }
   }
 
   Widget _cardBuilder(data) {
@@ -311,6 +289,111 @@ class _HomePageState extends State<HomePage> {
         });
       },
       items: _sportList.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+      dropdownColor: Colors.black,
+    );
+  }
+
+// The stream will auto reload the body of the page upon changing the dropDownSportsValue
+  _filterStream() {
+    // Skill value changed but sport did NOT
+    if (dropDownSkillValue != _skillList.first &&
+        dropDownSportsValue == _sportList.first) {
+      return StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('Event')
+            .where('Skill', isEqualTo: dropDownSkillValue)
+            .snapshots(),
+        builder: (context,
+            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return _cardBuilder(snapshot);
+        },
+      );
+    }
+    // Sport changed but skill did NOT
+    if (dropDownSkillValue == _skillList.first &&
+        dropDownSportsValue != _sportList.first) {
+      return StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('Event')
+            .where('Sport', isEqualTo: dropDownSportsValue)
+            .snapshots(),
+        builder: (context,
+            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return _cardBuilder(snapshot);
+        },
+      );
+    }
+    // Nothing changed
+    if (dropDownSkillValue == _skillList.first &&
+        dropDownSportsValue == _sportList.first) {
+      return StreamBuilder(
+        stream: FirebaseFirestore.instance.collection('Event').snapshots(),
+        builder: (context,
+            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return _cardBuilder(snapshot);
+        },
+      );
+    }
+    // Both changed
+    if (dropDownSkillValue != _skillList.first &&
+        dropDownSportsValue != _sportList.first) {
+      return StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('Event')
+            .where('Sport', isEqualTo: dropDownSportsValue)
+            .where('Skill', isEqualTo: dropDownSkillValue)
+            .snapshots(),
+        builder: (context,
+            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return _cardBuilder(snapshot);
+        },
+      );
+    }
+  }
+
+  Widget _dropDownSkillMenu() {
+    return DropdownButton<String>(
+      value: dropDownSkillValue,
+      icon: const Icon(Icons.arrow_drop_down_rounded),
+      elevation: 16,
+      style: const TextStyle(color: Colors.white),
+      underline: Container(
+        height: 2,
+        color: Colors.white,
+      ),
+      onChanged: (String? newvalue) {
+        // This is called when the user selects an item.
+        dropDownSkillValue = newvalue!;
+        setState(() {
+          dropDownSkillValue;
+        });
+      },
+      items: _skillList.map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
           child: Text(value),
