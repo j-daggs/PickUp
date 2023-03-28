@@ -11,7 +11,7 @@ final Position currentLocation =
     userPosition; // the user's current location, for calculating distances from events
 
 // Hardcoded list for the drop down menu
-const List<String> sportList = <String>[
+const List<String> _sportList = <String>[
   'All',
   'Football',
   'Volleyball',
@@ -35,7 +35,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String dropDownSportsValue = sportList.first;
+  String dropDownSportsValue = _sportList.first;
 
   final bool shadowColor = false;
 
@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
           shadowColor: Colors.grey,
           backgroundColor: Colors.green,
           actions: <Widget>[
-            dropDownSportsMenu(),
+            _dropDownSportsMenu(),
             const SizedBox(
               width: 50,
             ),
@@ -71,7 +71,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
-        body: filterStream(),
+        body: _filterStream(),
       ),
       color: Colors.grey,
       debugShowCheckedModeBanner: false,
@@ -79,8 +79,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   // The stream will auto reload the body of the page upon changing the dropDownSportsValue
-  filterStream() {
-    if (dropDownSportsValue != sportList.first) {
+  _filterStream() {
+    if (dropDownSportsValue != _sportList.first) {
       return StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('Event')
@@ -93,7 +93,7 @@ class _HomePageState extends State<HomePage> {
               child: CircularProgressIndicator(),
             );
           }
-          return cardBuilder(snapshot);
+          return _cardBuilder(snapshot);
         },
       );
     } else {
@@ -106,13 +106,13 @@ class _HomePageState extends State<HomePage> {
               child: CircularProgressIndicator(),
             );
           }
-          return cardBuilder(snapshot);
+          return _cardBuilder(snapshot);
         },
       );
     }
   }
 
-  Widget cardBuilder(data) {
+  Widget _cardBuilder(data) {
     return Column(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -154,26 +154,26 @@ class _HomePageState extends State<HomePage> {
                                             Row(
                                               children: <Widget>[
                                                 const SizedBox(height: 0),
-                                                displayUsername(snap),
+                                                _displayUsername(snap),
                                                 const Spacer(),
-                                                displaySportSkill(snap),
+                                                _displaySportSkill(snap),
                                                 const Spacer(),
-                                                displayDate(snap),
+                                                _displayDate(snap),
                                               ],
                                             ),
                                             const Spacer(),
                                             Row(
                                               children: <Widget>[
                                                 const SizedBox(height: 0),
-                                                displayDuration(snap),
+                                                _displayDuration(snap),
                                                 const Spacer(),
-                                                displayAddress(snap)
+                                                _displayAddress(snap)
                                               ],
                                             ),
                                             Row(
                                               children: <Widget>[
                                                 const SizedBox(height: 10),
-                                                displayDescription(snap),
+                                                _displayDescription(snap),
                                               ],
                                             )
                                           ],
@@ -203,7 +203,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget displayUsername(snap) {
+  Widget _displayUsername(snap) {
     return Align(
       alignment: Alignment.topLeft,
       child: RichText(
@@ -216,7 +216,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget displaySportSkill(snap) {
+  Widget _displaySportSkill(snap) {
     return Align(
       alignment: Alignment.topCenter,
       child: RichText(
@@ -238,7 +238,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget displayDate(snap) {
+  Widget _displayDate(snap) {
     return Align(
       alignment: Alignment.topRight,
       child: RichText(
@@ -252,7 +252,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget displayDuration(snap) {
+  Widget _displayDuration(snap) {
     return Align(
       alignment: Alignment.centerLeft,
       child: RichText(
@@ -265,7 +265,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget displayAddress(snap) {
+  Widget _displayAddress(snap) {
     return Align(
       alignment: Alignment.centerRight,
       child: RichText(
@@ -278,7 +278,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget displayDescription(snap) {
+  Widget _displayDescription(snap) {
     return Align(
       alignment: Alignment.bottomCenter,
       child: RichText(
@@ -293,7 +293,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget dropDownSportsMenu() {
+  Widget _dropDownSportsMenu() {
     return DropdownButton<String>(
       value: dropDownSportsValue,
       icon: const Icon(Icons.arrow_drop_down_rounded),
@@ -310,7 +310,7 @@ class _HomePageState extends State<HomePage> {
           dropDownSportsValue;
         });
       },
-      items: sportList.map<DropdownMenuItem<String>>((String value) {
+      items: _sportList.map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
           child: Text(value),
