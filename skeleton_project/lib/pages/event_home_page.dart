@@ -10,35 +10,47 @@ import 'package:my_app/classes/event_class.dart';
 final Position currentLocation =
     userPosition; // the user's current location, for calculating distances from events
 
-const List<String> list = <String>[
+// Hardcoded list for the drop down menu
+const List<String> sportList = <String>[
+  'All',
+  'Football',
+  'Volleyball',
   'Basketball',
+  'Soccer',
   'Kickball',
-  'Ultimate Frisbee',
-  'Bowling'
+  'Baseball',
+  'Wiffleball',
+  'Rugby'
 ];
 
 // This page is the page a user sees after logging in
-class HomePage extends StatelessWidget {
-  // var sampleEvents = SAMPLE_EVENTS;
-
+class HomePage extends StatefulWidget {
   const HomePage({super.key, this.scrolledUnderElevation});
   static const String _title = 'PickUP';
 
-  final bool shadowColor = false;
   final double? scrolledUnderElevation;
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  String dropDownSportsValue = sportList.first;
+
+  final bool shadowColor = false;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: _title,
+      title: HomePage._title,
       home: Scaffold(
         appBar: AppBar(
-          title: const Text(_title),
-          scrolledUnderElevation: scrolledUnderElevation,
+          title: const Text(HomePage._title),
+          scrolledUnderElevation: widget.scrolledUnderElevation,
           shadowColor: Colors.grey,
           backgroundColor: Colors.green,
           actions: <Widget>[
-            const DropdownSports(),
+            dropDownSportsMenu(),
             const SizedBox(
               width: 50,
             ),
@@ -59,22 +71,45 @@ class HomePage extends StatelessWidget {
             ),
           ],
         ),
-        body: StreamBuilder(
-          stream: FirebaseFirestore.instance.collection('Event').snapshots(),
-          builder: (context,
-              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            return cardBuilder(snapshot);
-          },
-        ),
+        body: filterStream(),
       ),
       color: Colors.grey,
       debugShowCheckedModeBanner: false,
     );
+  }
+
+  // The stream will auto reload the body of the page upon changing the dropDownSportsValue
+  filterStream() {
+    if (dropDownSportsValue != sportList.first) {
+      return StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('Event')
+            .where('Sport', isEqualTo: dropDownSportsValue)
+            .snapshots(),
+        builder: (context,
+            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return cardBuilder(snapshot);
+        },
+      );
+    } else {
+      return StreamBuilder(
+        stream: FirebaseFirestore.instance.collection('Event').snapshots(),
+        builder: (context,
+            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return cardBuilder(snapshot);
+        },
+      );
+    }
   }
 
   Widget cardBuilder(data) {
@@ -87,7 +122,6 @@ class HomePage extends StatelessWidget {
               itemCount: data.data!.docs.length,
               itemBuilder: (context, index) {
                 dynamic snap = data.data!.docs[index].data();
-
                 return Container(
                   padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                   height: 220,
@@ -258,22 +292,10 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
-}
 
-class DropdownSports extends StatefulWidget {
-  const DropdownSports({super.key});
-
-  @override
-  State<DropdownSports> createState() => _DropdownSportsState();
-}
-
-class _DropdownSportsState extends State<DropdownSports> {
-  String dropdownValue = list.first;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget dropDownSportsMenu() {
     return DropdownButton<String>(
-      value: dropdownValue,
+      value: dropDownSportsValue,
       icon: const Icon(Icons.arrow_drop_down_rounded),
       elevation: 16,
       style: const TextStyle(color: Colors.white),
@@ -283,11 +305,12 @@ class _DropdownSportsState extends State<DropdownSports> {
       ),
       onChanged: (String? value) {
         // This is called when the user selects an item.
+        dropDownSportsValue = value!;
         setState(() {
-          dropdownValue = value!;
+          dropDownSportsValue;
         });
       },
-      items: list.map<DropdownMenuItem<String>>((String value) {
+      items: sportList.map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
           child: Text(value),
