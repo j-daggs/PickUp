@@ -12,7 +12,7 @@ final Position currentLocation =
 
 // Hardcoded list for the drop down menu
 const List<String> _sportList = <String>[
-  'All',
+  'All Sports',
   'Football',
   'Volleyball',
   'Basketball',
@@ -24,7 +24,7 @@ const List<String> _sportList = <String>[
 ];
 
 const List<String> _skillList = [
-  'All',
+  'All Skill Levels',
   'Beginner',
   'Intermediate',
   'Advanced',
@@ -304,10 +304,8 @@ class _HomePageState extends State<HomePage> {
     if (dropDownSkillValue != _skillList.first &&
         dropDownSportsValue == _sportList.first) {
       return StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection('Event')
-            .where('Skill', isEqualTo: dropDownSkillValue)
-            .snapshots(),
+        stream: FirebaseFirestore.instance.collection('Event').where('Skill',
+            whereIn: [dropDownSkillValue, _skillList.first]).snapshots(),
         builder: (context,
             AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -361,8 +359,8 @@ class _HomePageState extends State<HomePage> {
         stream: FirebaseFirestore.instance
             .collection('Event')
             .where('Sport', isEqualTo: dropDownSportsValue)
-            .where('Skill', isEqualTo: dropDownSkillValue)
-            .snapshots(),
+            .where('Skill',
+                whereIn: [dropDownSkillValue, _skillList.first]).snapshots(),
         builder: (context,
             AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
