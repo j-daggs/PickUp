@@ -28,15 +28,13 @@ class ViewEvent extends StatefulWidget {
 }
 
 class _ViewEvent extends State<ViewEvent> {
-  final db = FirebaseFirestore.instance;
   final user = FirebaseAuth.instance.currentUser?.uid;
-
   Future addCommentDetails(
       DateTime dateTime, String username, String text) async {
-    await db
+    await FirebaseFirestore.instance
         .collection('Event')
         .doc('FH1WXlX8A6u4e9qdcv6C')
-        .collection('Comment')
+        .collection('Comments')
         .add({'DateTime': dateTime, 'Username': username, 'Text': text});
   }
 
@@ -49,16 +47,15 @@ class _ViewEvent extends State<ViewEvent> {
     DateTime dateTimeStartTime = (snap['StartTime']).toDate();
     DateTime dateTimeDatePosted = (snap['DatePosted']).toDate();
     Event currentEvent = Event(
-        'Username',
-        snap['Sport'],
-        dateTimeStartTime,
-        snap['Duration'],
-        dateTimeDatePosted,
-        snap['Address'],
-        snap['Skill'],
-        snap['Description'],
-        ['comment'],
-        9);
+      'Username',
+      snap['Sport'],
+      dateTimeStartTime,
+      snap['Duration'],
+      dateTimeDatePosted,
+      snap['Address'],
+      snap['Skill'],
+      snap['Description'],
+    );
 
     return Scaffold(
       body: Padding(

@@ -49,9 +49,8 @@ class _CreateEventPage extends State<CreateEventPage> {
       DateTime.now(),
       "add",
       "Beginner",
-      "description",
-      Comment.testingList,
-      1234);
+      "description"
+      );
   List sportList = [
     'Football',
     'Volleyball',
