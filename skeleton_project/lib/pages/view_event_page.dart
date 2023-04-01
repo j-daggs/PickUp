@@ -1,4 +1,5 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/classes/event_class.dart';
 import 'package:intl/intl.dart';
@@ -27,11 +28,16 @@ class ViewEvent extends StatefulWidget {
 }
 
 class _ViewEvent extends State<ViewEvent> {
+  final db = FirebaseFirestore.instance;
+  final user = FirebaseAuth.instance.currentUser?.uid;
+
   Future addCommentDetails(
       DateTime dateTime, String username, String text) async {
-    await FirebaseFirestore.instance
+    await db
+        .collection('Event')
+        .doc('FH1WXlX8A6u4e9qdcv6C')
         .collection('Comment')
-        .add({'DateTime:': dateTime, 'Username': username, 'Text': text});
+        .add({'DateTime': dateTime, 'Username': username, 'Text': text});
   }
 
   List commentList = Comment.testingList;
@@ -161,8 +167,10 @@ class _ViewEvent extends State<ViewEvent> {
                       setState(() {
                         commentList.insert(
                             0,
-                            Comment(DateTime.now(), "username",
+                            Comment(DateTime.now(), user.toString(),
                                 textController.text));
+                        addCommentDetails(DateTime.now(), user.toString(),
+                            textController.text);
                         textController.clear();
                         Navigator.of(context).pop();
                         showModalBottomSheet(
@@ -196,10 +204,10 @@ class _ViewEvent extends State<ViewEvent> {
                     setState(() {
                       commentList.insert(
                           0,
-                          Comment(
-                              DateTime.now(), "username", textController.text));
+                          Comment(DateTime.now(), user.toString(),
+                              textController.text));
                       addCommentDetails(
-                          DateTime.now(), "username", textController.text);
+                          DateTime.now(), user.toString(), textController.text);
                     });
                   }
                 },
