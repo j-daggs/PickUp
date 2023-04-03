@@ -7,7 +7,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 //import 'package:geolocator/geolocator.dart';
 //import 'package:search_map_location/utils/google_search/place.dart';
 //import 'package:flutter_google_places/flutter_google_places.dart';
-//import 'package:search_map_location/search_map_location.dart';
+import 'package:search_map_location/search_map_location.dart';
+
 
 class CreateEventPage extends StatefulWidget {
   const CreateEventPage({super.key});
@@ -137,19 +138,41 @@ class _CreateEventPage extends State<CreateEventPage> {
               ),
             ),
           ),
+          // Padding(
+          //   padding: const EdgeInsets.all(10),
+          //   child: Align(
+          //     alignment: Alignment.topLeft,
+          //     child: TextField(
+          //         controller: textControllerLocation,
+          //         decoration: const InputDecoration(
+          //           border: OutlineInputBorder(),
+          //           hintText: 'Choose a Location',
+          //         ),
+          //         onSubmitted: (String value) {
+          //           newEvent.address = value;
+          //         }),
+          //   ),
+          // ),
           Padding(
             padding: const EdgeInsets.all(10),
             child: Align(
               alignment: Alignment.topLeft,
-              child: TextField(
-                  controller: textControllerLocation,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Choose a Location',
-                  ),
-                  onSubmitted: (String value) {
+              child: FloatingActionButton.extended(
+                // button that opens the comment section, a Modal Bottom Sheet
+                onPressed: () => showModalBottomSheet(
+                  // this is what opens the modal bottom sheet that the comment section will be in
+                  context: context,
+                  builder: (context) =>
+                      buildSheet(), // Call to buildSheet() method that builds the sheet into the comment section
+                ).then((value) {
+                  setState(() {
                     newEvent.address = value;
-                  }),
+                    locationText = value;
+                  });
+                }),
+                icon: const Icon(Icons.location_on_outlined),
+                label: Text(locationText),
+              ),
             ),
           ),
           // Expanded(
@@ -279,4 +302,37 @@ class _CreateEventPage extends State<CreateEventPage> {
       ),
     );
   }
+
+  /// build method for Modal Bottom Sheet Comment section
+  Widget buildSheet() => DraggableScrollableSheet(
+      initialChildSize: 1.0,
+      builder: (_, controller) => Expanded(
+              child: SingleChildScrollView(
+                  child: Expanded(
+            child: Container(
+              color: Colors.white,
+              padding: const EdgeInsets.all(16),
+              child: Expanded(
+                child: Stack(
+                  children: [
+                    Expanded(
+                      child: SearchLocation(
+                        // this allows the user to search for a location to add to the event
+                        apiKey:
+                            "api key goes here", // google maps api key will go here
+                        onSelected: (place) {
+                          String address = place
+                              .description; // right now this is passing the String of the address to address, will need to be updated so address holds a place object so that the geolocation can be accessed for distance calculations
+                          Navigator.pop(context, address);
+                        },
+                        placeholder: "Search for a location",
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ))));
 }
+
+//flutter run -d chrome --web-browser-flag "--disable-web-security"
