@@ -7,7 +7,7 @@ import '../classes/comment.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ViewEventPage extends StatelessWidget {
-  const ViewEventPage({super.key});
+  const ViewEventPage({currentEventId, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,13 +16,13 @@ class ViewEventPage extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
-      home: ViewEvent(),
+      home: ViewEvent(currentEventId),
     );
   }
 }
 
 class ViewEvent extends StatefulWidget {
-  const ViewEvent({super.key});
+  const ViewEvent(String currentEventId, {super.key});
   @override
   _ViewEvent createState() => _ViewEvent();
 }
@@ -30,8 +30,8 @@ class ViewEvent extends StatefulWidget {
 class _ViewEvent extends State<ViewEvent> {
   final user = FirebaseAuth.instance.currentUser?.uid;
 
-  Future addCommentDetails(
-      DocumentReference currentEventId, DateTime dateTime, String username, String text) async {
+  Future addCommentDetails(DocumentReference currentEventId, DateTime dateTime,
+      String username, String text) async {
     await FirebaseFirestore.instance
         .collection('Event')
         .doc(currentEventId.toString())
@@ -134,7 +134,8 @@ class _ViewEvent extends State<ViewEvent> {
               onPressed: () => showModalBottomSheet(
                 // this is what opens the modal bottom sheet that the comment section will be in
                 context: context,
-                builder: (context) => buildSheet(currentEventId), // Call to buildSheet() method that builds the sheet into the comment section
+                builder: (context) => buildSheet(
+                    currentEventId), // Call to buildSheet() method that builds the sheet into the comment section
               ),
               child: const Icon(Icons
                   .comment_rounded), // add comment icon to floating button)
@@ -167,8 +168,8 @@ class _ViewEvent extends State<ViewEvent> {
                             0,
                             Comment(DateTime.now(), user.toString(),
                                 textController.text));
-                        addCommentDetails(currentEventId, DateTime.now(), user.toString(),
-                            textController.text);
+                        addCommentDetails(currentEventId, DateTime.now(),
+                            user.toString(), textController.text);
                         textController.clear();
                         Navigator.of(context).pop();
                         showModalBottomSheet(
@@ -204,8 +205,8 @@ class _ViewEvent extends State<ViewEvent> {
                           0,
                           Comment(DateTime.now(), user.toString(),
                               textController.text));
-                      addCommentDetails(
-                          currentEventId, DateTime.now(), user.toString(), textController.text);
+                      addCommentDetails(currentEventId, DateTime.now(),
+                          user.toString(), textController.text);
                     });
                   }
                 },
