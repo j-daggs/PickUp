@@ -47,15 +47,18 @@ class _ViewEvent extends State<ViewEvent> {
     DateTime dateTimeStartTime = (snap['StartTime']).toDate();
     DateTime dateTimeDatePosted = (snap['DatePosted']).toDate();
     Event currentEvent = Event(
-      'Username',
-      snap['Sport'],
-      dateTimeStartTime,
-      snap['Duration'],
-      dateTimeDatePosted,
-      snap['Address'],
-      snap['Skill'],
-      snap['Description'],
-    );
+        'Username',
+        snap['Sport'],
+        dateTimeStartTime,
+        snap['Duration'],
+        dateTimeDatePosted,
+        snap['Address'],
+        snap['Skill'],
+        snap['Description'],
+        snap['Interested']);
+    final user = FirebaseAuth.instance.currentUser?.uid;
+    bool click = true;
+    Icon icon = Icon(Icons.star_border_rounded, size: 35);
 
     return Scaffold(
       body: Padding(
@@ -122,9 +125,27 @@ class _ViewEvent extends State<ViewEvent> {
             ),
           ),
           Align(
-            alignment: Alignment.bottomRight,
-            child: InterestButton(),
-          ),
+              alignment: Alignment.bottomRight,
+              child: FloatingActionButton(
+                onPressed: () {
+                  setState(() {
+                    click = !click;
+                  });
+                  if (currentEvent.interested.contains(user)) {
+                    currentEvent.interested.remove(user);
+                  } else {
+                    currentEvent.interested.add(user);
+                  }
+                  debugPrint('${currentEvent.interested}');
+                },
+                tooltip: 'Interested',
+                child: Icon(
+                    (click == false)
+                        ? Icons.star_rounded
+                        : Icons.star_border_rounded,
+                    size: 40,
+                    color: Colors.yellow),
+              )),
           Align(
             alignment: Alignment.bottomRight,
             child: FloatingActionButton(
@@ -214,7 +235,7 @@ class _ViewEvent extends State<ViewEvent> {
         ),
       );
 }
-
+/*
 class InterestButton extends StatefulWidget {
   const InterestButton({Key? key}) : super(key: key);
   @override
@@ -222,8 +243,7 @@ class InterestButton extends StatefulWidget {
 }
 
 class _InterestButtonState extends State<InterestButton> {
-  var current = ViewEventPage();
-  var interested = [];
+  final user = FirebaseAuth.instance.currentUser?.uid;
   bool click = true;
   @override
   Widget build(BuildContext context) {
@@ -233,10 +253,10 @@ class _InterestButtonState extends State<InterestButton> {
         setState(() {
           click = !click;
         });
-        if (interested.contains(current)) {
-          interested.remove(current);
+        if (interested.contains(user)) {
+          interested.remove(user);
         } else {
-          interested.add(current);
+          interested.add(user);
         }
         print(interested);
       },
@@ -247,4 +267,4 @@ class _InterestButtonState extends State<InterestButton> {
           color: Colors.yellow),
     );
   }
-}
+}*/

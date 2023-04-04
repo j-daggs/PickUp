@@ -12,6 +12,7 @@ class Event {
   String address;
   String skill;
   String description;
+  List interested;
 
   Event(
       this.username,
@@ -21,7 +22,8 @@ class Event {
       this.dateposted,
       this.address,
       this.skill,
-      this.description);
+      this.description,
+      this.interested);
 
   get getDate => DateFormat.yMd().format(dateposted);
   get getTime => DateFormat.jm().format(starttime);

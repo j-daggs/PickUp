@@ -25,7 +25,8 @@ class _CreateEventPage extends State<CreateEventPage> {
       DateTime dateposted,
       String address,
       String skill,
-      String description) async {
+      String description,
+      List interested) async {
     await FirebaseFirestore.instance.collection('Event').add({
       'Sport': sport,
       'StartTime': starttime,
@@ -33,7 +34,8 @@ class _CreateEventPage extends State<CreateEventPage> {
       "DatePosted": dateposted,
       'Address': address,
       'Skill': skill,
-      'Description': description
+      'Description': description,
+      'Interested': interested
     });
   }
 
@@ -41,16 +43,8 @@ class _CreateEventPage extends State<CreateEventPage> {
   String dateText = 'select a date';
   String timeText = 'select a time';
   String locationText = 'search for the location';
-  Event newEvent = Event(
-      'username',
-      "Football",
-      DateTime.now(),
-      "duration",
-      DateTime.now(),
-      "add",
-      "Beginner",
-      "description"
-      );
+  Event newEvent = Event('username', "Football", DateTime.now(), "duration",
+      DateTime.now(), "add", "Beginner", "description", []);
   List sportList = [
     'Football',
     'Volleyball',
@@ -267,7 +261,7 @@ class _CreateEventPage extends State<CreateEventPage> {
                 newEvent.dateposted,
                 newEvent.address,
                 newEvent.skill,
-                newEvent.description);
+                newEvent.description, []);
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const HomePage()),

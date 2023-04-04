@@ -3,9 +3,10 @@ class User {
   String username;
   String password;
   String email;
+  List interested;
 
   // Constructor
-  User(this.username, this.password, this.email);
+  User(this.username, this.password, this.email, this.interested);
 
   // Mutators
   set setUsername(String username) => this.username = username;
@@ -21,9 +22,3 @@ class User {
 
   String get getEmail => email;
 }
-// Sample Data
-User user1 = User("Jaj7271", "Jaj72777", "Jaj7271@uncw.edu");
-User user2 = User("djd1234", "djd72247", "fds1032@uncw.edu");
-User user3 = User("tjs2224", "tjd9222", "tjs2234@uncw.edu");
-
-var sampleUsers = [user1, user2, user3];
