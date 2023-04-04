@@ -68,7 +68,10 @@ class HomePage extends StatelessWidget {
                 child: CircularProgressIndicator(),
               );
             }
-            return cardBuilder(snapshot);
+            if (snapshot.hasData && snapshot.data != null) {
+              return cardBuilder(snapshot.data!);
+            }
+            return Text("No data");
           },
         ),
       ),
@@ -77,16 +80,19 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget cardBuilder(data) {
+  Widget cardBuilder(QuerySnapshot<Map<String, dynamic>> data) {
     return Column(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Expanded(
           child: ListView.builder(
-              itemCount: data.data!.docs.length,
+              itemCount: data.docs.length,
               itemBuilder: (context, index) {
-                dynamic snap = data.data!.docs[index].data();
+                dynamic snap = data.docs[index].data();
+                // TODO: This is the unique document id. You want to pass this
+                // as a string to ViewEvent through ViewEvent's constructor
+                data.docs[index].id;
 
                 return Container(
                   padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
