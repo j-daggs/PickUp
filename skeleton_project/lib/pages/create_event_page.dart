@@ -71,11 +71,11 @@ class _CreateEventPage extends State<CreateEventPage> {
   TextEditingController textControllerDescription = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return  Scaffold(
       resizeToAvoidBottomInset: false,
       body: Padding(
         padding: const EdgeInsets.all(30),
-        child: Column(children: [
+        child: SingleChildScrollView(child: Column(children: [
           const Padding(
             padding: EdgeInsets.all(2),
             child: Align(
@@ -161,6 +161,7 @@ class _CreateEventPage extends State<CreateEventPage> {
                 // button that opens the comment section, a Modal Bottom Sheet
                 onPressed: () => showModalBottomSheet(
                   // this is what opens the modal bottom sheet that the comment section will be in
+                  isScrollControlled: true,
                   context: context,
                   builder: (context) =>
                       buildSheet(), // Call to buildSheet() method that builds the sheet into the comment section
@@ -269,13 +270,39 @@ class _CreateEventPage extends State<CreateEventPage> {
                   }),
             ),
           ),
+         
         ]),
-      ),
-      floatingActionButton: FloatingActionButton(
+      )),
+      floatingActionButton: Stack(children: [
+         Positioned(
+        bottom:80,
+        right:16,
+        child: FloatingActionButton.extended(
+        label: const Text("go back"),
         onPressed: () {
+          Navigator.pop(context);
+        },
+        icon: const Icon(Icons.undo_rounded),
+      ),
+    ),
+        Positioned(
+          bottom:16,
+          right: 16,
+        child: FloatingActionButton.extended(
+          label: const Text("upload this pickup event"),
+        onPressed: () {
+          if (locationText == 'search for the location' || locationText == 'Oops! you forgot to add a location!'){
+            setState(() { locationText = 'Oops! you forgot to add a location!';});
+          }
+          if (dateText == 'select a date'){
+            setState(() { dateText = 'Oops! you forgot to pick a date!';});
+          }
+          if (timeText == 'select a time'){
+            setState(() { timeText = 'Oops! you forgot to pick a time!';});
+          }
           if (textControllerDescription.text.isNotEmpty &&
               textControllerDuration.text.isNotEmpty &&
-              textControllerLocation.text.isNotEmpty) {
+              textControllerLocation.text.isNotEmpty && locationText != 'search for the location' && locationText != 'Oops! you forgot to add a location!' && dateText != 'select a date' && dateText != 'Oops! you forgot to pick a date!' && dateText != 'select a date' && dateText != 'Oops! you forgot to pick a date!' && timeText != 'select a time' && timeText != 'Oops! you forgot to pick a time!') {
             newEvent.description = textControllerDescription.text;
             newEvent.address = textControllerLocation.text;
             newEvent.duration = textControllerDuration.text;
@@ -298,41 +325,44 @@ class _CreateEventPage extends State<CreateEventPage> {
             );
           }
         },
-        child: const Icon(Icons.add),
-      ),
+        icon: const Icon(Icons.add),),
+        ),
+      ]),
     );
   }
 
-  /// build method for Modal Bottom Sheet Comment section
-  Widget buildSheet() => DraggableScrollableSheet(
+  /// build method for Modal Bottom Sheet Location Search section
+Widget buildSheet() => Stack(
+  children: [
+    DraggableScrollableSheet(
       initialChildSize: 1.0,
-      builder: (_, controller) => Expanded(
-              child: SingleChildScrollView(
-                  child: Expanded(
-            child: Container(
-              color: Colors.white,
-              padding: const EdgeInsets.all(16),
-              child: Expanded(
-                child: Stack(
-                  children: [
-                    Expanded(
-                      child: SearchLocation(
-                        // this allows the user to search for a location to add to the event
-                        apiKey:
-                            "api key goes here", // google maps api key will go here
-                        onSelected: (place) {
-                          String address = place
-                              .description; // right now this is passing the String of the address to address, will need to be updated so address holds a place object so that the geolocation can be accessed for distance calculations
-                          Navigator.pop(context, address);
-                        },
-                        placeholder: "Search for a location",
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ))));
+      builder: (_, controller) => Container(
+        color: Colors.white,
+        padding: const EdgeInsets.all(16),
+        child: SearchLocation(
+          apiKey: "AIzaSyBfptF4e0ATjloV7FclQZ15gjG8Vn-f5VU",
+          onSelected: (place) {
+            String address = place.description;
+            Navigator.pop(context, address);
+          },
+          placeholder: "Search for a location",
+        ),
+      ),
+    ),
+    Positioned(
+      bottom: 16,
+      right: 16,
+      child: FloatingActionButton(
+        onPressed: () {
+          Navigator.pop(context, 'search for the location');
+        },
+        child: const Icon(Icons.close),
+      ),
+    ),
+    
+  ],
+);
+
 }
 
 //flutter run -d chrome --web-browser-flag "--disable-web-security"
