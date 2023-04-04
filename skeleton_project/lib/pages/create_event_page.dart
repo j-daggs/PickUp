@@ -138,21 +138,6 @@ class _CreateEventPage extends State<CreateEventPage> {
               ),
             ),
           ),
-          // Padding(
-          //   padding: const EdgeInsets.all(10),
-          //   child: Align(
-          //     alignment: Alignment.topLeft,
-          //     child: TextField(
-          //         controller: textControllerLocation,
-          //         decoration: const InputDecoration(
-          //           border: OutlineInputBorder(),
-          //           hintText: 'Choose a Location',
-          //         ),
-          //         onSubmitted: (String value) {
-          //           newEvent.address = value;
-          //         }),
-          //   ),
-          // ),
           Padding(
             padding: const EdgeInsets.all(10),
             child: Align(
@@ -176,24 +161,6 @@ class _CreateEventPage extends State<CreateEventPage> {
               ),
             ),
           ),
-          // Expanded(
-          //   child: Column(
-          //     children: [
-          //       Expanded(
-          //         child: SearchLocation(
-          //           // this allows the user to search for a location to add to the event
-          //           apiKey:
-          //               "api key goes here", // google maps api key will go here
-          //           onSelected: (place) {
-          //             newEvent.address = place
-          //                 .description; // right now this is passing the String of the address to address, will need to be updated so address holds a place object so that the geolocation can be accessed for distance calculations
-          //           },
-          //           placeholder: "Search for a location",
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
           Padding(
             padding: const EdgeInsets.all(10),
             child: Align(
@@ -340,7 +307,7 @@ Widget buildSheet() => Stack(
         color: Colors.white,
         padding: const EdgeInsets.all(16),
         child: SearchLocation(
-          apiKey: "AIzaSyBfptF4e0ATjloV7FclQZ15gjG8Vn-f5VU",
+          apiKey: "api key goes here",
           onSelected: (place) {
             String address = place.description;
             Navigator.pop(context, address);
