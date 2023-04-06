@@ -6,36 +6,22 @@ import 'package:intl/intl.dart';
 import '../classes/comment.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class ViewEventPage extends StatelessWidget {
-  const ViewEventPage({currentEventId, super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'View Event',
-      theme: ThemeData(
-        primarySwatch: Colors.red,
-      ),
-      home: ViewEvent(currentEventId),
-    );
-  }
-}
-
 class ViewEvent extends StatefulWidget {
-  const ViewEvent(String currentEventId, {super.key});
+  String currentEventId;
+  ViewEvent({Key? key, required this.currentEventId}) : super(key: key);
   @override
-  _ViewEvent createState() => _ViewEvent();
+  State<ViewEvent> createState() => _ViewEvent();
 }
 
 class _ViewEvent extends State<ViewEvent> {
   final user = FirebaseAuth.instance.currentUser?.uid;
 
-  Future addCommentDetails(DocumentReference currentEventId, DateTime dateTime,
-      String username, String text) async {
+  Future addCommentDetails(
+      DateTime dateTime, String username, String text) async {
     await FirebaseFirestore.instance
         .collection('Event')
-        .doc(currentEventId.toString())
-        .collection('Comments')
+        .doc(widget.currentEventId)
+        .collection('Comment')
         .add({'DateTime': dateTime, 'Username': username, 'Text': text});
   }
 
@@ -44,7 +30,6 @@ class _ViewEvent extends State<ViewEvent> {
   @override
   Widget build(BuildContext context) {
     final snap = ModalRoute.of(context)!.settings.arguments as dynamic;
-    DocumentReference currentEventId = snap.id();
     debugPrint('Snap: $snap');
     DateTime dateTimeStartTime = (snap['StartTime']).toDate();
     DateTime dateTimeDatePosted = (snap['DatePosted']).toDate();
@@ -134,8 +119,8 @@ class _ViewEvent extends State<ViewEvent> {
               onPressed: () => showModalBottomSheet(
                 // this is what opens the modal bottom sheet that the comment section will be in
                 context: context,
-                builder: (context) => buildSheet(
-                    currentEventId), // Call to buildSheet() method that builds the sheet into the comment section
+                builder: (context) =>
+                    buildSheet(), // Call to buildSheet() method that builds the sheet into the comment section
               ),
               child: const Icon(Icons
                   .comment_rounded), // add comment icon to floating button)
@@ -147,7 +132,7 @@ class _ViewEvent extends State<ViewEvent> {
   }
 
   /// build method for Modal Bottom Sheet Comment section
-  Widget buildSheet(currentEventId) => DraggableScrollableSheet(
+  Widget buildSheet() => DraggableScrollableSheet(
         initialChildSize: 1.0,
         builder: (_, controller) => Container(
           color: Colors.white,
@@ -168,13 +153,13 @@ class _ViewEvent extends State<ViewEvent> {
                             0,
                             Comment(DateTime.now(), user.toString(),
                                 textController.text));
-                        addCommentDetails(currentEventId, DateTime.now(),
-                            user.toString(), textController.text);
+                        addCommentDetails(DateTime.now(), user.toString(),
+                            textController.text);
                         textController.clear();
                         Navigator.of(context).pop();
                         showModalBottomSheet(
                             context: context,
-                            builder: (context) => buildSheet(currentEventId));
+                            builder: (context) => buildSheet());
                       });
                     }
                   },
@@ -205,8 +190,8 @@ class _ViewEvent extends State<ViewEvent> {
                           0,
                           Comment(DateTime.now(), user.toString(),
                               textController.text));
-                      addCommentDetails(currentEventId, DateTime.now(),
-                          user.toString(), textController.text);
+                      addCommentDetails(
+                          DateTime.now(), user.toString(), textController.text);
                     });
                   }
                 },
@@ -224,7 +209,7 @@ class InterestButton extends StatefulWidget {
 }
 
 class _InterestButtonState extends State<InterestButton> {
-  var current = ViewEventPage();
+  var current = "ViewEvent(currentEventId: )";
   var interested = [];
   bool click = true;
   @override

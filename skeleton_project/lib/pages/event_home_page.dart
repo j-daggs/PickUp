@@ -71,7 +71,7 @@ class HomePage extends StatelessWidget {
             if (snapshot.hasData && snapshot.data != null) {
               return cardBuilder(snapshot.data!);
             }
-            return Text("No data");
+            return const Text("No data");
           },
         ),
       ),
@@ -92,7 +92,7 @@ class HomePage extends StatelessWidget {
                 dynamic snap = data.docs[index].data();
                 // TODO: This is the unique document id. You want to pass this
                 // as a string to ViewEvent through ViewEvent's constructor
-                var currentEventId = data.docs[index].id;
+                String currentEventId = data.docs[index].id;
 
                 return Container(
                   padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
@@ -163,7 +163,7 @@ class HomePage extends StatelessWidget {
                             // send data to next page
                             context,
                             MaterialPageRoute(
-                                builder: (context) => ViewEvent(currentEventId),
+                                builder: (context) => ViewEvent(currentEventId: currentEventId),
                                 settings: RouteSettings(
                                   arguments: snap,
                                 )));
