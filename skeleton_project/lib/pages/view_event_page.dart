@@ -7,7 +7,9 @@ import '../classes/comment.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ViewEvent extends StatefulWidget {
+  // Initializing currentEventId
   String currentEventId;
+  // Making currentEventId a required part of the constructor
   ViewEvent({Key? key, required this.currentEventId}) : super(key: key);
   @override
   State<ViewEvent> createState() => _ViewEvent();
@@ -20,6 +22,7 @@ class _ViewEvent extends State<ViewEvent> {
       DateTime dateTime, String username, String text) async {
     await FirebaseFirestore.instance
         .collection('Event')
+        // Accessing currentEventId through the different states using widget.
         .doc(widget.currentEventId)
         .collection('Comment')
         .add({'DateTime': dateTime, 'Username': username, 'Text': text});

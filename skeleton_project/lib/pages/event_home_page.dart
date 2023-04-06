@@ -90,7 +90,7 @@ class HomePage extends StatelessWidget {
               itemCount: data.docs.length,
               itemBuilder: (context, index) {
                 dynamic snap = data.docs[index].data();
-                // TODO: This is the unique document id. You want to pass this
+                // This is the unique document id. You want to pass this
                 // as a string to ViewEvent through ViewEvent's constructor
                 String currentEventId = data.docs[index].id;
 
@@ -163,6 +163,9 @@ class HomePage extends StatelessWidget {
                             // send data to next page
                             context,
                             MaterialPageRoute(
+                                // First currentEventId is the constructor to tell ViewEvent
+                                // what we are passing it
+                                // Second one is actual value of event ID
                                 builder: (context) => ViewEvent(currentEventId: currentEventId),
                                 settings: RouteSettings(
                                   arguments: snap,
