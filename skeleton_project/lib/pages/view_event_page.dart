@@ -5,8 +5,9 @@ import 'package:my_app/classes/event_class.dart';
 import 'package:intl/intl.dart';
 import '../classes/comment.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:like_button/like_button.dart';
 
-class ViewEventPage extends StatelessWidget {
+/*class ViewEventPage extends StatelessWidget {
   const ViewEventPage({super.key});
 
   @override
@@ -19,7 +20,7 @@ class ViewEventPage extends StatelessWidget {
       home: ViewEvent(),
     );
   }
-}
+}*/
 
 class ViewEvent extends StatefulWidget {
   const ViewEvent({super.key});
@@ -57,8 +58,23 @@ class _ViewEvent extends State<ViewEvent> {
         snap['Description'],
         snap['Interested']);
     final user = FirebaseAuth.instance.currentUser?.uid;
-    bool click = true;
-    Icon icon = Icon(Icons.star_border_rounded, size: 35);
+
+    Future<bool> onInterestButtonTapped(bool isLiked) async {
+      if (currentEvent.interested.contains(user)) {
+        currentEvent.interested.remove(user);
+      } else {
+        currentEvent.interested.add(user);
+      }
+      debugPrint('${currentEvent.interested}');
+
+      /// send your request here
+      // final bool success= await sendRequest();
+
+      /// if failed, you can do nothing
+      // return success? !isLiked:isLiked;
+
+      return !isLiked;
+    }
 
     return Scaffold(
       body: Padding(
@@ -125,16 +141,35 @@ class _ViewEvent extends State<ViewEvent> {
             ),
           ),
           Align(
-              alignment: Alignment.bottomRight,
-              child: FloatingActionButton(
-                onPressed: () {
+              child: LikeButton(
+            size: 50,
+            likeBuilder: ((isTapped) {
+              return Icon(
+                Icons.star,
+                color: isTapped ? Colors.yellow[600] : Colors.blueGrey,
+                size: 50,
+              );
+            }),
+            onTap: onInterestButtonTapped,
+          )
+              /*onPressed: () {
                   setState(() {
                     click = !click;
                   });
                   if (currentEvent.interested.contains(user)) {
                     currentEvent.interested.remove(user);
+                    setState(() {
+                      snap.update({
+                        "Interested": FieldValue.arrayUnion([user])
+                      }); //not wokring
+                    });
                   } else {
                     currentEvent.interested.add(user);
+                    setState(() {
+                      snap.update({
+                        "Interested": FieldValue.arrayRemove([user])
+                      });
+                    });
                   }
                   debugPrint('${currentEvent.interested}');
                 },
@@ -145,7 +180,9 @@ class _ViewEvent extends State<ViewEvent> {
                         : Icons.star_border_rounded,
                     size: 40,
                     color: Colors.yellow),
-              )),
+            
+              )*/
+              ),
           Align(
             alignment: Alignment.bottomRight,
             child: FloatingActionButton(
@@ -235,7 +272,7 @@ class _ViewEvent extends State<ViewEvent> {
         ),
       );
 }
-/*
+
 class InterestButton extends StatefulWidget {
   const InterestButton({Key? key}) : super(key: key);
   @override
@@ -253,12 +290,13 @@ class _InterestButtonState extends State<InterestButton> {
         setState(() {
           click = !click;
         });
-        if (interested.contains(user)) {
+        /*if (event.interested.contains(user)) {
           interested.remove(user);
         } else {
           interested.add(user);
         }
         print(interested);
+      */
       },
       tooltip: 'Interested',
       child: Icon(
@@ -267,4 +305,4 @@ class _InterestButtonState extends State<InterestButton> {
           color: Colors.yellow),
     );
   }
-}*/
+}
