@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/classes/event_class.dart';
 import '../classes/comment.dart';
+import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ViewEvent extends StatefulWidget {
@@ -167,22 +168,39 @@ class _ViewEvent extends State<ViewEvent> {
                   },
                 ),
               ),
-              body: commentList.isNotEmpty
-                  ? ListView.builder(
-                      // crossAxisAlignment: CrossAxisAlignment.start,
-                      // comments added for testing
-                      itemCount: commentList.length,
-                      itemBuilder: (context, index) {
-                        return Card(
-                          child: ListTile(
-                            title: Text('${commentList[index]}'),
-                            trailing: Text(
-                                '${commentList[index].dateTime.month.toString()}-${commentList[index].dateTime.day.toString().padLeft(2, '0')}-${commentList[index].dateTime.year.toString().padLeft(2, '0')} (${Comment.militaryToNormal(commentList[index].dateTime.hour, commentList[index].dateTime.minute)})'),
-                          ),
-                        );
-                      },
-                    )
-                  : const Center(child: Text("No Comments yet.")),
+              // uses streambuilder just like home page
+              // Grabs snapshot of all comments within specific event
+              body: StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection('Event')
+                    .doc(widget.currentEventId)
+                    .collection('Comment')
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (snapshot.data!.docs.isEmpty) {
+                    return Text("No comments yet");
+                  }
+                  // Returns a list view with comments queried from database
+                  return ListView.builder(
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (context, index) {
+                      // Instantiates instance of snapshot
+                      dynamic commentSnap = snapshot.data!.docs[index].data();
+                      return Card(
+                        child: ListTile(
+                          leading: Text('${commentSnap['Username']}:'),
+                          title: Text(commentSnap['Text']),
+                          trailing: Text(
+                              '${DateFormat.M().format(commentSnap['DateTime'].toDate())}-${DateFormat.d().format(commentSnap['DateTime'].toDate()).padLeft(2, '0')}-${DateFormat.y().format(commentSnap['DateTime'].toDate()).padLeft(2, '0')} (${DateFormat.jm().format(commentSnap['DateTime'].toDate())})'),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
               floatingActionButton: FloatingActionButton(
                 child: const Icon(Icons.add_comment_rounded),
                 onPressed: () {
