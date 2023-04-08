@@ -23,7 +23,8 @@ import 'package:like_button/like_button.dart';
 }*/
 
 class ViewEvent extends StatefulWidget {
-  const ViewEvent({super.key});
+  String currentEventId;
+  ViewEvent({Key? key, required this.currentEventId}) : super(key: key);
   @override
   _ViewEvent createState() => _ViewEvent();
 }
@@ -34,7 +35,7 @@ class _ViewEvent extends State<ViewEvent> {
       DateTime dateTime, String username, String text) async {
     await FirebaseFirestore.instance
         .collection('Event')
-        .doc('FH1WXlX8A6u4e9qdcv6C')
+        .doc(widget.currentEventId)
         .collection('Comments')
         .add({'DateTime': dateTime, 'Username': username, 'Text': text});
   }
@@ -62,18 +63,29 @@ class _ViewEvent extends State<ViewEvent> {
     Future<bool> onInterestButtonTapped(bool isLiked) async {
       if (currentEvent.interested.contains(user)) {
         currentEvent.interested.remove(user);
+        await FirebaseFirestore.instance
+            .collection('Event')
+            .doc(widget.currentEventId)
+            .update({
+          "Interested": FieldValue.arrayRemove([user]),
+        });
       } else {
         currentEvent.interested.add(user);
+        await FirebaseFirestore.instance
+            .collection('Event')
+            .doc(widget.currentEventId)
+            .update({
+          "Interested": FieldValue.arrayUnion([user]),
+        });
       }
       debugPrint('${currentEvent.interested}');
+      return !isLiked;
 
       /// send your request here
       // final bool success= await sendRequest();
 
       /// if failed, you can do nothing
       // return success? !isLiked:isLiked;
-
-      return !isLiked;
     }
 
     return Scaffold(
@@ -145,7 +157,7 @@ class _ViewEvent extends State<ViewEvent> {
             size: 50,
             likeBuilder: ((isTapped) {
               return Icon(
-                Icons.star,
+                Icons.star_rounded,
                 color: isTapped ? Colors.yellow[600] : Colors.blueGrey,
                 size: 50,
               );
