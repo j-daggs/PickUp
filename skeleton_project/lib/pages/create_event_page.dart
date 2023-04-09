@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/classes/event_class.dart';
 import 'package:intl/intl.dart';
-import '../classes/comment.dart';
 import '../pages/event_home_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 //import 'package:geolocator/geolocator.dart';
@@ -49,9 +48,8 @@ class _CreateEventPage extends State<CreateEventPage> {
       DateTime.now(),
       "add",
       "Beginner",
-      "description",
-      Comment.testingList,
-      1234);
+      "description"
+      );
   List sportList = [
     'Football',
     'Volleyball',
