@@ -39,7 +39,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_analytics: ^10.1.4
   firebase_app_check: ^0.1.1+12
-  cloud_functions: ^4.0.11
+  cloud_functions: ^4.1.0
   firebase_messaging: ^14.2.5
   firebase_storage: ^11.0.14
   firebase_crashlytics: ^3.0.1
@@ -56,6 +56,10 @@ dependencies:
   flutter_google_places: ^0.3.0
   geolocator: ^9.0.2
   search_map_location: ^0.0.6
+  flutter_proxy: ^0.1.2
+  http_proxy: ^1.2.1
+  http: ^0.13.5
+  geocoding: ^2.1.0
  
 
 dev_dependencies:

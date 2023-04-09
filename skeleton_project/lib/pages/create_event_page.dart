@@ -1,13 +1,22 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:my_app/classes/event_class.dart';
 import 'package:intl/intl.dart';
 import '../classes/comment.dart';
 import '../pages/event_home_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-//import 'package:geolocator/geolocator.dart';
-//import 'package:search_map_location/utils/google_search/place.dart';
-//import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:search_map_location/search_map_location.dart';
+import 'package:http/http.dart' as http;
+
+/// fetchPlacesData is a function that can be called in order to work around the security feature (CORS) of Google Places and the web browser so that it can run without having to disable web security.
+Future<http.Response> fetchPlacesData(String address) async {
+  final proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+  final apiUrl =
+      'https://maps.googleapis.com/maps/api/place/textsearch/json?query=$address&key=<api-key>';
+  final response = await http.get(Uri.parse('$proxyUrl$apiUrl'));
+
+  return response;
+}
 
 class CreateEventPage extends StatefulWidget {
   const CreateEventPage({super.key});
@@ -142,14 +151,32 @@ class _CreateEventPage extends State<CreateEventPage> {
                 padding: const EdgeInsets.all(10),
                 child: Align(
                   alignment: Alignment.topLeft,
+                  child: TextField(
+                      controller: textControllerLocation,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: 'Choose a Location',
+                      ),
+                      onSubmitted: (String value) {
+                        newEvent.address = value;
+                      }),
+                ),
+              ),
+              // commented out for now as a solution to work around the security feature (CORS) of Google Places and the web browser causing XMLHttpRequest
+              // location searching currently working with 'flutter run -d chrome --web-browser-flag "--disable-web-security"'
+              /*Padding(
+                padding: const EdgeInsets.all(10),
+                child: Align(
+                  alignment: Alignment.topLeft,
                   child: FloatingActionButton.extended(
-                    // button that opens the comment section, a Modal Bottom Sheet
+                    heroTag: "location",
+                    // button that opens a Modal Bottom Sheet that contains the location searcher . . .
                     onPressed: () => showModalBottomSheet(
-                      // this is what opens the modal bottom sheet that the comment section will be in
+                      // this is what opens the modal bottom sheet that the location searcher will be in
                       isScrollControlled: true,
                       context: context,
                       builder: (context) =>
-                          buildSheet(), // Call to buildSheet() method that builds the sheet into the comment section
+                          buildSheet(), // Call to buildSheet() method that builds the sheet into the location searcher
                     ).then((value) {
                       setState(() {
                         newEvent.address = value;
@@ -158,14 +185,15 @@ class _CreateEventPage extends State<CreateEventPage> {
                     }),
                     icon: const Icon(Icons.location_on_outlined),
                     label: Text(locationText),
-                  ),
+                    ),
                 ),
-              ),
+              ),*/
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: Align(
                   alignment: Alignment.topLeft,
                   child: FloatingActionButton.extended(
+                      heroTag: "datePicker",
                       label: Text(dateText),
                       icon: const Icon(Icons.calendar_today_rounded),
                       onPressed: () {
@@ -189,6 +217,7 @@ class _CreateEventPage extends State<CreateEventPage> {
                 child: Align(
                     alignment: Alignment.topLeft,
                     child: FloatingActionButton.extended(
+                        heroTag: "timePicker",
                         label: Text(timeText),
                         icon: const Icon(Icons.access_time_filled_rounded),
                         onPressed: () async {
@@ -247,6 +276,7 @@ class _CreateEventPage extends State<CreateEventPage> {
           bottom: 80,
           right: 16,
           child: FloatingActionButton.extended(
+            heroTag: "back",
             label: const Text("go back"),
             onPressed: () {
               Navigator.pop(context);
@@ -258,6 +288,7 @@ class _CreateEventPage extends State<CreateEventPage> {
           bottom: 16,
           right: 16,
           child: FloatingActionButton.extended(
+            heroTag: "upload",
             label: const Text("upload this pickup event"),
             onPressed: () {
               if (locationText == 'search for the location' ||
@@ -316,7 +347,7 @@ class _CreateEventPage extends State<CreateEventPage> {
     );
   }
 
-  /// build method for Modal Bottom Sheet Location Search section
+  /// build method for Modal Bottom Sheet Location Search section (working with 'flutter run -d chrome --web-browser-flag "--disable-web-security"')
   Widget buildSheet() => Stack(
         children: [
           DraggableScrollableSheet(
@@ -325,9 +356,11 @@ class _CreateEventPage extends State<CreateEventPage> {
               color: Colors.white,
               padding: const EdgeInsets.all(16),
               child: SearchLocation(
-                apiKey: "api key goes here",
-                onSelected: (place) {
+                apiKey: "api-key",
+                onSelected: (place) async {
                   String address = place.description;
+                  // var placesData = await fetchPlacesData(address);
+                  // print(placesData);
                   Navigator.pop(context, address);
                 },
                 placeholder: "Search for a location",
@@ -346,6 +379,66 @@ class _CreateEventPage extends State<CreateEventPage> {
           ),
         ],
       );
-}
 
-//flutter run -d chrome --web-browser-flag "--disable-web-security"
+  /// alternate build sheet method, another approach to searching locations. Interacts with fetchPlacesData defined at the top of the page.
+//   Widget buildSheet() => Stack(
+//   children: [
+//     DraggableScrollableSheet(
+//       initialChildSize: 1.0,
+//       builder: (_, controller) => Container(
+//         color: Colors.white,
+//         padding: const EdgeInsets.all(16),
+//         child: Column(
+//           crossAxisAlignment: CrossAxisAlignment.stretch,
+//           children: [
+//             TextField(
+//               decoration: InputDecoration(
+//                 hintText: locationText,
+//               ),
+//               onSubmitted: (query) async {
+//                 final placesData = await fetchPlacesData(query);
+//                 final locations = parsePlacesData(placesData.body);
+//                 showModalBottomSheet(
+//                   context: context,
+//                   builder: (_) => ListView.builder(
+//                     itemCount: locations.length,
+//                     itemBuilder: (_, index) => ListTile(
+//                       title: Text(locations[index]['name']),
+//                       subtitle: Text(locations[index]['formatted_address']),
+//                       onTap: () {
+//                         Navigator.pop(context, locations[index]['formatted_address']);
+//                       },
+//                     ),
+//                   ),
+//                 );
+//               },
+//             ),
+//           ],
+//         ),
+//       ),
+//     ),
+//     Positioned(
+//       bottom: 16,
+//       right: 16,
+//       child: FloatingActionButton(
+//         onPressed: () {
+//           Navigator.pop(context, 'search for the location');
+//         },
+//         child: const Icon(Icons.close),
+//       ),
+//     ),
+//   ],
+// );
+
+// List<Map<String, dynamic>> parsePlacesData(String responseBody) {
+//   final data = json.decode(responseBody);
+//   final results = data['results'] as List<dynamic>;
+//   return results
+//       .map((result) => {
+//             'name': result['name'],
+//             'formatted_address': result['formatted_address'],
+//           })
+//       .toList();
+// }
+// }
+}
