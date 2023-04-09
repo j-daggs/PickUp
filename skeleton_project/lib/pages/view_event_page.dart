@@ -10,21 +10,6 @@ import '../classes/comment.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:like_button/like_button.dart';
 
-/*class ViewEventPage extends StatelessWidget {
-  const ViewEventPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'View Event',
-      theme: ThemeData(
-        primarySwatch: Colors.red,
-      ),
-      home: ViewEvent(),
-    );
-  }
-}*/
-
 class ViewEvent extends StatefulWidget {
   String currentEventId;
   ViewEvent({Key? key, required this.currentEventId}) : super(key: key);
@@ -154,24 +139,23 @@ class _ViewEvent extends State<ViewEvent> {
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
             ),
           ),
-          Align(
-              alignment: Alignment.bottomRight,
-              child: LikeButton(
+          LikeButton(
+            size: 50,
+            mainAxisAlignment: MainAxisAlignment.end,
+            likeCount: currentEvent.interested.isNotEmpty
+                ? currentEvent.interested.length
+                : 0,
+            countPostion: CountPostion.left,
+            likeBuilder: ((isLiked) {
+              return Icon(
+                Icons.star_rounded,
+                color: isLiked ? Colors.yellow[600] : Colors.blueGrey,
                 size: 50,
-                likeCount: currentEvent.interested.isNotEmpty
-                    ? currentEvent.interested.length
-                    : 0,
-                countPostion: CountPostion.left,
-                likeBuilder: ((isLiked) {
-                  return Icon(
-                    Icons.star_rounded,
-                    color: isLiked ? Colors.yellow[600] : Colors.blueGrey,
-                    size: 50,
-                  );
-                }),
-                onTap: onInterestButtonTapped,
-                isLiked: currentEvent.interested.contains(user) ? true : false,
-              )),
+              );
+            }),
+            onTap: onInterestButtonTapped,
+            isLiked: currentEvent.interested.contains(user) ? true : false,
+          ),
           Align(
             alignment: Alignment.bottomRight,
             child: FloatingActionButton(
