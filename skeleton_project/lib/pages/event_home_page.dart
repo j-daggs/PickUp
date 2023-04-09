@@ -6,6 +6,8 @@ import '../classes/location.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:my_app/pages/view_event_page.dart';
 import 'package:my_app/classes/event_class.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 final Position currentLocation =
     userPosition; // the user's current location, for calculating distances from events
@@ -14,13 +16,12 @@ const List<String> list = <String>[
   'Basketball',
   'Kickball',
   'Ultimate Frisbee',
-  'Bowling'
+  'Bowling',
 ];
 
 // This page is the page a user sees after logging in
 class HomePage extends StatelessWidget {
   // var sampleEvents = SAMPLE_EVENTS;
-
   const HomePage({super.key, this.scrolledUnderElevation});
   static const String _title = 'PickUP';
 
@@ -159,6 +160,7 @@ class HomePage extends StatelessWidget {
                       ),
                       onTap: () {
                         debugPrint('Card tapped. $snap}');
+
                         Navigator.push(
                             // send data to next page
                             context,
@@ -305,5 +307,28 @@ class _DropdownSportsState extends State<DropdownSports> {
       }).toList(),
       dropdownColor: Colors.black,
     );
+  }
+}
+
+class ButtonController extends GetxController {
+  final getStorage = GetStorage();
+  @override
+  void onInit() {
+    super.onInit();
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+  }
+
+  Future<bool> saveLikeCount(bool isLiked) async {
+    getStorage.write("isLiked", !isLiked);
+    return !isLiked;
   }
 }

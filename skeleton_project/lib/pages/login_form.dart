@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:my_app/classes/text_field_class.dart';
 
 import '../login_button.dart';
+import 'package:get_storage/get_storage.dart';
 
 class LoginForm extends StatefulWidget {
   final VoidCallback showRegisterPage;
@@ -39,7 +40,6 @@ class _LoginFormState extends State<LoginForm> {
       Navigator.pop(context);
       wrongDetailsMessage(e.code);
     }
-
   }
 
   // wrong details message popup
