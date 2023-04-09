@@ -103,16 +103,20 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _cardBuilder(data) {
+  Widget _cardBuilder(QuerySnapshot<Map<String, dynamic>> data) {
     return Column(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Expanded(
           child: ListView.builder(
-              itemCount: data.data!.docs.length,
+              itemCount: data.docs.length,
               itemBuilder: (context, index) {
-                dynamic snap = data.data!.docs[index].data();
+                dynamic snap = data.docs[index].data();
+                // This is the unique document id. You want to pass this
+                // as a string to ViewEvent through ViewEvent's constructor
+                String currentEventId = data.docs[index].id;
+
                 return Container(
                   padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                   height: 220,
@@ -182,7 +186,10 @@ class _HomePageState extends State<HomePage> {
                             // send data to next page
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const ViewEvent(),
+                                // First currentEventId is the constructor to tell ViewEvent
+                                // what we are passing it
+                                // Second one is actual value of event ID
+                                builder: (context) => ViewEvent(currentEventId: currentEventId),
                                 settings: RouteSettings(
                                   arguments: snap,
                                 )));
@@ -235,7 +242,7 @@ class _HomePageState extends State<HomePage> {
       child: RichText(
         text: TextSpan(
           text:
-              'Start Time: ${DateFormat.yMMMd().format(snap['StartTime'].toDate())}',
+              'Start Time: ${DateFormat.yMMMd().format(snap['StartTime'].toDate())} - ${DateFormat.jm().format(snap['StartTime'].toDate())}',
           style: const TextStyle(
               fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
         ),
@@ -326,7 +333,10 @@ class _HomePageState extends State<HomePage> {
               child: CircularProgressIndicator(),
             );
           }
-          return _cardBuilder(snapshot);
+          if (snapshot.hasData && snapshot.data != null) {
+              return _cardBuilder(snapshot.data!);
+            }
+          return const Text('No data');
         },
       );
     }
@@ -345,7 +355,10 @@ class _HomePageState extends State<HomePage> {
               child: CircularProgressIndicator(),
             );
           }
-          return _cardBuilder(snapshot);
+          if (snapshot.hasData && snapshot.data != null) {
+              return _cardBuilder(snapshot.data!);
+            }
+          return const Text('No Data');
         },
       );
     }
@@ -361,7 +374,10 @@ class _HomePageState extends State<HomePage> {
               child: CircularProgressIndicator(),
             );
           }
-          return _cardBuilder(snapshot);
+          if (snapshot.hasData && snapshot.data != null) {
+              return _cardBuilder(snapshot.data!);
+            }
+          return const Text('No Data');
         },
       );
     }
@@ -381,7 +397,10 @@ class _HomePageState extends State<HomePage> {
               child: CircularProgressIndicator(),
             );
           }
-          return _cardBuilder(snapshot);
+          if (snapshot.hasData && snapshot.data != null) {
+              return _cardBuilder(snapshot.data!);
+            }
+          return const Text('No Data');
         },
       );
     }

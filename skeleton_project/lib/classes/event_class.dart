@@ -1,19 +1,14 @@
-import 'dart:js_util';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
 class Event {
   String username;
   String sport;
-  var starttime;
+  DateTime starttime;
   var duration;
-  var dateposted;
+  DateTime dateposted;
   String address;
   String skill;
   String description;
-  List comments;
-  int postid;
 
   Event(
       this.username,
@@ -23,9 +18,7 @@ class Event {
       this.dateposted,
       this.address,
       this.skill,
-      this.description,
-      this.comments,
-      this.postid);
+      this.description);
 
   get getDate => DateFormat.yMd().format(dateposted);
   get getTime => DateFormat.jm().format(starttime);
