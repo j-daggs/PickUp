@@ -193,8 +193,16 @@ class _ViewEvent extends State<ViewEvent> {
                         child: ListTile(
                           leading: Text('${commentSnap['Username']}:'),
                           title: Text(commentSnap['Text']),
-                          trailing: Text(
-                              '${DateFormat.M().format(commentSnap['DateTime'].toDate())}-${DateFormat.d().format(commentSnap['DateTime'].toDate()).padLeft(2, '0')}-${DateFormat.y().format(commentSnap['DateTime'].toDate()).padLeft(2, '0')} (${DateFormat.jm().format(commentSnap['DateTime'].toDate())})'),
+                          trailing: RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text:
+                                      '${DateFormat.M().format(commentSnap['DateTime'].toDate())}-${DateFormat.d().format(commentSnap['DateTime'].toDate()).padLeft(2, '0')}-${DateFormat.y().format(commentSnap['DateTime'].toDate()).padLeft(2, '0')} (${DateFormat.jm().format(commentSnap['DateTime'].toDate())})',
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       );
                     },
