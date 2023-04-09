@@ -228,7 +228,7 @@ class _HomePageState extends State<HomePage> {
       child: RichText(
         text: TextSpan(
           text:
-              'Start Time: ${DateFormat.yMMMd().format(snap['StartTime'].toDate())}',
+              'Start Time: ${DateFormat.yMMMd().format(snap['StartTime'].toDate())} - ${DateFormat.jm().format(snap['StartTime'].toDate())}',
           style: const TextStyle(
               fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
         ),
