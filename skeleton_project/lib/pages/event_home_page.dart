@@ -1,4 +1,6 @@
+import 'dart:html';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:my_app/pages/create_event_page.dart';
@@ -6,19 +8,23 @@ import '../classes/location.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:my_app/pages/view_event_page.dart';
 import 'package:my_app/classes/event_class.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:geocoding/geocoding.dart';
 
 /// User's location
 final Position currentLocation =
     userPosition; // the user's current location, for calculating distances from events
- /// This function takes in an event address (string) and the current location of the user and returns a double representing the distance from the event.
-Future<double> findDistanceFromUser (String address, Position currentLocation) async {
+/// This function takes in an event address (string) and the current location of the user and returns a double representing the distance from the event.
+Future<double> findDistanceFromUser(
+    String address, Position currentLocation) async {
   Future<List<Location>> location = locationFromAddress(address);
-  List eLocation = await location; 
-  double eventLatitude = eLocation[0].latitude; 
-  double eventLongitude = eLocation[0].longitude; 
+  List eLocation = await location;
+  double eventLatitude = eLocation[0].latitude;
+  double eventLongitude = eLocation[0].longitude;
 
-  double distanceInMeters = Geolocator.distanceBetween(currentLocation.latitude, currentLocation.longitude, eventLatitude, eventLongitude);
+  double distanceInMeters = Geolocator.distanceBetween(currentLocation.latitude,
+      currentLocation.longitude, eventLatitude, eventLongitude);
   double milesDistance = 0.00062137 * distanceInMeters;
   return milesDistance;
 }
@@ -57,6 +63,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String dropDownSportsValue = _sportList.first;
   String dropDownSkillValue = _skillList.first;
+  final user = FirebaseAuth.instance.currentUser?.uid;
+  bool intButtonClick = false;
 
   final bool shadowColor = false;
 
@@ -71,6 +79,10 @@ class _HomePageState extends State<HomePage> {
           shadowColor: Colors.grey,
           backgroundColor: Colors.green,
           actions: <Widget>[
+            _showInterestButton(),
+            const SizedBox(
+              width: 50,
+            ),
             _dropDownSkillMenu(),
             const SizedBox(
               width: 50,
@@ -182,6 +194,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       onTap: () {
                         debugPrint('Card tapped. $snap}');
+
                         Navigator.push(
                             // send data to next page
                             context,
@@ -189,7 +202,8 @@ class _HomePageState extends State<HomePage> {
                                 // First currentEventId is the constructor to tell ViewEvent
                                 // what we are passing it
                                 // Second one is actual value of event ID
-                                builder: (context) => ViewEvent(currentEventId: currentEventId),
+                                builder: (context) =>
+                                    ViewEvent(currentEventId: currentEventId),
                                 settings: RouteSettings(
                                   arguments: snap,
                                 )));
@@ -334,8 +348,8 @@ class _HomePageState extends State<HomePage> {
             );
           }
           if (snapshot.hasData && snapshot.data != null) {
-              return _cardBuilder(snapshot.data!);
-            }
+            return _cardBuilder(snapshot.data!);
+          }
           return const Text('No data');
         },
       );
@@ -356,8 +370,8 @@ class _HomePageState extends State<HomePage> {
             );
           }
           if (snapshot.hasData && snapshot.data != null) {
-              return _cardBuilder(snapshot.data!);
-            }
+            return _cardBuilder(snapshot.data!);
+          }
           return const Text('No Data');
         },
       );
@@ -365,6 +379,23 @@ class _HomePageState extends State<HomePage> {
     // Nothing changed
     if (dropDownSkillValue == _skillList.first &&
         dropDownSportsValue == _sportList.first) {
+      if (intButtonClick) {
+        return StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection('Event')
+              .where('Interested', arrayContains: user)
+              .snapshots(),
+          builder: (context,
+              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            return _cardBuilder(snapshot.data!);
+          },
+        );
+      }
       return StreamBuilder(
         stream: FirebaseFirestore.instance.collection('Event').snapshots(),
         builder: (context,
@@ -375,8 +406,8 @@ class _HomePageState extends State<HomePage> {
             );
           }
           if (snapshot.hasData && snapshot.data != null) {
-              return _cardBuilder(snapshot.data!);
-            }
+            return _cardBuilder(snapshot.data!);
+          }
           return const Text('No Data');
         },
       );
@@ -398,8 +429,8 @@ class _HomePageState extends State<HomePage> {
             );
           }
           if (snapshot.hasData && snapshot.data != null) {
-              return _cardBuilder(snapshot.data!);
-            }
+            return _cardBuilder(snapshot.data!);
+          }
           return const Text('No Data');
         },
       );
@@ -431,5 +462,44 @@ class _HomePageState extends State<HomePage> {
       }).toList(),
       dropdownColor: Colors.black,
     );
+  }
+
+  Widget _showInterestButton() {
+    return IconButton(
+      onPressed: () {
+        intButtonClick = !intButtonClick;
+        setState(() {
+          intButtonClick;
+          debugPrint('$intButtonClick');
+        });
+      },
+      tooltip: 'Show Your Interested Events',
+      icon: const Icon(Icons.star_outline_rounded),
+      color: Colors.white,
+      iconSize: 30,
+    );
+  }
+}
+
+class ButtonController extends GetxController {
+  final getStorage = GetStorage();
+  @override
+  void onInit() {
+    super.onInit();
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+  }
+
+  Future<bool> saveLikeCount(bool isLiked) async {
+    getStorage.write("isLiked", !isLiked);
+    return !isLiked;
   }
 }

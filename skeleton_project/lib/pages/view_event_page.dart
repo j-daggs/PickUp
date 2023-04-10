@@ -1,10 +1,15 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+import 'dart:html';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/classes/event_class.dart';
+import 'package:intl/intl.dart';
+import 'package:my_app/pages/event_home_page.dart';
 import '../classes/comment.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:like_button/like_button.dart';
 
 class ViewEvent extends StatefulWidget {
   // Initializing currentEventId
@@ -17,7 +22,7 @@ class ViewEvent extends StatefulWidget {
 
 class _ViewEvent extends State<ViewEvent> {
   final user = FirebaseAuth.instance.currentUser?.uid;
-
+  var buttonController = ButtonController();
   Future addCommentDetails(
       DateTime dateTime, String username, String text) async {
     await FirebaseFirestore.instance
@@ -37,15 +42,42 @@ class _ViewEvent extends State<ViewEvent> {
     DateTime dateTimeStartTime = (snap['StartTime']).toDate();
     DateTime dateTimeDatePosted = (snap['DatePosted']).toDate();
     Event currentEvent = Event(
-      'Username',
-      snap['Sport'],
-      dateTimeStartTime,
-      snap['Duration'],
-      dateTimeDatePosted,
-      snap['Address'],
-      snap['Skill'],
-      snap['Description'],
-    );
+        'Username',
+        snap['Sport'],
+        dateTimeStartTime,
+        snap['Duration'],
+        dateTimeDatePosted,
+        snap['Address'],
+        snap['Skill'],
+        snap['Description'],
+        snap['Interested']);
+    final user = FirebaseAuth.instance.currentUser?.uid;
+
+    Future<bool> onInterestButtonTapped(bool isLiked) async {
+      if (currentEvent.interested.contains(user)) {
+        currentEvent.interested.remove(user);
+        await FirebaseFirestore.instance
+            .collection('Event')
+            .doc(widget.currentEventId)
+            .update({
+          "Interested": FieldValue.arrayRemove([user]),
+        });
+        debugPrint('${currentEvent.interested}');
+        debugPrint('$isLiked');
+        return buttonController.saveLikeCount(isLiked);
+      } else {
+        currentEvent.interested.add(user);
+        await FirebaseFirestore.instance
+            .collection('Event')
+            .doc(widget.currentEventId)
+            .update({
+          "Interested": FieldValue.arrayUnion([user]),
+        });
+        debugPrint('${currentEvent.interested}');
+        debugPrint('$isLiked');
+        return buttonController.saveLikeCount(isLiked);
+      }
+    }
 
     return Scaffold(
       body: Padding(
@@ -111,9 +143,22 @@ class _ViewEvent extends State<ViewEvent> {
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
             ),
           ),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: InterestButton(),
+          LikeButton(
+            size: 50,
+            mainAxisAlignment: MainAxisAlignment.end,
+            likeCount: currentEvent.interested.isNotEmpty
+                ? currentEvent.interested.length
+                : 0,
+            countPostion: CountPostion.left,
+            likeBuilder: ((isLiked) {
+              return Icon(
+                Icons.star_rounded,
+                color: isLiked ? Colors.yellow[600] : Colors.blueGrey,
+                size: 50,
+              );
+            }),
+            onTap: onInterestButtonTapped,
+            isLiked: currentEvent.interested.contains(user) ? true : false,
           ),
           Align(
             alignment: Alignment.bottomRight,
@@ -228,38 +273,4 @@ class _ViewEvent extends State<ViewEvent> {
           ),
         ),
       );
-}
-
-class InterestButton extends StatefulWidget {
-  const InterestButton({Key? key}) : super(key: key);
-  @override
-  State<InterestButton> createState() => _InterestButtonState();
-}
-
-class _InterestButtonState extends State<InterestButton> {
-  var current = "ViewEvent(currentEventId: )";
-  var interested = [];
-  bool click = true;
-  @override
-  Widget build(BuildContext context) {
-    Icon icon = Icon(Icons.star_border_rounded, size: 35);
-    return FloatingActionButton(
-      onPressed: () {
-        setState(() {
-          click = !click;
-        });
-        if (interested.contains(current)) {
-          interested.remove(current);
-        } else {
-          interested.add(current);
-        }
-        print(interested);
-      },
-      tooltip: 'Interested',
-      child: Icon(
-          (click == false) ? Icons.star_rounded : Icons.star_border_rounded,
-          size: 40,
-          color: Colors.yellow),
-    );
-  }
 }
