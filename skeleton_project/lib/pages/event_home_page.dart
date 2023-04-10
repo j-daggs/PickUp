@@ -1,3 +1,4 @@
+import 'dart:html';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -9,9 +10,24 @@ import 'package:my_app/pages/view_event_page.dart';
 import 'package:my_app/classes/event_class.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:geocoding/geocoding.dart';
 
+/// User's location
 final Position currentLocation =
     userPosition; // the user's current location, for calculating distances from events
+/// This function takes in an event address (string) and the current location of the user and returns a double representing the distance from the event.
+Future<double> findDistanceFromUser(
+    String address, Position currentLocation) async {
+  Future<List<Location>> location = locationFromAddress(address);
+  List eLocation = await location;
+  double eventLatitude = eLocation[0].latitude;
+  double eventLongitude = eLocation[0].longitude;
+
+  double distanceInMeters = Geolocator.distanceBetween(currentLocation.latitude,
+      currentLocation.longitude, eventLatitude, eventLongitude);
+  double milesDistance = 0.00062137 * distanceInMeters;
+  return milesDistance;
+}
 
 // Hardcoded list for the drop down menu
 const List<String> _sportList = <String>[
@@ -99,7 +115,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget cardBuilder(QuerySnapshot<Map<String, dynamic>> data) {
+  Widget _cardBuilder(QuerySnapshot<Map<String, dynamic>> data) {
     return Column(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -240,7 +256,7 @@ class _HomePageState extends State<HomePage> {
       child: RichText(
         text: TextSpan(
           text:
-              'Start Time: ${DateFormat.yMMMd().format(snap['StartTime'].toDate())}',
+              'Start Time: ${DateFormat.yMMMd().format(snap['StartTime'].toDate())} - ${DateFormat.jm().format(snap['StartTime'].toDate())}',
           style: const TextStyle(
               fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
         ),
@@ -331,7 +347,10 @@ class _HomePageState extends State<HomePage> {
               child: CircularProgressIndicator(),
             );
           }
-          return cardBuilder(snapshot.data!);
+          if (snapshot.hasData && snapshot.data != null) {
+            return _cardBuilder(snapshot.data!);
+          }
+          return const Text('No data');
         },
       );
     }
@@ -350,7 +369,10 @@ class _HomePageState extends State<HomePage> {
               child: CircularProgressIndicator(),
             );
           }
-          return cardBuilder(snapshot.data!);
+          if (snapshot.hasData && snapshot.data != null) {
+            return _cardBuilder(snapshot.data!);
+          }
+          return const Text('No Data');
         },
       );
     }
@@ -370,7 +392,7 @@ class _HomePageState extends State<HomePage> {
                 child: CircularProgressIndicator(),
               );
             }
-            return cardBuilder(snapshot.data!);
+            return _cardBuilder(snapshot.data!);
           },
         );
       }
@@ -383,7 +405,10 @@ class _HomePageState extends State<HomePage> {
               child: CircularProgressIndicator(),
             );
           }
-          return cardBuilder(snapshot.data!);
+          if (snapshot.hasData && snapshot.data != null) {
+            return _cardBuilder(snapshot.data!);
+          }
+          return const Text('No Data');
         },
       );
     }
@@ -403,7 +428,10 @@ class _HomePageState extends State<HomePage> {
               child: CircularProgressIndicator(),
             );
           }
-          return cardBuilder(snapshot.data!);
+          if (snapshot.hasData && snapshot.data != null) {
+            return _cardBuilder(snapshot.data!);
+          }
+          return const Text('No Data');
         },
       );
     }
