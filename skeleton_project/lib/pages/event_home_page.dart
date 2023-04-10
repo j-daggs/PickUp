@@ -5,9 +5,23 @@ import 'package:my_app/pages/create_event_page.dart';
 import '../classes/location.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:my_app/pages/view_event_page.dart';
+import 'package:my_app/classes/event_class.dart';
+import 'package:geocoding/geocoding.dart';
 
+/// User's location
 final Position currentLocation =
     userPosition; // the user's current location, for calculating distances from events
+ /// This function takes in an event address (string) and the current location of the user and returns a double representing the distance from the event.
+Future<double> findDistanceFromUser (String address, Position currentLocation) async {
+  Future<List<Location>> location = locationFromAddress(address);
+  List eLocation = await location; 
+  double eventLatitude = eLocation[0].latitude; 
+  double eventLongitude = eLocation[0].longitude; 
+
+  double distanceInMeters = Geolocator.distanceBetween(currentLocation.latitude, currentLocation.longitude, eventLatitude, eventLongitude);
+  double milesDistance = 0.00062137 * distanceInMeters;
+  return milesDistance;
+}
 
 // Hardcoded list for the drop down menu
 const List<String> _sportList = <String>[
