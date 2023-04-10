@@ -301,9 +301,9 @@ class _CreateEventPage extends State<CreateEventPage> {
               }
               if (textControllerDescription.text.isNotEmpty &&
                   textControllerDuration.text.isNotEmpty &&
-                  textControllerLocation.text.isNotEmpty &&
+                  textControllerLocation.text.isNotEmpty /*&&
                   locationText != 'search for the location' &&
-                  locationText != 'Oops! you forgot to add a location!' &&
+                  locationText != 'Oops! you forgot to add a location!'*/ &&
                   dateText != 'select a date' &&
                   dateText != 'Oops! you forgot to pick a date!' &&
                   dateText != 'select a date' &&
