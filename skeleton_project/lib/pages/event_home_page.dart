@@ -536,7 +536,9 @@ class _HomePageState extends State<HomePage> {
         });
       },
       tooltip: 'Show Your Interested Events',
-      icon: const Icon(Icons.star_outline_rounded),
+      icon: intButtonClick
+          ? Icon(Icons.star_rounded)
+          : Icon(Icons.star_outline_rounded),
       color: Colors.white,
       iconSize: 30,
     );
