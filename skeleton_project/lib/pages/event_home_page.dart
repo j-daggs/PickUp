@@ -6,6 +6,7 @@ import '../classes/location.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:my_app/pages/view_event_page.dart';
 import 'package:my_app/classes/event_class.dart';
+import 'package:my_app/classes/theme_class.dart';
 
 final Position currentLocation =
     userPosition; // the user's current location, for calculating distances from events
@@ -36,7 +37,7 @@ class HomePage extends StatelessWidget {
           title: const Text(_title),
           scrolledUnderElevation: scrolledUnderElevation,
           shadowColor: Colors.grey,
-          backgroundColor: Colors.green,
+          backgroundColor: greenTheme.primaryColor,
           actions: <Widget>[
             const DropdownSports(),
             const SizedBox(
@@ -175,8 +176,10 @@ class HomePage extends StatelessWidget {
       child: RichText(
         text: TextSpan(
           text: '${snap['Username']}',
-          style: const TextStyle(
-              fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: greenTheme.primaryColor,
+              fontSize: 20),
         ),
       ),
     );
