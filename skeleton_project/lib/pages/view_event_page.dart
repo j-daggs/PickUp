@@ -1,37 +1,36 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+import 'dart:html';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/classes/event_class.dart';
 import 'package:intl/intl.dart';
+import 'package:my_app/pages/event_home_page.dart';
 import '../classes/comment.dart';
+import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-class ViewEventPage extends StatelessWidget {
-  const ViewEventPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'View Event',
-      theme: ThemeData(
-        primarySwatch: Colors.red,
-      ),
-      home: ViewEvent(),
-    );
-  }
-}
+import 'package:like_button/like_button.dart';
 
 class ViewEvent extends StatefulWidget {
-  const ViewEvent({super.key});
+  // Initializing currentEventId
+  String currentEventId;
+  // Making currentEventId a required part of the constructor
+  ViewEvent({Key? key, required this.currentEventId}) : super(key: key);
   @override
-  _ViewEvent createState() => _ViewEvent();
+  State<ViewEvent> createState() => _ViewEvent();
 }
 
 class _ViewEvent extends State<ViewEvent> {
+  final user = FirebaseAuth.instance.currentUser?.uid;
+  var buttonController = ButtonController();
   Future addCommentDetails(
       DateTime dateTime, String username, String text) async {
     await FirebaseFirestore.instance
+        .collection('Event')
+        // Accessing currentEventId through the different states using widget.
+        .doc(widget.currentEventId)
         .collection('Comment')
-        .add({'DateTime:': dateTime, 'Username': username, 'Text': text});
+        .add({'DateTime': dateTime, 'Username': username, 'Text': text});
   }
 
   List commentList = Comment.testingList;
@@ -51,8 +50,34 @@ class _ViewEvent extends State<ViewEvent> {
         snap['Address'],
         snap['Skill'],
         snap['Description'],
-        ['comment'],
-        9);
+        snap['Interested']);
+    final user = FirebaseAuth.instance.currentUser?.uid;
+
+    Future<bool> onInterestButtonTapped(bool isLiked) async {
+      if (currentEvent.interested.contains(user)) {
+        currentEvent.interested.remove(user);
+        await FirebaseFirestore.instance
+            .collection('Event')
+            .doc(widget.currentEventId)
+            .update({
+          "Interested": FieldValue.arrayRemove([user]),
+        });
+        debugPrint('${currentEvent.interested}');
+        debugPrint('$isLiked');
+        return buttonController.saveLikeCount(isLiked);
+      } else {
+        currentEvent.interested.add(user);
+        await FirebaseFirestore.instance
+            .collection('Event')
+            .doc(widget.currentEventId)
+            .update({
+          "Interested": FieldValue.arrayUnion([user]),
+        });
+        debugPrint('${currentEvent.interested}');
+        debugPrint('$isLiked');
+        return buttonController.saveLikeCount(isLiked);
+      }
+    }
 
     return Scaffold(
       body: Padding(
@@ -118,9 +143,22 @@ class _ViewEvent extends State<ViewEvent> {
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
             ),
           ),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: InterestButton(),
+          LikeButton(
+            size: 50,
+            mainAxisAlignment: MainAxisAlignment.end,
+            likeCount: currentEvent.interested.isNotEmpty
+                ? currentEvent.interested.length
+                : 0,
+            countPostion: CountPostion.left,
+            likeBuilder: ((isLiked) {
+              return Icon(
+                Icons.star_rounded,
+                color: isLiked ? Colors.yellow[600] : Colors.blueGrey,
+                size: 50,
+              );
+            }),
+            onTap: onInterestButtonTapped,
+            isLiked: currentEvent.interested.contains(user) ? true : false,
           ),
           Align(
             alignment: Alignment.bottomRight,
@@ -161,8 +199,10 @@ class _ViewEvent extends State<ViewEvent> {
                       setState(() {
                         commentList.insert(
                             0,
-                            Comment(DateTime.now(), "username",
+                            Comment(DateTime.now(), user.toString(),
                                 textController.text));
+                        addCommentDetails(DateTime.now(), user.toString(),
+                            textController.text);
                         textController.clear();
                         Navigator.of(context).pop();
                         showModalBottomSheet(
@@ -173,22 +213,47 @@ class _ViewEvent extends State<ViewEvent> {
                   },
                 ),
               ),
-              body: commentList.isNotEmpty
-                  ? ListView.builder(
-                      // crossAxisAlignment: CrossAxisAlignment.start,
-                      // comments added for testing
-                      itemCount: commentList.length,
-                      itemBuilder: (context, index) {
-                        return Card(
-                          child: ListTile(
-                            title: Text('${commentList[index]}'),
-                            trailing: Text(
-                                '${commentList[index].dateTime.month.toString()}-${commentList[index].dateTime.day.toString().padLeft(2, '0')}-${commentList[index].dateTime.year.toString().padLeft(2, '0')} (${Comment.militaryToNormal(commentList[index].dateTime.hour, commentList[index].dateTime.minute)})'),
+              // uses streambuilder just like home page
+              // Grabs snapshot of all comments within specific event
+              body: StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection('Event')
+                    .doc(widget.currentEventId)
+                    .collection('Comment')
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (snapshot.data!.docs.isEmpty) {
+                    return Text("No comments yet");
+                  }
+                  // Returns a list view with comments queried from database
+                  return ListView.builder(
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (context, index) {
+                      // Instantiates instance of snapshot
+                      dynamic commentSnap = snapshot.data!.docs[index].data();
+                      return Card(
+                        child: ListTile(
+                          leading: Text('${commentSnap['Username']}:'),
+                          title: Text(commentSnap['Text']),
+                          trailing: RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text:
+                                      '${DateFormat.M().format(commentSnap['DateTime'].toDate())}-${DateFormat.d().format(commentSnap['DateTime'].toDate()).padLeft(2, '0')}-${DateFormat.y().format(commentSnap['DateTime'].toDate()).padLeft(2, '0')} (${DateFormat.jm().format(commentSnap['DateTime'].toDate())})',
+                                ),
+                              ],
+                            ),
                           ),
-                        );
-                      },
-                    )
-                  : const Center(child: Text("No Comments yet.")),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
               floatingActionButton: FloatingActionButton(
                 child: const Icon(Icons.add_comment_rounded),
                 onPressed: () {
@@ -196,10 +261,10 @@ class _ViewEvent extends State<ViewEvent> {
                     setState(() {
                       commentList.insert(
                           0,
-                          Comment(
-                              DateTime.now(), "username", textController.text));
+                          Comment(DateTime.now(), user.toString(),
+                              textController.text));
                       addCommentDetails(
-                          DateTime.now(), "username", textController.text);
+                          DateTime.now(), user.toString(), textController.text);
                     });
                   }
                 },
@@ -208,38 +273,4 @@ class _ViewEvent extends State<ViewEvent> {
           ),
         ),
       );
-}
-
-class InterestButton extends StatefulWidget {
-  const InterestButton({Key? key}) : super(key: key);
-  @override
-  State<InterestButton> createState() => _InterestButtonState();
-}
-
-class _InterestButtonState extends State<InterestButton> {
-  var current = ViewEventPage();
-  var interested = [];
-  bool click = true;
-  @override
-  Widget build(BuildContext context) {
-    Icon icon = Icon(Icons.star_border_rounded, size: 35);
-    return FloatingActionButton(
-      onPressed: () {
-        setState(() {
-          click = !click;
-        });
-        if (interested.contains(current)) {
-          interested.remove(current);
-        } else {
-          interested.add(current);
-        }
-        print(interested);
-      },
-      tooltip: 'Interested',
-      child: Icon(
-          (click == false) ? Icons.star_rounded : Icons.star_border_rounded,
-          size: 40,
-          color: Colors.yellow),
-    );
-  }
 }
