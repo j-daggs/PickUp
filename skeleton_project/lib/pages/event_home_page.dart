@@ -77,8 +77,8 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           title: const Text(HomePage._title),
           scrolledUnderElevation: widget.scrolledUnderElevation,
-          shadowColor: Colors.grey,
-          backgroundColor: greenTheme.primaryColor,
+          shadowColor: lightBackground,
+          backgroundColor: greenPrimary,
           actions: <Widget>[
             _showInterestButton(),
             const SizedBox(
@@ -102,7 +102,7 @@ class _HomePageState extends State<HomePage> {
               },
               tooltip: 'Create an Event',
               icon: const Icon(Icons.add_box_outlined),
-              color: Colors.white,
+              color: whiteColor,
             ),
             const SizedBox(
               width: 50,
@@ -111,7 +111,7 @@ class _HomePageState extends State<HomePage> {
         ),
         body: _filterStream(),
       ),
-      color: Colors.grey,
+      color: lightBackground,
       debugShowCheckedModeBanner: false,
     );
   }
@@ -140,9 +140,10 @@ class _HomePageState extends State<HomePage> {
                         child: Container(
                           decoration: const BoxDecoration(
                             border: Border(
-                              top: BorderSide(width: 2.0, color: Colors.black),
+                              top: BorderSide(
+                                  width: 2.0, color: yellowPrimaryAccent),
                             ),
-                            color: Colors.white,
+                            color: whiteBackground,
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(7),
@@ -222,10 +223,10 @@ class _HomePageState extends State<HomePage> {
       child: RichText(
         text: TextSpan(
           text: '${snap['Username']}',
-          style: TextStyle(
+          style: const TextStyle(
               fontWeight: FontWeight.bold,
-              color: greenTheme.primaryColor,
-              fontSize: 20),
+              color: greenPrimary,
+              fontSize: headerFontSize),
         ),
       ),
     );
@@ -238,12 +239,14 @@ class _HomePageState extends State<HomePage> {
         text: TextSpan(
           text: '${snap['Sport']} \n',
           style: const TextStyle(
-              fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
+              fontWeight: FontWeight.bold,
+              color: greenPrimary,
+              fontSize: headerFontSize),
           children: <TextSpan>[
             TextSpan(
                 text: '${snap['Skill']}',
                 style: const TextStyle(
-                  color: Colors.black,
+                  color: blackText,
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
                 )),
