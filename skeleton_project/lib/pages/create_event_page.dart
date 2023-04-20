@@ -6,6 +6,7 @@ import '../pages/event_home_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:search_map_location/search_map_location.dart';
 import 'package:http/http.dart' as http;
+import 'package:my_app/classes/theme_class.dart';
 
 /// fetchPlacesData is a function that can be called in order to work around the security feature (CORS) of Google Places and the web browser so that it can run without having to disable web security.
 Future<http.Response> fetchPlacesData(String address) async {
@@ -81,8 +82,14 @@ class _CreateEventPage extends State<CreateEventPage> {
                 padding: EdgeInsets.all(2),
                 child: Align(
                   alignment: Alignment.topLeft,
-                  child: Text("Select a sport using the dropdown below: ",
-                      textAlign: TextAlign.left),
+                  child: Text(
+                    "Select a sport using the dropdown below: ",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: blackText,
+                        fontSize: headerFontSize),
+                  ),
                 ),
               ),
               Padding(
@@ -112,8 +119,14 @@ class _CreateEventPage extends State<CreateEventPage> {
                 padding: EdgeInsets.all(2),
                 child: Align(
                   alignment: Alignment.topLeft,
-                  child: Text("Select a skill level using the dropdown below: ",
-                      textAlign: TextAlign.left),
+                  child: Text(
+                    "Select a skill level using the dropdown below: ",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: blackText,
+                        fontSize: headerFontSize),
+                  ),
                 ),
               ),
               Padding(
@@ -144,14 +157,21 @@ class _CreateEventPage extends State<CreateEventPage> {
                 child: Align(
                   alignment: Alignment.topLeft,
                   child: TextField(
-                      controller: textControllerLocation,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: 'Choose a Location',
+                    controller: textControllerLocation,
+                    cursorColor: primaryLight,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(width: 2, color: primaryLight),
                       ),
-                      onSubmitted: (String value) {
-                        newEvent.address = value;
-                      }),
+                      hintText: 'Choose a Location',
+                    ),
+                    onSubmitted: (String value) {
+                      newEvent.address = value;
+                    },
+                    style: const TextStyle(
+                        color: blackText, fontSize: bodyFontSize),
+                  ),
                 ),
               ),
               // commented out for now as a solution to work around the security feature (CORS) of Google Places and the web browser causing XMLHttpRequest
@@ -185,23 +205,25 @@ class _CreateEventPage extends State<CreateEventPage> {
                 child: Align(
                   alignment: Alignment.topLeft,
                   child: FloatingActionButton.extended(
-                      heroTag: "datePicker",
-                      label: Text(dateText),
-                      icon: const Icon(Icons.calendar_today_rounded),
-                      onPressed: () {
-                        showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime.now(),
-                          lastDate: DateTime(2222),
-                        ).then((date) {
-                          setState(() {
-                            newEvent.starttime = date!;
-                            dateText =
-                                DateFormat.yMd().format(newEvent.starttime);
-                          });
+                    heroTag: "datePicker",
+                    label: Text(dateText),
+                    icon: const Icon(Icons.calendar_today_rounded),
+                    onPressed: () {
+                      showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime.now(),
+                        lastDate: DateTime(2222),
+                      ).then((date) {
+                        setState(() {
+                          newEvent.starttime = date!;
+                          dateText =
+                              DateFormat.yMd().format(newEvent.starttime);
                         });
-                      }),
+                      });
+                    },
+                    backgroundColor: greenPrimary,
+                  ),
                 ),
               ),
               Padding(
@@ -209,41 +231,48 @@ class _CreateEventPage extends State<CreateEventPage> {
                 child: Align(
                     alignment: Alignment.topLeft,
                     child: FloatingActionButton.extended(
-                        heroTag: "timePicker",
-                        label: Text(timeText),
-                        icon: const Icon(Icons.access_time_filled_rounded),
-                        onPressed: () async {
-                          TimeOfDay? newTime = await showTimePicker(
-                            context: context,
-                            initialTime:
-                                TimeOfDay.fromDateTime(newEvent.starttime),
-                          );
-                          if (newTime == null) return;
-                          setState(() {
-                            newEvent.starttime = DateTime(
-                                newEvent.starttime.year,
-                                newEvent.starttime.month,
-                                newEvent.starttime.day,
-                                newTime.hour,
-                                newTime.minute);
-                            timeText =
-                                DateFormat.jm().format(newEvent.starttime);
-                          });
-                        })),
+                      heroTag: "timePicker",
+                      label: Text(timeText),
+                      icon: const Icon(Icons.access_time_filled_rounded),
+                      onPressed: () async {
+                        TimeOfDay? newTime = await showTimePicker(
+                          context: context,
+                          initialTime:
+                              TimeOfDay.fromDateTime(newEvent.starttime),
+                        );
+                        if (newTime == null) return;
+                        setState(() {
+                          newEvent.starttime = DateTime(
+                              newEvent.starttime.year,
+                              newEvent.starttime.month,
+                              newEvent.starttime.day,
+                              newTime.hour,
+                              newTime.minute);
+                          timeText = DateFormat.jm().format(newEvent.starttime);
+                        });
+                      },
+                      backgroundColor: greenPrimary,
+                    )),
               ),
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: Align(
                   alignment: Alignment.topLeft,
                   child: TextField(
-                      controller: textControllerDuration,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: 'Enter the Duration',
+                    controller: textControllerDuration,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(width: 2, color: primaryLight),
                       ),
-                      onSubmitted: (String value) {
-                        newEvent.duration = value;
-                      }),
+                      hintText: 'Enter the Duration',
+                    ),
+                    onSubmitted: (String value) {
+                      newEvent.duration = value;
+                    },
+                    style: const TextStyle(
+                        color: blackText, fontSize: bodyFontSize),
+                  ),
                 ),
               ),
               Padding(
@@ -251,14 +280,20 @@ class _CreateEventPage extends State<CreateEventPage> {
                 child: Align(
                   alignment: Alignment.topLeft,
                   child: TextField(
-                      controller: textControllerDescription,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: 'Add a description',
+                    controller: textControllerDescription,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(width: 2, color: primaryLight),
                       ),
-                      onSubmitted: (String value) {
-                        newEvent.description = value;
-                      }),
+                      hintText: 'Add a description',
+                    ),
+                    onSubmitted: (String value) {
+                      newEvent.description = value;
+                    },
+                    style: const TextStyle(
+                        color: blackText, fontSize: bodyFontSize),
+                  ),
                 ),
               ),
             ]),
@@ -273,6 +308,7 @@ class _CreateEventPage extends State<CreateEventPage> {
             onPressed: () {
               Navigator.pop(context);
             },
+            backgroundColor: greenPrimary,
             icon: const Icon(Icons.undo_rounded),
           ),
         ),
@@ -301,9 +337,11 @@ class _CreateEventPage extends State<CreateEventPage> {
               }
               if (textControllerDescription.text.isNotEmpty &&
                   textControllerDuration.text.isNotEmpty &&
-                  textControllerLocation.text.isNotEmpty /*&&
+                  textControllerLocation.text
+                      .isNotEmpty /*&&
                   locationText != 'search for the location' &&
-                  locationText != 'Oops! you forgot to add a location!'*/ &&
+                  locationText != 'Oops! you forgot to add a location!'*/
+                  &&
                   dateText != 'select a date' &&
                   dateText != 'Oops! you forgot to pick a date!' &&
                   dateText != 'select a date' &&
@@ -332,10 +370,12 @@ class _CreateEventPage extends State<CreateEventPage> {
                 );
               }
             },
+            backgroundColor: greenPrimary,
             icon: const Icon(Icons.add),
           ),
         ),
       ]),
+      backgroundColor: lightBackground,
     );
   }
 
@@ -345,7 +385,7 @@ class _CreateEventPage extends State<CreateEventPage> {
           DraggableScrollableSheet(
             initialChildSize: 1.0,
             builder: (_, controller) => Container(
-              color: Colors.white,
+              color: brightColor,
               padding: const EdgeInsets.all(16),
               child: SearchLocation(
                 apiKey: "api-key",
@@ -378,7 +418,7 @@ class _CreateEventPage extends State<CreateEventPage> {
 //     DraggableScrollableSheet(
 //       initialChildSize: 1.0,
 //       builder: (_, controller) => Container(
-//         color: Colors.white,
+//         color: brightColor,
 //         padding: const EdgeInsets.all(16),
 //         child: Column(
 //           crossAxisAlignment: CrossAxisAlignment.stretch,

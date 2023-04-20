@@ -102,7 +102,7 @@ class _HomePageState extends State<HomePage> {
               },
               tooltip: 'Create an Event',
               icon: const Icon(Icons.add_box_outlined),
-              color: whiteColor,
+              color: brightColor,
             ),
             const SizedBox(
               width: 50,
@@ -110,8 +110,8 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         body: _filterStream(),
+        backgroundColor: lightBackground,
       ),
-      color: lightBackground,
       debugShowCheckedModeBanner: false,
     );
   }
@@ -140,10 +140,9 @@ class _HomePageState extends State<HomePage> {
                         child: Container(
                           decoration: const BoxDecoration(
                             border: Border(
-                              top: BorderSide(
-                                  width: 2.0, color: yellowPrimaryAccent),
+                              top: BorderSide(width: 2.0, color: primaryAccent),
                             ),
-                            color: whiteBackground,
+                            color: brightBackground,
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(7),
@@ -303,9 +302,7 @@ class _HomePageState extends State<HomePage> {
         text: TextSpan(
           text: '${snap['Description']}',
           style: const TextStyle(
-              fontWeight: FontWeight.normal,
-              color: Colors.blueGrey,
-              fontSize: 20),
+              fontWeight: FontWeight.normal, color: lightText, fontSize: 20),
         ),
       ),
     );
@@ -316,10 +313,10 @@ class _HomePageState extends State<HomePage> {
       value: dropDownSportsValue,
       icon: const Icon(Icons.arrow_drop_down_rounded),
       elevation: 16,
-      style: const TextStyle(color: Colors.white),
+      style: const TextStyle(color: brightText),
       underline: Container(
         height: 2,
-        color: Colors.white,
+        color: brightColor,
       ),
       onChanged: (String? value) {
         // This is called when the user selects an item.
@@ -334,7 +331,34 @@ class _HomePageState extends State<HomePage> {
           child: Text(value),
         );
       }).toList(),
-      dropdownColor: Colors.black,
+      dropdownColor: primaryLight,
+    );
+  }
+
+  Widget _dropDownSkillMenu() {
+    return DropdownButton<String>(
+      value: dropDownSkillValue,
+      icon: const Icon(Icons.arrow_drop_down_rounded),
+      elevation: 16,
+      style: const TextStyle(color: brightText),
+      underline: Container(
+        height: 2,
+        color: brightColor,
+      ),
+      onChanged: (String? newvalue) {
+        // This is called when the user selects an item.
+        dropDownSkillValue = newvalue!;
+        setState(() {
+          dropDownSkillValue;
+        });
+      },
+      items: _skillList.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+      dropdownColor: primaryLight,
     );
   }
 
@@ -441,33 +465,6 @@ class _HomePageState extends State<HomePage> {
         },
       );
     }
-  }
-
-  Widget _dropDownSkillMenu() {
-    return DropdownButton<String>(
-      value: dropDownSkillValue,
-      icon: const Icon(Icons.arrow_drop_down_rounded),
-      elevation: 16,
-      style: const TextStyle(color: Colors.white),
-      underline: Container(
-        height: 2,
-        color: Colors.white,
-      ),
-      onChanged: (String? newvalue) {
-        // This is called when the user selects an item.
-        dropDownSkillValue = newvalue!;
-        setState(() {
-          dropDownSkillValue;
-        });
-      },
-      items: _skillList.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
-      dropdownColor: Colors.black,
-    );
   }
 
   Widget _showInterestButton() {
