@@ -41,8 +41,10 @@ class _ViewEvent extends State<ViewEvent> {
     debugPrint('Snap: $snap');
     DateTime dateTimeStartTime = (snap['StartTime']).toDate();
     DateTime dateTimeDatePosted = (snap['DatePosted']).toDate();
+    final userEmail = FirebaseAuth.instance.currentUser!.email.toString();
+    final userName = userEmail.split('@');
     Event currentEvent = Event(
-        'Username',
+        userName.elementAt(0),
         snap['Sport'],
         dateTimeStartTime,
         snap['Duration'],
@@ -186,6 +188,7 @@ class _ViewEvent extends State<ViewEvent> {
           color: Colors.white,
           padding: const EdgeInsets.all(16),
           child: MaterialApp(
+            debugShowCheckedModeBanner: false,
             home: Scaffold(
               appBar: AppBar(
                 title: TextField(
@@ -196,12 +199,15 @@ class _ViewEvent extends State<ViewEvent> {
                   ),
                   onSubmitted: (String value) {
                     if (textController.text.isNotEmpty) {
+                      final userEmail =
+                          FirebaseAuth.instance.currentUser!.email.toString();
+                      final userName = userEmail.split('@');
                       setState(() {
                         commentList.insert(
                             0,
-                            Comment(DateTime.now(), user.toString(),
+                            Comment(DateTime.now(), userName.elementAt(0),
                                 textController.text));
-                        addCommentDetails(DateTime.now(), user.toString(),
+                        addCommentDetails(DateTime.now(), userName.elementAt(0),
                             textController.text);
                         textController.clear();
                         Navigator.of(context).pop();
@@ -258,13 +264,16 @@ class _ViewEvent extends State<ViewEvent> {
                 child: const Icon(Icons.add_comment_rounded),
                 onPressed: () {
                   if (textController.text.isNotEmpty) {
+                    final userEmail =
+                        FirebaseAuth.instance.currentUser!.email.toString();
+                    final userName = userEmail.split('@');
                     setState(() {
                       commentList.insert(
                           0,
-                          Comment(DateTime.now(), user.toString(),
+                          Comment(DateTime.now(), userName.elementAt(0),
                               textController.text));
-                      addCommentDetails(
-                          DateTime.now(), user.toString(), textController.text);
+                      addCommentDetails(DateTime.now(), userName.elementAt(0),
+                          textController.text);
                     });
                   }
                 },
