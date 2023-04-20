@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/classes/event_class.dart';
 import 'package:intl/intl.dart';
@@ -28,6 +29,7 @@ class CreateEventPage extends StatefulWidget {
 class _CreateEventPage extends State<CreateEventPage> {
   // adds event details to Firestore Database in Event collection
   Future addEventDetails(
+      final username,
       String sport,
       DateTime starttime,
       String duration,
@@ -37,6 +39,7 @@ class _CreateEventPage extends State<CreateEventPage> {
       String description,
       List interested) async {
     await FirebaseFirestore.instance.collection('Event').add({
+      'Username': username,
       'Sport': sport,
       'StartTime': starttime,
       'Duration': duration,
@@ -356,7 +359,11 @@ class _CreateEventPage extends State<CreateEventPage> {
                 textControllerDuration.clear();
                 dateText = 'select a date';
                 timeText = 'select a time';
+                final user =
+                    FirebaseAuth.instance.currentUser!.email.toString();
+                final userEmail = user.split('@');
                 addEventDetails(
+                    userEmail.elementAt(0),
                     newEvent.sport,
                     newEvent.starttime,
                     newEvent.duration,
