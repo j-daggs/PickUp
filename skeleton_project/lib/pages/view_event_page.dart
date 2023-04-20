@@ -188,6 +188,7 @@ class _ViewEvent extends State<ViewEvent> {
           color: Colors.white,
           padding: const EdgeInsets.all(16),
           child: MaterialApp(
+            debugShowCheckedModeBanner: false,
             home: Scaffold(
               appBar: AppBar(
                 title: TextField(
