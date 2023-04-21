@@ -73,12 +73,11 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: HomePage._title,
+      theme: AppTheme.greenTheme,
       home: Scaffold(
         appBar: AppBar(
           title: const Text(HomePage._title),
           scrolledUnderElevation: widget.scrolledUnderElevation,
-          shadowColor: lightBackground,
-          backgroundColor: greenPrimary,
           actions: <Widget>[
             _showInterestButton(),
             const SizedBox(
@@ -102,7 +101,6 @@ class _HomePageState extends State<HomePage> {
               },
               tooltip: 'Create an Event',
               icon: const Icon(Icons.add_box_outlined),
-              color: brightColor,
             ),
             const SizedBox(
               width: 50,
@@ -110,7 +108,6 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         body: _filterStream(),
-        backgroundColor: lightBackground,
       ),
       debugShowCheckedModeBanner: false,
     );
@@ -139,9 +136,6 @@ class _HomePageState extends State<HomePage> {
                         elevation: 5,
                         child: Container(
                           decoration: const BoxDecoration(
-                            border: Border(
-                              top: BorderSide(width: 2.0, color: primaryAccent),
-                            ),
                             color: brightBackground,
                           ),
                           child: Padding(
@@ -224,7 +218,7 @@ class _HomePageState extends State<HomePage> {
           text: '${snap['Username']}',
           style: const TextStyle(
               fontWeight: FontWeight.bold,
-              color: greenPrimary,
+              color: primaryLight,
               fontSize: headerFontSize),
         ),
       ),
@@ -239,15 +233,14 @@ class _HomePageState extends State<HomePage> {
           text: '${snap['Sport']} \n',
           style: const TextStyle(
               fontWeight: FontWeight.bold,
-              color: greenPrimary,
+              color: primaryLight,
               fontSize: headerFontSize),
           children: <TextSpan>[
             TextSpan(
                 text: '${snap['Skill']}',
                 style: const TextStyle(
                   color: blackText,
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
+                  fontSize: bodyFontSize,
                 )),
           ],
         ),
@@ -263,7 +256,7 @@ class _HomePageState extends State<HomePage> {
           text:
               'Start Time: ${DateFormat.yMMMd().format(snap['StartTime'].toDate())} - ${DateFormat.jm().format(snap['StartTime'].toDate())}',
           style: const TextStyle(
-              fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
+              fontWeight: FontWeight.bold, color: primaryLight, fontSize: 20),
         ),
       ),
     );
@@ -276,7 +269,9 @@ class _HomePageState extends State<HomePage> {
         text: TextSpan(
           text: '${snap['Duration']}',
           style: const TextStyle(
-              fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
+              fontWeight: FontWeight.bold,
+              color: primaryLight,
+              fontSize: headerFontSize),
         ),
       ),
     );
@@ -289,7 +284,9 @@ class _HomePageState extends State<HomePage> {
         text: TextSpan(
           text: '${snap['Address']}',
           style: const TextStyle(
-              fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
+              fontWeight: FontWeight.bold,
+              color: primaryLight,
+              fontSize: headerFontSize),
         ),
       ),
     );
@@ -302,7 +299,9 @@ class _HomePageState extends State<HomePage> {
         text: TextSpan(
           text: '${snap['Description']}',
           style: const TextStyle(
-              fontWeight: FontWeight.normal, color: lightText, fontSize: 20),
+              fontWeight: FontWeight.normal,
+              color: lightText,
+              fontSize: headerFontSize),
         ),
       ),
     );
@@ -478,7 +477,7 @@ class _HomePageState extends State<HomePage> {
       },
       tooltip: 'Show Your Interested Events',
       icon: const Icon(Icons.star_outline_rounded),
-      color: Colors.white,
+      color: brightColor,
       iconSize: 30,
     );
   }

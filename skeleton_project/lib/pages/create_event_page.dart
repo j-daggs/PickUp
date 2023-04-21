@@ -217,6 +217,12 @@ class _CreateEventPage extends State<CreateEventPage> {
                         initialDate: DateTime.now(),
                         firstDate: DateTime.now(),
                         lastDate: DateTime(2222),
+                        builder: (BuildContext context, Widget? child) {
+                          return Theme(
+                            data: AppTheme.greenTheme,
+                            child: child!,
+                          );
+                        },
                       ).then((date) {
                         setState(() {
                           newEvent.starttime = date!;
@@ -240,6 +246,12 @@ class _CreateEventPage extends State<CreateEventPage> {
                       onPressed: () async {
                         TimeOfDay? newTime = await showTimePicker(
                           context: context,
+                          builder: (BuildContext context, Widget? child) {
+                            return Theme(
+                              data: AppTheme.greenTheme,
+                              child: child!,
+                            );
+                          },
                           initialTime:
                               TimeOfDay.fromDateTime(newEvent.starttime),
                         );

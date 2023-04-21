@@ -92,20 +92,36 @@ class _LoginFormState extends State<LoginForm> {
                   // email textfield UI and controller
                   Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                      child: TextFieldObject(
-                          controller: _emailController,
-                          hintText: 'Email',
-                          obscureText: false)),
+                      child: TextField(
+                        controller: _emailController,
+                        obscureText: false,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(width: 2, color: primaryLight),
+                          ),
+                          hintText: 'Username',
+                        ),
+                      )),
 
                   const SizedBox(height: 10),
 
                   // password textfield and controller
                   Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                      child: TextFieldObject(
-                          controller: _passwordController,
+                      child: TextField(
+                        controller: _passwordController,
+                        obscureText: true,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(width: 2, color: primaryLight),
+                          ),
                           hintText: 'Password',
-                          obscureText: true)),
+                        ),
+                      )),
                   const SizedBox(height: 25),
 
                   // Log in button and on Tap call signIn
