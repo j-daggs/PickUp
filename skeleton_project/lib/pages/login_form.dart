@@ -90,40 +90,41 @@ class _LoginFormState extends State<LoginForm> {
                   const SizedBox(height: 25),
 
                   // email textfield UI and controller
-                  Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                      child: TextField(
-                        cursorColor: greenPrimary,
-                        controller: _emailController,
-                        obscureText: false,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(width: 2, color: primaryLight),
-                          ),
-                          hintText: 'Username',
+                  Container(
+                    width: MediaQuery.of(context).size.width * maxFieldWidth,
+                    child: TextField(
+                      cursorColor: greenPrimary,
+                      controller: _emailController,
+                      obscureText: false,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 2, color: primaryLight),
                         ),
-                      )),
+                        hintText: 'Username',
+                      ),
+                    ),
+                  ),
 
                   const SizedBox(height: 10),
 
                   // password textfield and controller
-                  Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                      child: TextField(
-                        cursorColor: greenPrimary,
-                        controller: _passwordController,
-                        obscureText: true,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(width: 2, color: primaryLight),
-                          ),
-                          hintText: 'Password',
+                  Container(
+                    width: MediaQuery.of(context).size.width * maxFieldWidth,
+                    child: TextField(
+                      cursorColor: greenPrimary,
+                      controller: _passwordController,
+                      obscureText: true,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 2, color: primaryLight),
                         ),
-                      )),
+                        hintText: 'Password',
+                      ),
+                    ),
+                  ),
+
                   const SizedBox(height: 25),
 
                   // Log in button and on Tap call signIn
@@ -144,7 +145,7 @@ class _LoginFormState extends State<LoginForm> {
                         onTap: widget.showRegisterPage,
                         child: const Text(' Register now',
                             style: TextStyle(
-                                color: greenPrimary,
+                                color: primaryLight,
                                 fontWeight: FontWeight.bold)),
                       )
                     ],

@@ -133,6 +133,8 @@ class _HomePageState extends State<HomePage> {
                   height: 220,
                   width: double.maxFinite,
                   child: InkWell(
+                      splashColor: errorColor,
+                      hoverColor: primaryLightLowAlpha,
                       child: Card(
                         elevation: 5,
                         child: Container(

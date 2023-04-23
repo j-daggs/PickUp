@@ -105,76 +105,76 @@ class _RegisterPageState extends State<RegisterPage> {
                       style: TextStyle(fontSize: bodyFontSize)),
                   const SizedBox(height: 50),
 
-                  // Username text field and controller (ADDING LATER)
-                  Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                      child: TextField(
-                        cursorColor: greenPrimary,
-                        controller: _usernameController,
-                        obscureText: false,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(width: 2, color: primaryLight),
-                          ),
-                          hintText: 'Username',
+                  // Username text field and controller
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * maxFieldWidth,
+                    child: TextField(
+                      cursorColor: greenPrimary,
+                      controller: _usernameController,
+                      obscureText: false,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 2, color: primaryLight),
                         ),
-                      )),
+                        hintText: 'Username',
+                      ),
+                    ),
+                  ),
                   const SizedBox(height: 10),
 
                   // email textfield UI and controller
-                  Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                      child: TextField(
-                        cursorColor: greenPrimary,
-                        controller: _emailController,
-                        obscureText: false,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(width: 2, color: primaryLight),
-                          ),
-                          hintText: 'Email',
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * maxFieldWidth,
+                    child: TextField(
+                      cursorColor: greenPrimary,
+                      controller: _emailController,
+                      obscureText: false,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 2, color: primaryLight),
                         ),
-                      )),
+                        hintText: 'Email',
+                      ),
+                    ),
+                  ),
                   const SizedBox(height: 10),
 
                   // password textfield and controller
-                  Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                      child: TextField(
-                        cursorColor: greenPrimary,
-                        controller: _passwordController,
-                        obscureText: false,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(width: 2, color: primaryLight),
-                          ),
-                          hintText: 'Password',
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * maxFieldWidth,
+                    child: TextField(
+                      cursorColor: greenPrimary,
+                      controller: _passwordController,
+                      obscureText: false,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 2, color: primaryLight),
                         ),
-                      )),
+                        hintText: 'Password',
+                      ),
+                    ),
+                  ),
                   const SizedBox(height: 10),
 
                   // confirm password textfield and controller
-                  Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                      child: TextField(
-                        cursorColor: greenPrimary,
-                        controller: _confirmPasswordController,
-                        obscureText: false,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(width: 2, color: primaryLight),
-                          ),
-                          hintText: 'Re-enter password',
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * maxFieldWidth,
+                    child: TextField(
+                      cursorColor: greenPrimary,
+                      controller: _confirmPasswordController,
+                      obscureText: false,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 2, color: primaryLight),
                         ),
-                      )),
+                        hintText: 'Re-enter password',
+                      ),
+                    ),
+                  ),
                   const SizedBox(height: 10),
 
                   // Register Button and on button click sign up new user

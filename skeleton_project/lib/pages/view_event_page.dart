@@ -169,7 +169,7 @@ class _ViewEvent extends State<ViewEvent> {
                   text,
                   style: TextStyle(
                     color: blackText,
-                    fontSize: 14,
+                    fontSize: bodyFontSize,
                     fontWeight: FontWeight.bold,
                   ),
                 );
@@ -198,7 +198,7 @@ class _ViewEvent extends State<ViewEvent> {
               ),
               child: const Icon(
                 Icons.comment_rounded,
-                color: darkColor,
+                color: brightColor,
               ), // add comment icon to floating button)
             ),
           ),
@@ -215,18 +215,18 @@ class _ViewEvent extends State<ViewEvent> {
           padding: const EdgeInsets.all(16),
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
-            theme: AppTheme.greenTheme,
+            // theme: AppTheme.greenTheme,
             home: Scaffold(
               appBar: AppBar(
+                backgroundColor: primaryLight,
                 title: TextField(
                   cursorColor: darkColor,
                   controller: textController,
                   decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(width: 2, color: primaryLight),
                     ),
-                    hintText: 'Username',
+                    hintText: 'Start typing a comment',
                   ),
                   onSubmitted: (String value) {
                     if (textController.text.isNotEmpty) {
