@@ -75,6 +75,7 @@ class _HomePageState extends State<HomePage> {
       title: HomePage._title,
       theme: AppTheme.greenTheme,
       home: Scaffold(
+        backgroundColor: lightBackground,
         appBar: AppBar(
           title: const Text(HomePage._title),
           scrolledUnderElevation: widget.scrolledUnderElevation,

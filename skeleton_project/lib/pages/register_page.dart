@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../login_button.dart';
 import '../classes/text_field_class.dart';
+import 'package:my_app/classes/theme_class.dart';
 
 class RegisterPage extends StatefulWidget {
   final VoidCallback showLoginForm;
@@ -62,11 +63,11 @@ class _RegisterPageState extends State<RegisterPage> {
       context: context,
       builder: (context) {
         return const AlertDialog(
-          backgroundColor: Colors.blue,
+          backgroundColor: greenPrimary,
           title: Center(
             child: Text(
               'Incorrect Username or Password',
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: brightText),
             ),
           ),
         );
@@ -87,7 +88,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.grey[300],
+        backgroundColor: lightBackground,
         body: SafeArea(
           child: Center(
             child: SingleChildScrollView(
@@ -96,47 +97,84 @@ class _RegisterPageState extends State<RegisterPage> {
                 children: [
                   // Welcome message
                   const Text('Hello There!',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 24)),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: headerFontSize)),
                   const SizedBox(height: 10),
                   const Text('Register below with your details',
-                      style: TextStyle(fontSize: 20)),
+                      style: TextStyle(fontSize: bodyFontSize)),
                   const SizedBox(height: 50),
 
                   // Username text field and controller (ADDING LATER)
                   Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                      child: TextFieldObject(
-                          controller: _usernameController,
+                      child: TextField(
+                        cursorColor: greenPrimary,
+                        controller: _usernameController,
+                        obscureText: false,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(width: 2, color: primaryLight),
+                          ),
                           hintText: 'Username',
-                          obscureText: false)),
+                        ),
+                      )),
                   const SizedBox(height: 10),
 
                   // email textfield UI and controller
                   Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                      child: TextFieldObject(
-                          controller: _emailController,
+                      child: TextField(
+                        cursorColor: greenPrimary,
+                        controller: _emailController,
+                        obscureText: false,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(width: 2, color: primaryLight),
+                          ),
                           hintText: 'Email',
-                          obscureText: false)),
+                        ),
+                      )),
                   const SizedBox(height: 10),
 
                   // password textfield and controller
                   Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                      child: TextFieldObject(
-                          controller: _passwordController,
+                      child: TextField(
+                        cursorColor: greenPrimary,
+                        controller: _passwordController,
+                        obscureText: false,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(width: 2, color: primaryLight),
+                          ),
                           hintText: 'Password',
-                          obscureText: true)),
+                        ),
+                      )),
                   const SizedBox(height: 10),
 
                   // confirm password textfield and controller
                   Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                      child: TextFieldObject(
-                          controller: _confirmPasswordController,
+                      child: TextField(
+                        cursorColor: greenPrimary,
+                        controller: _confirmPasswordController,
+                        obscureText: false,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(width: 2, color: primaryLight),
+                          ),
                           hintText: 'Re-enter password',
-                          obscureText: true)),
+                        ),
+                      )),
                   const SizedBox(height: 10),
 
                   // Register Button and on button click sign up new user
@@ -157,7 +195,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         onTap: widget.showLoginForm,
                         child: const Text(' here',
                             style: TextStyle(
-                                color: Colors.red,
+                                color: primaryLight,
                                 fontWeight: FontWeight.bold)),
                       )
                     ],
