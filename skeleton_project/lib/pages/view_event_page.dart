@@ -1,5 +1,4 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-import 'dart:html';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -203,18 +202,17 @@ class _ViewEvent extends State<ViewEvent> {
             ),
           ),
           Positioned(
-          bottom: 100,
-          right: 100,
-          child: FloatingActionButton.extended(
-            heroTag: "back",
-            label: const Text("go back"),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(Icons.undo_rounded),
+            bottom: 100,
+            right: 100,
+            child: FloatingActionButton.extended(
+              heroTag: "back",
+              label: const Text("go back"),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(Icons.undo_rounded),
+            ),
           ),
-        ),
-          
         ]),
       ),
     );

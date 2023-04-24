@@ -1,4 +1,3 @@
-import 'dart:html';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +6,6 @@ import 'package:my_app/pages/create_event_page.dart';
 import '../classes/location.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:my_app/pages/view_event_page.dart';
-import 'package:my_app/classes/event_class.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:geocoding/geocoding.dart';
