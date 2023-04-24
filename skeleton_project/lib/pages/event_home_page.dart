@@ -11,6 +11,7 @@ import 'package:my_app/classes/event_class.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:my_app/classes/theme_class.dart';
 
 /// User's location
 final Position currentLocation =
@@ -72,12 +73,12 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: HomePage._title,
+      theme: AppTheme.greenTheme,
       home: Scaffold(
+        backgroundColor: lightBackground,
         appBar: AppBar(
           title: const Text(HomePage._title),
           scrolledUnderElevation: widget.scrolledUnderElevation,
-          shadowColor: Colors.grey,
-          backgroundColor: Colors.green,
           actions: <Widget>[
             _showInterestButton(),
             const SizedBox(
@@ -101,7 +102,6 @@ class _HomePageState extends State<HomePage> {
               },
               tooltip: 'Create an Event',
               icon: const Icon(Icons.add_box_outlined),
-              color: Colors.white,
             ),
             const SizedBox(
               width: 50,
@@ -110,7 +110,6 @@ class _HomePageState extends State<HomePage> {
         ),
         body: _filterStream(),
       ),
-      color: Colors.grey,
       debugShowCheckedModeBanner: false,
     );
   }
@@ -134,14 +133,13 @@ class _HomePageState extends State<HomePage> {
                   height: 220,
                   width: double.maxFinite,
                   child: InkWell(
+                      splashColor: errorColor,
+                      hoverColor: primaryLightLowAlpha,
                       child: Card(
                         elevation: 5,
                         child: Container(
                           decoration: const BoxDecoration(
-                            border: Border(
-                              top: BorderSide(width: 2.0, color: Colors.black),
-                            ),
-                            color: Colors.white,
+                            color: brightBackground,
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(7),
@@ -222,7 +220,9 @@ class _HomePageState extends State<HomePage> {
         text: TextSpan(
           text: '${snap['Username']}',
           style: const TextStyle(
-              fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
+              fontWeight: FontWeight.bold,
+              color: primaryLight,
+              fontSize: headerFontSize),
         ),
       ),
     );
@@ -235,14 +235,15 @@ class _HomePageState extends State<HomePage> {
         text: TextSpan(
           text: '${snap['Sport']} \n',
           style: const TextStyle(
-              fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
+              fontWeight: FontWeight.bold,
+              color: primaryLight,
+              fontSize: headerFontSize),
           children: <TextSpan>[
             TextSpan(
                 text: '${snap['Skill']}',
                 style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
+                  color: blackText,
+                  fontSize: bodyFontSize,
                 )),
           ],
         ),
@@ -258,7 +259,7 @@ class _HomePageState extends State<HomePage> {
           text:
               'Start Time: ${DateFormat.yMMMd().format(snap['StartTime'].toDate())} - ${DateFormat.jm().format(snap['StartTime'].toDate())}',
           style: const TextStyle(
-              fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
+              fontWeight: FontWeight.bold, color: primaryLight, fontSize: 20),
         ),
       ),
     );
@@ -271,7 +272,9 @@ class _HomePageState extends State<HomePage> {
         text: TextSpan(
           text: '${snap['Duration']}',
           style: const TextStyle(
-              fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
+              fontWeight: FontWeight.bold,
+              color: primaryLight,
+              fontSize: headerFontSize),
         ),
       ),
     );
@@ -284,7 +287,9 @@ class _HomePageState extends State<HomePage> {
         text: TextSpan(
           text: '${snap['Address']}',
           style: const TextStyle(
-              fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
+              fontWeight: FontWeight.bold,
+              color: primaryLight,
+              fontSize: headerFontSize),
         ),
       ),
     );
@@ -298,8 +303,8 @@ class _HomePageState extends State<HomePage> {
           text: '${snap['Description']}',
           style: const TextStyle(
               fontWeight: FontWeight.normal,
-              color: Colors.blueGrey,
-              fontSize: 20),
+              color: lightText,
+              fontSize: headerFontSize),
         ),
       ),
     );
@@ -310,10 +315,10 @@ class _HomePageState extends State<HomePage> {
       value: dropDownSportsValue,
       icon: const Icon(Icons.arrow_drop_down_rounded),
       elevation: 16,
-      style: const TextStyle(color: Colors.white),
+      style: const TextStyle(color: brightText),
       underline: Container(
         height: 2,
-        color: Colors.white,
+        color: brightColor,
       ),
       onChanged: (String? value) {
         // This is called when the user selects an item.
@@ -328,7 +333,34 @@ class _HomePageState extends State<HomePage> {
           child: Text(value),
         );
       }).toList(),
-      dropdownColor: Colors.black,
+      dropdownColor: primaryLight,
+    );
+  }
+
+  Widget _dropDownSkillMenu() {
+    return DropdownButton<String>(
+      value: dropDownSkillValue,
+      icon: const Icon(Icons.arrow_drop_down_rounded),
+      elevation: 16,
+      style: const TextStyle(color: brightText),
+      underline: Container(
+        height: 2,
+        color: brightColor,
+      ),
+      onChanged: (String? newvalue) {
+        // This is called when the user selects an item.
+        dropDownSkillValue = newvalue!;
+        setState(() {
+          dropDownSkillValue;
+        });
+      },
+      items: _skillList.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+      dropdownColor: primaryLight,
     );
   }
 
@@ -499,7 +531,7 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Widget _dropDownSkillMenu() {
+  /*Widget _dropDownSkillMenu() {
     return DropdownButton<String>(
       value: dropDownSkillValue,
       icon: const Icon(Icons.arrow_drop_down_rounded),
@@ -524,7 +556,7 @@ class _HomePageState extends State<HomePage> {
       }).toList(),
       dropdownColor: Colors.black,
     );
-  }
+  }*/
 
   Widget _showInterestButton() {
     return IconButton(
