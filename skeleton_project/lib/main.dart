@@ -4,6 +4,7 @@ import 'auth/check_user_login.dart';
 import 'firebase_options.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:my_app/classes/theme_class.dart';
 
 void main() async {
   await GetStorage.init();
@@ -24,10 +25,11 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      theme: AppTheme.greenTheme,
       debugShowCheckedModeBanner: false,
       title: 'PickUP',
-      home: CheckLogin(),
+      home: const CheckLogin(),
     );
   }
 }

@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/classes/event_class.dart';
 import 'package:intl/intl.dart';
+import 'package:my_app/classes/theme_class.dart';
 import 'package:my_app/pages/event_home_page.dart';
 import '../classes/comment.dart';
 import 'package:intl/intl.dart';
@@ -82,6 +83,7 @@ class _ViewEvent extends State<ViewEvent> {
     }
 
     return Scaffold(
+      backgroundColor: lightBackground,
       body: Padding(
         padding: const EdgeInsets.all(30),
         child: Column(children: [
@@ -91,7 +93,8 @@ class _ViewEvent extends State<ViewEvent> {
               alignment: Alignment.topLeft,
               child: Text(
                 'Sport: ${currentEvent.sport}',
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontSize: largeFontSize, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.left,
               ),
             ),
@@ -101,7 +104,8 @@ class _ViewEvent extends State<ViewEvent> {
             child: Align(
               alignment: Alignment.topLeft,
               child: Text('Skill: ${currentEvent.skill}',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: largeFontSize, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.left),
             ),
           ),
@@ -110,7 +114,8 @@ class _ViewEvent extends State<ViewEvent> {
             child: Align(
               alignment: Alignment.topLeft,
               child: Text('Location: ${currentEvent.address}',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+                  style: TextStyle(
+                      fontSize: largeFontSize, fontWeight: FontWeight.bold)),
             ),
           ),
           Padding(
@@ -118,7 +123,8 @@ class _ViewEvent extends State<ViewEvent> {
             child: Align(
               alignment: Alignment.topLeft,
               child: Text('Date: ${currentEvent.getDate}',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+                  style: TextStyle(
+                      fontSize: largeFontSize, fontWeight: FontWeight.bold)),
             ),
           ),
           Padding(
@@ -126,7 +132,8 @@ class _ViewEvent extends State<ViewEvent> {
             child: Align(
               alignment: Alignment.topLeft,
               child: Text('Start Time: ${currentEvent.getTime}',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+                  style: TextStyle(
+                      fontSize: largeFontSize, fontWeight: FontWeight.bold)),
             ),
           ),
           Padding(
@@ -134,7 +141,8 @@ class _ViewEvent extends State<ViewEvent> {
             child: Align(
               alignment: Alignment.topLeft,
               child: Text('Duration: ${currentEvent.duration}',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+                  style: TextStyle(
+                      fontSize: largeFontSize, fontWeight: FontWeight.bold)),
             ),
           ),
           Padding(
@@ -142,29 +150,45 @@ class _ViewEvent extends State<ViewEvent> {
             child: Align(
               alignment: Alignment.topLeft,
               child: Text('Description: ${currentEvent.description}',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+                  style: TextStyle(
+                      fontSize: largeFontSize, fontWeight: FontWeight.bold)),
             ),
           ),
-          LikeButton(
-            size: 50,
-            mainAxisAlignment: MainAxisAlignment.end,
-            likeCount: currentEvent.interested.isNotEmpty
-                ? currentEvent.interested.length
-                : 0,
-            countPostion: CountPostion.left,
-            likeBuilder: ((isLiked) {
-              return Icon(
-                Icons.star_rounded,
-                color: isLiked ? Colors.yellow[600] : Colors.blueGrey,
-                size: 50,
-              );
-            }),
-            onTap: onInterestButtonTapped,
-            isLiked: currentEvent.interested.contains(user) ? true : false,
+          Container(
+            alignment: Alignment.bottomRight,
+            child: LikeButton(
+              size: 50,
+              mainAxisAlignment: MainAxisAlignment.end,
+              likeCount: currentEvent.interested.isNotEmpty
+                  ? currentEvent.interested.length
+                  : 0,
+              countPostion: CountPostion.top,
+              countBuilder: (int? count, bool isLiked, String text) {
+                var color = isLiked ? primaryAccent : darkColor;
+                return Text(
+                  text,
+                  style: TextStyle(
+                    color: blackText,
+                    fontSize: bodyFontSize,
+                    fontWeight: FontWeight.bold,
+                  ),
+                );
+              },
+              likeBuilder: ((isLiked) {
+                return Icon(
+                  Icons.star_rounded,
+                  color: isLiked ? primaryAccent : darkColor,
+                  size: 50,
+                );
+              }),
+              onTap: onInterestButtonTapped,
+              isLiked: currentEvent.interested.contains(user) ? true : false,
+            ),
           ),
-          Align(
+          Container(
             alignment: Alignment.bottomRight,
             child: FloatingActionButton(
+              backgroundColor: greenPrimary,
               // button that opens the comment section, a Modal Bottom Sheet
               onPressed: () => showModalBottomSheet(
                 // this is what opens the modal bottom sheet that the comment section will be in
@@ -172,8 +196,10 @@ class _ViewEvent extends State<ViewEvent> {
                 builder: (context) =>
                     buildSheet(), // Call to buildSheet() method that builds the sheet into the comment section
               ),
-              child: const Icon(Icons
-                  .comment_rounded), // add comment icon to floating button)
+              child: const Icon(
+                Icons.comment_rounded,
+                color: brightColor,
+              ), // add comment icon to floating button)
             ),
           ),
         ]),
@@ -185,17 +211,22 @@ class _ViewEvent extends State<ViewEvent> {
   Widget buildSheet() => DraggableScrollableSheet(
         initialChildSize: 1.0,
         builder: (_, controller) => Container(
-          color: Colors.white,
+          color: lightBackground,
           padding: const EdgeInsets.all(16),
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
+            // theme: AppTheme.greenTheme,
             home: Scaffold(
               appBar: AppBar(
+                backgroundColor: primaryLight,
                 title: TextField(
+                  cursorColor: darkColor,
                   controller: textController,
                   decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Add a comment',
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(width: 2, color: primaryLight),
+                    ),
+                    hintText: 'Start typing a comment',
                   ),
                   onSubmitted: (String value) {
                     if (textController.text.isNotEmpty) {
@@ -261,6 +292,7 @@ class _ViewEvent extends State<ViewEvent> {
                 },
               ),
               floatingActionButton: FloatingActionButton(
+                backgroundColor: greenPrimary,
                 child: const Icon(Icons.add_comment_rounded),
                 onPressed: () {
                   if (textController.text.isNotEmpty) {
