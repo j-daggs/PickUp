@@ -176,6 +176,19 @@ class _ViewEvent extends State<ViewEvent> {
                   .comment_rounded), // add comment icon to floating button)
             ),
           ),
+          Positioned(
+          bottom: 100,
+          right: 100,
+          child: FloatingActionButton.extended(
+            heroTag: "back",
+            label: const Text("go back"),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.undo_rounded),
+          ),
+        ),
+          
         ]),
       ),
     );
