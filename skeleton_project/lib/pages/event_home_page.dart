@@ -369,44 +369,84 @@ class _HomePageState extends State<HomePage> {
     // Skill value changed but sport did NOT
     if (dropDownSkillValue != _skillList.first &&
         dropDownSportsValue == _sportList.first) {
-      return StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('Event').where('Skill',
-            whereIn: [dropDownSkillValue, _skillList.first]).snapshots(),
-        builder: (context,
-            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (snapshot.hasData && snapshot.data != null) {
+      if (intButtonClick) {
+        //if skill changed, sport did not change, interest button is clicked
+        return StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection('Event')
+              .where('Skill', whereIn: [dropDownSkillValue, _skillList.first])
+              .where('Interested', arrayContains: user)
+              .snapshots(),
+          builder: (context,
+              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
             return _cardBuilder(snapshot.data!);
-          }
-          return const Text('No data');
-        },
-      );
+          },
+        );
+      } else {
+        return StreamBuilder(
+          stream: FirebaseFirestore.instance.collection('Event').where('Skill',
+              whereIn: [dropDownSkillValue, _skillList.first]).snapshots(),
+          builder: (context,
+              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (snapshot.hasData && snapshot.data != null) {
+              return _cardBuilder(snapshot.data!);
+            }
+            return const Text('No data');
+          },
+        );
+      }
     }
     // Sport changed but skill did NOT
     if (dropDownSkillValue == _skillList.first &&
         dropDownSportsValue != _sportList.first) {
-      return StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection('Event')
-            .where('Sport', isEqualTo: dropDownSportsValue)
-            .snapshots(),
-        builder: (context,
-            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (snapshot.hasData && snapshot.data != null) {
+      if (intButtonClick) {
+        //if sport changed, skill did not change, interest button is clicked
+        return StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection('Event')
+              .where('Sport', isEqualTo: dropDownSportsValue)
+              .where('Interested', arrayContains: user)
+              .snapshots(),
+          builder: (context,
+              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
             return _cardBuilder(snapshot.data!);
-          }
-          return const Text('No Data');
-        },
-      );
+          },
+        );
+      } else {
+        return StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection('Event')
+              .where('Sport', isEqualTo: dropDownSportsValue)
+              .snapshots(),
+          builder: (context,
+              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (snapshot.hasData && snapshot.data != null) {
+              return _cardBuilder(snapshot.data!);
+            }
+            return const Text('No Data');
+          },
+        );
+      }
     }
     // Nothing changed
     if (dropDownSkillValue == _skillList.first &&
@@ -427,47 +467,96 @@ class _HomePageState extends State<HomePage> {
             return _cardBuilder(snapshot.data!);
           },
         );
+      } else {
+        return StreamBuilder(
+          stream: FirebaseFirestore.instance.collection('Event').snapshots(),
+          builder: (context,
+              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (snapshot.hasData && snapshot.data != null) {
+              return _cardBuilder(snapshot.data!);
+            }
+            return const Text('No Data');
+          },
+        );
       }
-      return StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('Event').snapshots(),
-        builder: (context,
-            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (snapshot.hasData && snapshot.data != null) {
-            return _cardBuilder(snapshot.data!);
-          }
-          return const Text('No Data');
-        },
-      );
     }
     // Both changed
     if (dropDownSkillValue != _skillList.first &&
         dropDownSportsValue != _sportList.first) {
-      return StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection('Event')
-            .where('Sport', isEqualTo: dropDownSportsValue)
-            .where('Skill',
-                whereIn: [dropDownSkillValue, _skillList.first]).snapshots(),
-        builder: (context,
-            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (snapshot.hasData && snapshot.data != null) {
+      if (intButtonClick) {
+        //if both are changed and interest button is clicked
+        return StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection('Event')
+              .where('Sport', isEqualTo: dropDownSportsValue)
+              .where('Skill', whereIn: [dropDownSkillValue, _skillList.first])
+              .where('Interested', arrayContains: user)
+              .snapshots(),
+          builder: (context,
+              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
             return _cardBuilder(snapshot.data!);
-          }
-          return const Text('No Data');
-        },
-      );
+          },
+        );
+      } else {
+        return StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection('Event')
+              .where('Sport', isEqualTo: dropDownSportsValue)
+              .where('Skill',
+                  whereIn: [dropDownSkillValue, _skillList.first]).snapshots(),
+          builder: (context,
+              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (snapshot.hasData && snapshot.data != null) {
+              return _cardBuilder(snapshot.data!);
+            }
+            return const Text('No Data');
+          },
+        );
+      }
     }
   }
+
+  /*Widget _dropDownSkillMenu() {
+    return DropdownButton<String>(
+      value: dropDownSkillValue,
+      icon: const Icon(Icons.arrow_drop_down_rounded),
+      elevation: 16,
+      style: const TextStyle(color: Colors.white),
+      underline: Container(
+        height: 2,
+        color: Colors.white,
+      ),
+      onChanged: (String? newvalue) {
+        // This is called when the user selects an item.
+        dropDownSkillValue = newvalue!;
+        setState(() {
+          dropDownSkillValue;
+        });
+      },
+      items: _skillList.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+      dropdownColor: Colors.black,
+    );
+  }*/
 
   Widget _showInterestButton() {
     return IconButton(
@@ -479,8 +568,10 @@ class _HomePageState extends State<HomePage> {
         });
       },
       tooltip: 'Show Your Interested Events',
-      icon: const Icon(Icons.star_outline_rounded),
-      color: brightColor,
+      icon: intButtonClick
+          ? Icon(Icons.star_rounded)
+          : Icon(Icons.star_outline_rounded),
+      color: Colors.white,
       iconSize: 30,
     );
   }
