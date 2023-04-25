@@ -3,7 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:my_app/main.dart';
 import 'package:my_app/pages/create_event_page.dart';
+import 'package:my_app/pages/login_form.dart';
 import '../classes/location.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:my_app/pages/view_event_page.dart';
@@ -69,6 +71,16 @@ class _HomePageState extends State<HomePage> {
 
   final bool shadowColor = false;
 
+  /*signOut() async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => LoginForm(
+                  showRegisterPage: () {},
+                )));
+  }*/
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -104,8 +116,10 @@ class _HomePageState extends State<HomePage> {
               icon: const Icon(Icons.add_box_outlined),
             ),
             const SizedBox(
-              width: 50,
+              width: 65,
             ),
+            _logoutButton(),
+            const SizedBox(width: 10)
           ],
         ),
         body: _filterStream(),
@@ -364,6 +378,14 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Widget _logoutButton() {
+    return ElevatedButton(
+        onPressed: () async {
+          await FirebaseAuth.instance.signOut();
+        },
+        child: const Text('Logout'));
+  }
+
 // The stream will auto reload the body of the page upon changing the dropDownSportsValue
   _filterStream() {
     // Skill value changed but sport did NOT
@@ -530,33 +552,6 @@ class _HomePageState extends State<HomePage> {
       }
     }
   }
-
-  /*Widget _dropDownSkillMenu() {
-    return DropdownButton<String>(
-      value: dropDownSkillValue,
-      icon: const Icon(Icons.arrow_drop_down_rounded),
-      elevation: 16,
-      style: const TextStyle(color: Colors.white),
-      underline: Container(
-        height: 2,
-        color: Colors.white,
-      ),
-      onChanged: (String? newvalue) {
-        // This is called when the user selects an item.
-        dropDownSkillValue = newvalue!;
-        setState(() {
-          dropDownSkillValue;
-        });
-      },
-      items: _skillList.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
-      dropdownColor: Colors.black,
-    );
-  }*/
 
   Widget _showInterestButton() {
     return IconButton(
