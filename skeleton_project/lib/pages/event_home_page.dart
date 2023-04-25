@@ -1,15 +1,12 @@
-import 'dart:html';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:my_app/main.dart';
 import 'package:my_app/pages/create_event_page.dart';
-import 'package:my_app/pages/login_form.dart';
 import '../classes/location.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:my_app/pages/view_event_page.dart';
-import 'package:my_app/classes/event_class.dart';
+// ignore: depend_on_referenced_packages
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:geocoding/geocoding.dart';
@@ -564,8 +561,8 @@ class _HomePageState extends State<HomePage> {
       },
       tooltip: 'Show Your Interested Events',
       icon: intButtonClick
-          ? Icon(Icons.star_rounded)
-          : Icon(Icons.star_outline_rounded),
+          ? const Icon(Icons.star_rounded)
+          : const Icon(Icons.star_outline_rounded),
       color: Colors.white,
       iconSize: 30,
     );
@@ -574,20 +571,6 @@ class _HomePageState extends State<HomePage> {
 
 class ButtonController extends GetxController {
   final getStorage = GetStorage();
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
 
   Future<bool> saveLikeCount(bool isLiked) async {
     getStorage.write("isLiked", !isLiked);

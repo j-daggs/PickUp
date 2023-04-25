@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../login_button.dart';
-import '../classes/text_field_class.dart';
 import 'package:my_app/classes/theme_class.dart';
 
 class RegisterPage extends StatefulWidget {

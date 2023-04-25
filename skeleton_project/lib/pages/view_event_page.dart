@@ -1,6 +1,4 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-import 'dart:html';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/classes/event_class.dart';
@@ -8,15 +6,14 @@ import 'package:intl/intl.dart';
 import 'package:my_app/classes/theme_class.dart';
 import 'package:my_app/pages/event_home_page.dart';
 import '../classes/comment.dart';
-import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:like_button/like_button.dart';
 
 class ViewEvent extends StatefulWidget {
   // Initializing currentEventId
-  String currentEventId;
+  final String currentEventId;
   // Making currentEventId a required part of the constructor
-  ViewEvent({Key? key, required this.currentEventId}) : super(key: key);
+  const ViewEvent({Key? key, required this.currentEventId}) : super(key: key);
   @override
   State<ViewEvent> createState() => _ViewEvent();
 }
@@ -164,7 +161,6 @@ class _ViewEvent extends State<ViewEvent> {
                   : 0,
               countPostion: CountPostion.top,
               countBuilder: (int? count, bool isLiked, String text) {
-                var color = isLiked ? primaryAccent : darkColor;
                 return Text(
                   text,
                   style: TextStyle(
@@ -203,18 +199,17 @@ class _ViewEvent extends State<ViewEvent> {
             ),
           ),
           Positioned(
-          bottom: 100,
-          right: 100,
-          child: FloatingActionButton.extended(
-            heroTag: "back",
-            label: const Text("go back"),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(Icons.undo_rounded),
+            bottom: 100,
+            right: 100,
+            child: FloatingActionButton.extended(
+              heroTag: "back",
+              label: const Text("go back"),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(Icons.undo_rounded),
+            ),
           ),
-        ),
-          
         ]),
       ),
     );
