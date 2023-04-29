@@ -76,6 +76,7 @@ class _CreateEventPage extends State<CreateEventPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      appBar: AppBar(title: const Text("Create an Event")),
       body: Padding(
           padding: const EdgeInsets.all(30),
           child: SingleChildScrollView(
@@ -313,7 +314,7 @@ class _CreateEventPage extends State<CreateEventPage> {
             ]),
           )),
       floatingActionButton: Stack(children: [
-        Positioned(
+        /*Positioned(
           bottom: 80,
           right: 16,
           child: FloatingActionButton.extended(
@@ -325,7 +326,7 @@ class _CreateEventPage extends State<CreateEventPage> {
             backgroundColor: greenPrimary,
             icon: const Icon(Icons.undo_rounded),
           ),
-        ),
+        ),*/
         Positioned(
           bottom: 16,
           right: 16,

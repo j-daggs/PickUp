@@ -41,6 +41,7 @@ class AppTheme {
     textTheme: const TextTheme(
       displayLarge: TextStyle(
         color: brightText,
+        fontFamily: 'Kanit',
         fontWeight: FontWeight.bold,
         fontSize: headerFontSize,
       ),
