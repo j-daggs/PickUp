@@ -1,4 +1,3 @@
-//import 'dart:html';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,10 +6,11 @@ import 'package:my_app/pages/create_event_page.dart';
 import '../classes/location.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:my_app/pages/view_event_page.dart';
-import 'package:my_app/classes/event_class.dart';
+// ignore: depend_on_referenced_packages
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:my_app/classes/theme_class.dart';
 
 /// User's location
 final Position currentLocation =
@@ -68,16 +68,26 @@ class _HomePageState extends State<HomePage> {
 
   final bool shadowColor = false;
 
+  /*signOut() async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => LoginForm(
+                  showRegisterPage: () {},
+                )));
+  }*/
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: HomePage._title,
+      theme: AppTheme.greenTheme,
       home: Scaffold(
+        backgroundColor: lightBackground,
         appBar: AppBar(
           title: const Text(HomePage._title),
           scrolledUnderElevation: widget.scrolledUnderElevation,
-          shadowColor: Colors.grey,
-          backgroundColor: Colors.green,
           actions: <Widget>[
             _showInterestButton(),
             const SizedBox(
@@ -101,16 +111,16 @@ class _HomePageState extends State<HomePage> {
               },
               tooltip: 'Create an Event',
               icon: const Icon(Icons.add_box_outlined),
-              color: Colors.white,
             ),
             const SizedBox(
-              width: 50,
+              width: 65,
             ),
+            _logoutButton(),
+            const SizedBox(width: 10)
           ],
         ),
         body: _filterStream(),
       ),
-      color: Colors.grey,
       debugShowCheckedModeBanner: false,
     );
   }
@@ -134,14 +144,13 @@ class _HomePageState extends State<HomePage> {
                   height: 220,
                   width: double.maxFinite,
                   child: InkWell(
+                      splashColor: errorColor,
+                      hoverColor: primaryLightLowAlpha,
                       child: Card(
                         elevation: 5,
                         child: Container(
                           decoration: const BoxDecoration(
-                            border: Border(
-                              top: BorderSide(width: 2.0, color: Colors.black),
-                            ),
-                            color: Colors.white,
+                            color: brightBackground,
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(7),
@@ -222,7 +231,9 @@ class _HomePageState extends State<HomePage> {
         text: TextSpan(
           text: '${snap['Username']}',
           style: const TextStyle(
-              fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
+              fontWeight: FontWeight.bold,
+              color: primaryLight,
+              fontSize: headerFontSize),
         ),
       ),
     );
@@ -235,14 +246,15 @@ class _HomePageState extends State<HomePage> {
         text: TextSpan(
           text: '${snap['Sport']} \n',
           style: const TextStyle(
-              fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
+              fontWeight: FontWeight.bold,
+              color: primaryLight,
+              fontSize: headerFontSize),
           children: <TextSpan>[
             TextSpan(
                 text: '${snap['Skill']}',
                 style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
+                  color: blackText,
+                  fontSize: bodyFontSize,
                 )),
           ],
         ),
@@ -258,7 +270,7 @@ class _HomePageState extends State<HomePage> {
           text:
               'Start Time: ${DateFormat.yMMMd().format(snap['StartTime'].toDate())} - ${DateFormat.jm().format(snap['StartTime'].toDate())}',
           style: const TextStyle(
-              fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
+              fontWeight: FontWeight.bold, color: primaryLight, fontSize: 20),
         ),
       ),
     );
@@ -271,7 +283,9 @@ class _HomePageState extends State<HomePage> {
         text: TextSpan(
           text: '${snap['Duration']}',
           style: const TextStyle(
-              fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
+              fontWeight: FontWeight.bold,
+              color: primaryLight,
+              fontSize: headerFontSize),
         ),
       ),
     );
@@ -284,7 +298,9 @@ class _HomePageState extends State<HomePage> {
         text: TextSpan(
           text: '${snap['Address']}',
           style: const TextStyle(
-              fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
+              fontWeight: FontWeight.bold,
+              color: primaryLight,
+              fontSize: headerFontSize),
         ),
       ),
     );
@@ -298,8 +314,8 @@ class _HomePageState extends State<HomePage> {
           text: '${snap['Description']}',
           style: const TextStyle(
               fontWeight: FontWeight.normal,
-              color: Colors.blueGrey,
-              fontSize: 20),
+              color: lightText,
+              fontSize: headerFontSize),
         ),
       ),
     );
@@ -310,10 +326,10 @@ class _HomePageState extends State<HomePage> {
       value: dropDownSportsValue,
       icon: const Icon(Icons.arrow_drop_down_rounded),
       elevation: 16,
-      style: const TextStyle(color: Colors.white),
+      style: const TextStyle(color: brightText),
       underline: Container(
         height: 2,
-        color: Colors.white,
+        color: brightColor,
       ),
       onChanged: (String? value) {
         // This is called when the user selects an item.
@@ -328,8 +344,43 @@ class _HomePageState extends State<HomePage> {
           child: Text(value),
         );
       }).toList(),
-      dropdownColor: Colors.black,
+      dropdownColor: primaryLight,
     );
+  }
+
+  Widget _dropDownSkillMenu() {
+    return DropdownButton<String>(
+      value: dropDownSkillValue,
+      icon: const Icon(Icons.arrow_drop_down_rounded),
+      elevation: 16,
+      style: const TextStyle(color: brightText),
+      underline: Container(
+        height: 2,
+        color: brightColor,
+      ),
+      onChanged: (String? newvalue) {
+        // This is called when the user selects an item.
+        dropDownSkillValue = newvalue!;
+        setState(() {
+          dropDownSkillValue;
+        });
+      },
+      items: _skillList.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+      dropdownColor: primaryLight,
+    );
+  }
+
+  Widget _logoutButton() {
+    return ElevatedButton(
+        onPressed: () async {
+          await FirebaseAuth.instance.signOut();
+        },
+        child: const Text('Logout'));
   }
 
 // The stream will auto reload the body of the page upon changing the dropDownSportsValue
@@ -337,44 +388,84 @@ class _HomePageState extends State<HomePage> {
     // Skill value changed but sport did NOT
     if (dropDownSkillValue != _skillList.first &&
         dropDownSportsValue == _sportList.first) {
-      return StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('Event').where('Skill',
-            whereIn: [dropDownSkillValue, _skillList.first]).snapshots(),
-        builder: (context,
-            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (snapshot.hasData && snapshot.data != null) {
+      if (intButtonClick) {
+        //if skill changed, sport did not change, interest button is clicked
+        return StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection('Event')
+              .where('Skill', whereIn: [dropDownSkillValue, _skillList.first])
+              .where('Interested', arrayContains: user)
+              .snapshots(),
+          builder: (context,
+              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
             return _cardBuilder(snapshot.data!);
-          }
-          return const Text('No data');
-        },
-      );
+          },
+        );
+      } else {
+        return StreamBuilder(
+          stream: FirebaseFirestore.instance.collection('Event').where('Skill',
+              whereIn: [dropDownSkillValue, _skillList.first]).snapshots(),
+          builder: (context,
+              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (snapshot.hasData && snapshot.data != null) {
+              return _cardBuilder(snapshot.data!);
+            }
+            return const Text('No data');
+          },
+        );
+      }
     }
     // Sport changed but skill did NOT
     if (dropDownSkillValue == _skillList.first &&
         dropDownSportsValue != _sportList.first) {
-      return StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection('Event')
-            .where('Sport', isEqualTo: dropDownSportsValue)
-            .snapshots(),
-        builder: (context,
-            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (snapshot.hasData && snapshot.data != null) {
+      if (intButtonClick) {
+        //if sport changed, skill did not change, interest button is clicked
+        return StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection('Event')
+              .where('Sport', isEqualTo: dropDownSportsValue)
+              .where('Interested', arrayContains: user)
+              .snapshots(),
+          builder: (context,
+              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
             return _cardBuilder(snapshot.data!);
-          }
-          return const Text('No Data');
-        },
-      );
+          },
+        );
+      } else {
+        return StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection('Event')
+              .where('Sport', isEqualTo: dropDownSportsValue)
+              .snapshots(),
+          builder: (context,
+              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (snapshot.hasData && snapshot.data != null) {
+              return _cardBuilder(snapshot.data!);
+            }
+            return const Text('No Data');
+          },
+        );
+      }
     }
     // Nothing changed
     if (dropDownSkillValue == _skillList.first &&
@@ -395,73 +486,68 @@ class _HomePageState extends State<HomePage> {
             return _cardBuilder(snapshot.data!);
           },
         );
+      } else {
+        return StreamBuilder(
+          stream: FirebaseFirestore.instance.collection('Event').snapshots(),
+          builder: (context,
+              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (snapshot.hasData && snapshot.data != null) {
+              return _cardBuilder(snapshot.data!);
+            }
+            return const Text('No Data');
+          },
+        );
       }
-      return StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('Event').snapshots(),
-        builder: (context,
-            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (snapshot.hasData && snapshot.data != null) {
-            return _cardBuilder(snapshot.data!);
-          }
-          return const Text('No Data');
-        },
-      );
     }
     // Both changed
     if (dropDownSkillValue != _skillList.first &&
         dropDownSportsValue != _sportList.first) {
-      return StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection('Event')
-            .where('Sport', isEqualTo: dropDownSportsValue)
-            .where('Skill',
-                whereIn: [dropDownSkillValue, _skillList.first]).snapshots(),
-        builder: (context,
-            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (snapshot.hasData && snapshot.data != null) {
+      if (intButtonClick) {
+        //if both are changed and interest button is clicked
+        return StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection('Event')
+              .where('Sport', isEqualTo: dropDownSportsValue)
+              .where('Skill', whereIn: [dropDownSkillValue, _skillList.first])
+              .where('Interested', arrayContains: user)
+              .snapshots(),
+          builder: (context,
+              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
             return _cardBuilder(snapshot.data!);
-          }
-          return const Text('No Data');
-        },
-      );
-    }
-  }
-
-  Widget _dropDownSkillMenu() {
-    return DropdownButton<String>(
-      value: dropDownSkillValue,
-      icon: const Icon(Icons.arrow_drop_down_rounded),
-      elevation: 16,
-      style: const TextStyle(color: Colors.white),
-      underline: Container(
-        height: 2,
-        color: Colors.white,
-      ),
-      onChanged: (String? newvalue) {
-        // This is called when the user selects an item.
-        dropDownSkillValue = newvalue!;
-        setState(() {
-          dropDownSkillValue;
-        });
-      },
-      items: _skillList.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
+          },
         );
-      }).toList(),
-      dropdownColor: Colors.black,
-    );
+      } else {
+        return StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection('Event')
+              .where('Sport', isEqualTo: dropDownSportsValue)
+              .where('Skill',
+                  whereIn: [dropDownSkillValue, _skillList.first]).snapshots(),
+          builder: (context,
+              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (snapshot.hasData && snapshot.data != null) {
+              return _cardBuilder(snapshot.data!);
+            }
+            return const Text('No Data');
+          },
+        );
+      }
+    }
   }
 
   Widget _showInterestButton() {
@@ -474,7 +560,9 @@ class _HomePageState extends State<HomePage> {
         });
       },
       tooltip: 'Show Your Interested Events',
-      icon: const Icon(Icons.star_outline_rounded),
+      icon: intButtonClick
+          ? const Icon(Icons.star_rounded)
+          : const Icon(Icons.star_outline_rounded),
       color: Colors.white,
       iconSize: 30,
     );
@@ -483,20 +571,6 @@ class _HomePageState extends State<HomePage> {
 
 class ButtonController extends GetxController {
   final getStorage = GetStorage();
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
 
   Future<bool> saveLikeCount(bool isLiked) async {
     getStorage.write("isLiked", !isLiked);

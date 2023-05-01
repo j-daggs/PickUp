@@ -1,9 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:my_app/classes/text_field_class.dart';
-
+import 'package:my_app/classes/theme_class.dart';
 import '../login_button.dart';
-import 'package:get_storage/get_storage.dart';
 
 class LoginForm extends StatefulWidget {
   final VoidCallback showRegisterPage;
@@ -35,6 +33,7 @@ class _LoginFormState extends State<LoginForm> {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: _emailController.text.trim(),
           password: _passwordController.text.trim());
+      // ignore: use_build_context_synchronously
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       Navigator.pop(context);
@@ -48,11 +47,11 @@ class _LoginFormState extends State<LoginForm> {
       context: context,
       builder: (context) {
         return const AlertDialog(
-          backgroundColor: Colors.blue,
+          backgroundColor: greenPrimary,
           title: Center(
             child: Text(
               'Incorrect Username or Password',
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: brightText),
             ),
           ),
         );
@@ -71,7 +70,7 @@ class _LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.grey[300],
+        backgroundColor: lightBackground,
         body: SafeArea(
           child: Center(
             child: SingleChildScrollView(
@@ -80,30 +79,50 @@ class _LoginFormState extends State<LoginForm> {
                 children: [
                   // Welcome message
                   const Text('Welcome!',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: headerFontSize)),
                   const SizedBox(height: 10),
                   const Text('Login or sign up to continue!',
-                      style: TextStyle(fontSize: 20)),
+                      style: TextStyle(fontSize: bodyFontSize)),
                   const SizedBox(height: 25),
 
                   // email textfield UI and controller
-                  Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                      child: TextFieldObject(
-                          controller: _emailController,
-                          hintText: 'Email',
-                          obscureText: false)),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * maxFieldWidth,
+                    child: TextField(
+                      cursorColor: greenPrimary,
+                      controller: _emailController,
+                      obscureText: false,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 2, color: primaryLight),
+                        ),
+                        hintText: 'Email',
+                      ),
+                    ),
+                  ),
 
                   const SizedBox(height: 10),
 
                   // password textfield and controller
-                  Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                      child: TextFieldObject(
-                          controller: _passwordController,
-                          hintText: 'Password',
-                          obscureText: true)),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * maxFieldWidth,
+                    child: TextField(
+                      cursorColor: greenPrimary,
+                      controller: _passwordController,
+                      obscureText: true,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 2, color: primaryLight),
+                        ),
+                        hintText: 'Password',
+                      ),
+                    ),
+                  ),
+
                   const SizedBox(height: 25),
 
                   // Log in button and on Tap call signIn
@@ -124,7 +143,7 @@ class _LoginFormState extends State<LoginForm> {
                         onTap: widget.showRegisterPage,
                         child: const Text(' Register now',
                             style: TextStyle(
-                                color: Colors.red,
+                                color: primaryLight,
                                 fontWeight: FontWeight.bold)),
                       )
                     ],
