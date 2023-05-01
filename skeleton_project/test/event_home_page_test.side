@@ -1,0 +1,140 @@
+{
+  "id": "3e733f6a-bb5f-4907-80a2-f80dc01192c1",
+  "version": "2.0",
+  "name": "event_home_page_test",
+  "url": "http://localhost:60095",
+  "tests": [{
+    "id": "350ffaa0-d397-4260-9374-107ae11efca4",
+    "name": "homePage filter",
+    "commands": [{
+      "id": "fd8eaab9-1a84-49ad-a132-a8020472b082",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "8258bbea-6a92-4d53-b55d-459b78111b0d",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "759x957",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "84098300-8484-4ba8-850a-65c28b2c0bbd",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": "Show Your Interested Events"
+    }, {
+      "id": "08d97b96-ee9f-4830-ac5f-ff712c14e267",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": "Show Your Interested Events"
+    }, {
+      "id": "9412c870-5c3f-448d-8bfe-6783cb42fac1",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": "All Skill Levels"
+    }, {
+      "id": "fc344cbd-9018-4baf-aaaf-c8fb169533e0",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": "Beginner"
+    }, {
+      "id": "fc0b12b6-c865-43b0-808b-a5fff20a2d26",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": "All Sports"
+    }, {
+      "id": "3b15999c-9b04-4d04-b9e1-83069f7c4300",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": "Football"
+    }, {
+      "id": "7673b36d-c6dd-4e6b-a45b-6c20548778c4",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "dd283dcd-fa1f-45c6-9d63-8cfdc9412c5e",
+    "name": "homepage click event",
+    "commands": [{
+      "id": "f387548a-3ac7-428a-9c10-9660fc09ab68",
+      "comment": "",
+      "command": "open",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "3bef5e32-d416-467d-aa13-4bcb763cf275",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": "eventCard"
+    }, {
+      "id": "ca15da5d-9353-45ef-a3f7-7de6226d34f2",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": "Interested"
+    }, {
+      "id": "a7d50da6-54e3-405b-a982-cce0ffbcd410",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "a48253ba-20e2-4032-8e32-4a9e1900fc30",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["350ffaa0-d397-4260-9374-107ae11efca4"]
+  }],
+  "urls": ["http://localhost:60095/"],
+  "plugins": []
+}
