@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:like_button/like_button.dart';
 import 'package:my_app/classes/theme_class.dart';
 
 class LoginButton extends StatelessWidget {

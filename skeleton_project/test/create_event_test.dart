@@ -6,7 +6,7 @@ import 'package:my_app/pages/create_event_page.dart';
 void main() {
   testWidgets('Test CreateEventPage with good data',
       (WidgetTester tester) async {
-    await tester.pumpWidget(MaterialApp(home: CreateEventPage()));
+    await tester.pumpWidget(const MaterialApp(home: CreateEventPage()));
     final sportDropdown = find.text('Select a sport using the dropdown below:');
     final skillDropdown =
         find.text('select a skill level using the dropdown below:');
@@ -92,7 +92,7 @@ void main() {
     expect(okButton2, findsOneWidget);
 
     // Pick a time and tap the "OK" button
-    final time = TimeOfDay(hour: 14, minute: 30);
+    const time = TimeOfDay(hour: 14, minute: 30);
     final formattedTime =
         DateFormat.jm().format(DateTime(2022, 1, 1, time.hour, time.minute));
     await tester.tap(find.text(formattedTime));

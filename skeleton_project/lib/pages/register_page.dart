@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../login_button.dart';
-import '../classes/text_field_class.dart';
 import 'package:my_app/classes/theme_class.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -104,24 +103,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   const Text('Register below with your details',
                       style: TextStyle(fontSize: bodyFontSize)),
                   const SizedBox(height: 50),
-
-                  // Username text field and controller
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * maxFieldWidth,
-                    child: TextField(
-                      cursorColor: greenPrimary,
-                      controller: _usernameController,
-                      obscureText: false,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(width: 2, color: primaryLight),
-                        ),
-                        hintText: 'Username',
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
 
                   // email textfield UI and controller
                   SizedBox(
