@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:my_app/classes/event_class.dart';
 import 'package:intl/intl.dart';
 import 'package:my_app/classes/theme_class.dart';
@@ -8,6 +9,8 @@ import 'package:my_app/pages/event_home_page.dart';
 import '../classes/comment.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:like_button/like_button.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 class ViewEvent extends StatefulWidget {
   // Initializing currentEventId
@@ -30,11 +33,22 @@ class _ViewEvent extends State<ViewEvent> {
         .collection('Comment')
         .add({'DateTime': dateTime, 'Username': username, 'Text': text});
   }
+  
+  Future<void> _copyUrlToClipboard() async {
+    String currentUrl = Uri.base.toString();
 
+    final String url = currentUrl; 
+    Clipboard.setData(ClipboardData(text: url));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('URL copied to clipboard!')),
+    );
+  }
   List commentList = Comment.testingList;
   TextEditingController textController = TextEditingController();
+  static String textControllerHintText = "Start typing a comment";
   @override
   Widget build(BuildContext context) {
+    textControllerHintText = "Start typing a comment";
     final snap = ModalRoute.of(context)!.settings.arguments as dynamic;
     Size size = MediaQuery.of(context).size; //height and width of screen
     DateTime dateTimeStartTime = (snap['StartTime']).toDate();
@@ -83,6 +97,13 @@ class _ViewEvent extends State<ViewEvent> {
       backgroundColor: lightBackground,
       appBar: AppBar(
         title: const Text("Event Info"),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.copy),
+            tooltip: 'Copy URL to clipboard',
+            onPressed: _copyUrlToClipboard,
+          ),
+        ],
       ),
       body: Stack(children: [
         Center(
@@ -263,14 +284,18 @@ class _ViewEvent extends State<ViewEvent> {
                 title: TextField(
                   cursorColor: darkColor,
                   controller: textController,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(width: 2, color: primaryLight),
                     ),
-                    hintText: 'Start typing a comment',
+                    hintText: textControllerHintText,
                   ),
                   onSubmitted: (String value) {
-                    if (textController.text.isNotEmpty) {
+                    if (textController.text.isNotEmpty &&
+                        textController.text
+                            .trim()
+                            .replaceAll(' ', '')
+                            .isNotEmpty) {
                       final userEmail =
                           FirebaseAuth.instance.currentUser!.email.toString();
                       final userName = userEmail.split('@');
@@ -282,6 +307,11 @@ class _ViewEvent extends State<ViewEvent> {
                         addCommentDetails(DateTime.now(), userName.elementAt(0),
                             textController.text);
                         textController.clear();
+                      });
+                    } else {
+                      setState(() {
+                        textController.clear();
+                        textControllerHintText = "Comment's must have text!";
                         Navigator.of(context).pop();
                         showModalBottomSheet(
                             context: context,
@@ -336,7 +366,11 @@ class _ViewEvent extends State<ViewEvent> {
                 backgroundColor: greenPrimary,
                 child: const Icon(Icons.add_comment_rounded),
                 onPressed: () {
-                  if (textController.text.isNotEmpty) {
+                  if (textController.text.isNotEmpty &&
+                      textController.text
+                          .trim()
+                          .replaceAll(' ', '')
+                          .isNotEmpty) {
                     final userEmail =
                         FirebaseAuth.instance.currentUser!.email.toString();
                     final userName = userEmail.split('@');
@@ -347,6 +381,15 @@ class _ViewEvent extends State<ViewEvent> {
                               textController.text));
                       addCommentDetails(DateTime.now(), userName.elementAt(0),
                           textController.text);
+                      textController.clear();
+                    });
+                  } else {
+                    setState(() {
+                      textController.clear();
+                      textControllerHintText = "Comment's must have text!";
+                      Navigator.of(context).pop();
+                      showModalBottomSheet(
+                          context: context, builder: (context) => buildSheet());
                     });
                   }
                 },

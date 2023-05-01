@@ -177,7 +177,6 @@ class _CreateEventPage extends State<CreateEventPage> {
                   ),
                 ),
               ),
-              // commented out for now as a solution to work around the security feature (CORS) of Google Places and the web browser causing XMLHttpRequest
               // location searching currently working with 'flutter run -d chrome --web-browser-flag "--disable-web-security"'
               /*Padding(
                 padding: const EdgeInsets.all(10),
@@ -431,6 +430,15 @@ class _CreateEventPage extends State<CreateEventPage> {
         ],
       );
 
+  /// fetchPlacesData is a function that can be called in order to makes calls to Google Places
+//  Future<http.Response> fetchPlacesData(String address) async {
+//    final proxyUrl = '';
+//    final apiUrl =
+//        'https://maps.googleapis.com/maps/api/place/textsearch/json?query=$address&key=<api-key>';
+//    final response = await http.get(Uri.parse('$proxyUrl$apiUrl'));
+
+//    return response;
+//  }
   /// alternate build sheet method, another approach to searching locations. Interacts with fetchPlacesData defined at the top of the page.
 //   Widget buildSheet() => Stack(
 //   children: [
