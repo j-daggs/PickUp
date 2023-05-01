@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:my_app/classes/event_class.dart';
 import 'package:intl/intl.dart';
 import 'package:my_app/classes/theme_class.dart';
@@ -8,6 +9,8 @@ import 'package:my_app/pages/event_home_page.dart';
 import '../classes/comment.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:like_button/like_button.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 class ViewEvent extends StatefulWidget {
   // Initializing currentEventId
@@ -30,7 +33,16 @@ class _ViewEvent extends State<ViewEvent> {
         .collection('Comment')
         .add({'DateTime': dateTime, 'Username': username, 'Text': text});
   }
+  
+  Future<void> _copyUrlToClipboard() async {
+    String currentUrl = Uri.base.toString();
 
+    final String url = currentUrl; // Replace with your URL
+    Clipboard.setData(ClipboardData(text: url));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('URL copied to clipboard!')),
+    );
+  }
   List commentList = Comment.testingList;
   TextEditingController textController = TextEditingController();
   static String textControllerHintText = "Start typing a comment";
@@ -85,6 +97,13 @@ class _ViewEvent extends State<ViewEvent> {
       backgroundColor: lightBackground,
       appBar: AppBar(
         title: const Text("Event Info"),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.copy),
+            tooltip: 'Copy URL to clipboard',
+            onPressed: _copyUrlToClipboard,
+          ),
+        ],
       ),
       body: Stack(children: [
         Center(
