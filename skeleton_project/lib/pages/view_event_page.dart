@@ -141,30 +141,81 @@ class _ViewEvent extends State<ViewEvent> {
                               child: Padding(
                                   padding: const EdgeInsets.all(20.0),
                                   child: Column(children: [
-                                    Text('Skill Level: ${currentEvent.skill}',
-                                        style: TextStyle(
-                                            fontSize: largeFontSize,
-                                            fontWeight: FontWeight.bold)),
+                                    Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          'Skill Level: ${currentEvent.skill}',
+                                          style: TextStyle(
+                                              fontSize: largeFontSize,
+                                              fontWeight: FontWeight.bold),
+                                        )),
                                     SizedBox(
                                       height: 20,
                                     ),
-                                    Text('Duration: ${currentEvent.duration}',
-                                        style: TextStyle(
-                                            fontSize: largeFontSize,
-                                            fontWeight: FontWeight.bold)),
+                                    Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                            'Duration: ${currentEvent.duration}',
+                                            style: TextStyle(
+                                                fontSize: largeFontSize,
+                                                fontWeight: FontWeight.bold))),
                                     SizedBox(height: 20),
-                                    Text('Location: ${currentEvent.address}',
-                                        style: TextStyle(
-                                            fontSize: largeFontSize,
-                                            fontWeight: FontWeight.bold)),
+                                    Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                            'Location: ${currentEvent.address}',
+                                            style: TextStyle(
+                                                fontSize: largeFontSize,
+                                                fontWeight: FontWeight.bold))),
                                     SizedBox(
                                       height: 20,
                                     ),
-                                    Text(
-                                        'Description: ${currentEvent.description}',
-                                        style: TextStyle(
-                                            fontSize: largeFontSize,
-                                            fontWeight: FontWeight.bold))
+                                    Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                            'Description: ${currentEvent.description}',
+                                            style: TextStyle(
+                                                fontSize: largeFontSize,
+                                                fontWeight: FontWeight.bold))),
+                                    Expanded(
+                                        child: Align(
+                                            alignment: Alignment.bottomRight,
+                                            child: LikeButton(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              size: 65,
+                                              likeCount: currentEvent
+                                                      .interested.isNotEmpty
+                                                  ? currentEvent
+                                                      .interested.length
+                                                  : 0,
+                                              countPostion: CountPostion.left,
+                                              countBuilder: (int? count,
+                                                  bool isLiked, String text) {
+                                                return Text(
+                                                  text,
+                                                  style: TextStyle(
+                                                    color: blackText,
+                                                    fontSize: 17,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                );
+                                              },
+                                              likeBuilder: ((isLiked) {
+                                                return Icon(
+                                                  Icons.star_rounded,
+                                                  color: isLiked
+                                                      ? primaryAccent
+                                                      : darkColor,
+                                                  size: 65,
+                                                );
+                                              }),
+                                              onTap: onInterestButtonTapped,
+                                              isLiked: currentEvent.interested
+                                                      .contains(user)
+                                                  ? true
+                                                  : false,
+                                            ))),
                                   ]))),
                         ])),
                   ],
@@ -173,38 +224,12 @@ class _ViewEvent extends State<ViewEvent> {
             ),
           ),
         ),
-        Container(
+        /*Container(
             alignment: Alignment.topRight,
             child: Padding(
               padding: const EdgeInsets.all(80.0),
-              child: LikeButton(
-                size: 65,
-                mainAxisAlignment: MainAxisAlignment.end,
-                likeCount: currentEvent.interested.isNotEmpty
-                    ? currentEvent.interested.length
-                    : 0,
-                countPostion: CountPostion.left,
-                countBuilder: (int? count, bool isLiked, String text) {
-                  return Text(
-                    text,
-                    style: TextStyle(
-                      color: blackText,
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  );
-                },
-                likeBuilder: ((isLiked) {
-                  return Icon(
-                    Icons.star_rounded,
-                    color: isLiked ? primaryAccent : darkColor,
-                    size: 65,
-                  );
-                }),
-                onTap: onInterestButtonTapped,
-                isLiked: currentEvent.interested.contains(user) ? true : false,
-              ),
-            )),
+              child: 
+            )),*/
         Container(
             alignment: Alignment.bottomRight,
             child: Padding(
