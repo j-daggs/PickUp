@@ -65,7 +65,10 @@ class _RegisterPageState extends State<RegisterPage> {
       message = "Password must be at least 6 characters.";
     }
     if (message == 'internal-error') {
-      message = "Please fill all fields.";
+      message = "Please enter a password.";
+    }
+    if (message == 'missing-email') {
+      message = "Please enter a valid email.";
     }
     showDialog(
       context: context,

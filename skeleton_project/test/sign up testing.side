@@ -1,0 +1,481 @@
+{
+  "id": "9b3329e8-09e4-4a3a-9180-a97dc47d9d33",
+  "version": "2.0",
+  "name": "sign up testing",
+  "url": "http://localhost:55941/#/",
+  "tests": [{
+    "id": "becc86fb-1c63-46ed-864d-48777308b703",
+    "name": "valid sign up",
+    "commands": [{
+      "id": "576e3954-50ff-45ae-abb7-69eac404b172",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:55198/#/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "d1b5e84a-1e23-498e-8849-32081dce2ded",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1440x875",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "e06b34f2-4a77-4647-898e-6220ce003674",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c659fe91-6124-4bf5-80ab-0cbf59eeaf67",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "1ce0d51c-bba6-4d79-909d-5d8b0d38c22c",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "5011fee5-30d7-4cfd-88cc-7ab5fdf37de2",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": "PickUP"
+    }]
+  }, {
+    "id": "bc0bb9ce-1fc8-4f0e-a3b1-7b5f8d5a5c03",
+    "name": "invalid email",
+    "commands": [{
+      "id": "41e06cdc-c450-47bd-979f-d31e244944cc",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:55198/#/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "9108c304-cb87-43ce-b473-0542524326e8",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1440x875",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "6ef74438-4e0c-49e9-9890-2a53efba54cc",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f828cf41-de77-4f9a-a4db-58294ad2d253",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "446bc8f8-889e-4fbb-b46c-6bdacfaef674",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "3a25ec22-af6e-4d79-8e0b-4c7fe3cedd5a",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": "Email is invalid."
+    }]
+  }, {
+    "id": "974a95e4-f647-4a50-912b-c3e3c2326c34",
+    "name": "email has been used",
+    "commands": [{
+      "id": "64b64280-df97-452d-9fda-531e6e3e8565",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:55198/#/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "e25054e1-4676-4890-833e-dcf9c0d74d86",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1440x875",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "999c31e5-974b-48fa-bf22-0b6bb180feb9",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f168aaf3-1185-4a4c-be3f-59e3fe8069ef",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ff50d54e-7f06-460c-a49c-3a93e9de084a",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "cfedfdb8-0f21-4fe9-9ce9-f4ceac042f60",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7302abcd-66d7-4d25-8327-f4f6c62193f5",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": "Email has already been used."
+    }]
+  }, {
+    "id": "616a2647-f091-4a64-800c-7484d4c66cfc",
+    "name": "password not long enough",
+    "commands": [{
+      "id": "9319dec7-beba-4a62-b79e-9bb43e70c0a1",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:55198/#/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "2e960d80-71a0-409d-8b7a-3645d003521a",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1440x875",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "22cffae5-867a-4320-8dcd-925a91e0a85f",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a99c02e1-8d82-480e-a9b6-91f7cceb2fc3",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "b6315d29-2620-48b0-9f9c-801544a2d661",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "18c712b9-b81b-4354-833a-84925e19b814",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": "Password must be at least 6 characters."
+    }]
+  }, {
+    "id": "1b8b74b1-7f73-479e-911c-46e8fc90de35",
+    "name": "passwords do not match",
+    "commands": [{
+      "id": "de3a34db-061e-4048-9a93-d89f8da05b16",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:55198/#/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "24195225-ed7e-48c7-9cb2-ecb49a1508ad",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1440x875",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "41340b2f-d3cb-40a5-93a4-e9531f804790",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f1274f51-dc4e-4df7-b7b3-c8885fecb1f9",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "3cdd7d0d-5cfe-4248-b84a-a676904b08ba",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "1e6dc170-a720-4079-99cd-4e8e0d775988",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": "Passwords do not match."
+    }]
+  }, {
+    "id": "c1c6e9d5-6b1b-4497-b0ce-db80f7f38589",
+    "name": "empty email field",
+    "commands": [{
+      "id": "661de08e-67d0-4814-9799-58daf67af36a",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:55198/#/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "edeea6df-33ec-403f-89fa-fd6823d138cb",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1440x875",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "7068e1b8-e26f-47c5-8e30-1bfe23dd4d8a",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "0d14eadb-b418-400c-a77b-dad1fadf692c",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a4e64921-3c4e-4026-a8d3-f83895271512",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "4ae4d369-4a08-4bad-a41f-2e46da84d170",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": "Please enter a valid email."
+    }]
+  }, {
+    "id": "5d1afad3-0647-4f56-8154-c95b1dd98a94",
+    "name": "empty password fields",
+    "commands": [{
+      "id": "d7971c4f-a38d-4c55-aa5a-62148913cae9",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:55941/#/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "bd2d0f10-1c16-4b7e-9095-7a50a76d9770",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1440x875",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "949ea64c-8e10-4136-bac0-8b99a07cafa9",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "28a0b508-c3fe-4ee4-8a6e-475e382601de",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "19445fb5-2087-4c3f-97fb-30a2e4119a26",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "2e24e0c7-b316-4bd7-b9c8-81b3e69c30f0",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": "Please enter a password."
+    }]
+  }, {
+    "id": "ba95179c-103d-4d8c-9a69-ea7b4ef6a38e",
+    "name": "no inputs",
+    "commands": [{
+      "id": "43e32ae4-f68b-4a77-ac75-625f77116552",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:55941/#/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "1999ffa4-9e3d-4c97-9226-57012368699c",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1440x875",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "38b789d2-4000-4a61-8362-be50fdbffb5d",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7a762260-facf-4687-a332-742c1f133019",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ea97b6e8-538c-436e-8670-033a9bc7001e",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": "Email is invalid."
+    }]
+  }],
+  "suites": [{
+    "id": "76b58e58-f27b-4539-926d-796e8e878b51",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": []
+  }],
+  "urls": ["http://localhost:54712/", "http://localhost:55198/#/", "http://localhost:55941/#/"],
+  "plugins": []
+}
