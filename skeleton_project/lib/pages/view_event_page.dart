@@ -114,7 +114,7 @@ class _ViewEvent extends State<ViewEvent> {
                       style: TextStyle(
                         fontSize: 60,
                         color: Colors.green[900],
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(
@@ -123,9 +123,9 @@ class _ViewEvent extends State<ViewEvent> {
                     Text(
                       '${currentEvent.getDate} at ${currentEvent.getTime}',
                       style: TextStyle(
-                        fontSize: 25,
-                        color: Colors.green,
-                      ),
+                          fontSize: 25,
+                          color: Colors.green,
+                          fontWeight: FontWeight.w400),
                     ),
                     const SizedBox(
                       height: 10,
@@ -224,12 +224,6 @@ class _ViewEvent extends State<ViewEvent> {
             ),
           ),
         ),
-        /*Container(
-            alignment: Alignment.topRight,
-            child: Padding(
-              padding: const EdgeInsets.all(80.0),
-              child: 
-            )),*/
         Container(
             alignment: Alignment.bottomRight,
             child: Padding(
