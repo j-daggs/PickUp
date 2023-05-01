@@ -99,7 +99,7 @@ class _LoginFormState extends State<LoginForm> {
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(width: 2, color: primaryLight),
                         ),
-                        hintText: 'Username',
+                        hintText: 'Email',
                       ),
                     ),
                   ),
