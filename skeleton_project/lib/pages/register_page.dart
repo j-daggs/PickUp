@@ -104,24 +104,6 @@ class _RegisterPageState extends State<RegisterPage> {
                       style: TextStyle(fontSize: bodyFontSize)),
                   const SizedBox(height: 50),
 
-                  // Username text field and controller
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * maxFieldWidth,
-                    child: TextField(
-                      cursorColor: greenPrimary,
-                      controller: _usernameController,
-                      obscureText: false,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(width: 2, color: primaryLight),
-                        ),
-                        hintText: 'Username',
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-
                   // email textfield UI and controller
                   SizedBox(
                     width: MediaQuery.of(context).size.width * maxFieldWidth,
