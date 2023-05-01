@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../login_button.dart';
-import '../classes/text_field_class.dart';
 import 'package:my_app/classes/theme_class.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -18,7 +17,6 @@ class _RegisterPageState extends State<RegisterPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
-  final _usernameController = TextEditingController();
 
   @override
   // Memory Management
@@ -27,7 +25,6 @@ class _RegisterPageState extends State<RegisterPage> {
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
-    _usernameController.dispose();
     super.dispose();
   }
 
@@ -38,10 +35,9 @@ class _RegisterPageState extends State<RegisterPage> {
             email: _emailController.text.trim(),
             password: _passwordController.text.trim());
       } else {
-        wrongDetailsMessage('Passwords don\'t match');
+        wrongDetailsMessage('Passwords do not match.');
       }
     } on FirebaseAuthException catch (e) {
-      Navigator.pop(context);
       wrongDetailsMessage(e.code);
     }
 
@@ -54,19 +50,34 @@ class _RegisterPageState extends State<RegisterPage> {
   Future addUserDetails(String username, String email, String password) async {
     await FirebaseFirestore.instance
         .collection('User')
-        .add({'Username': username, 'Email:': email, 'Password': password});
+        .add({'Email:': email, 'Password': password});
   }
 
   // wrong details message popup
   void wrongDetailsMessage(String message) {
+    if (message == 'email-already-in-use') {
+      message = "Email has already been used.";
+    }
+    if (message == 'invalid-email') {
+      message = "Email is invalid.";
+    }
+    if (message == 'weak-password') {
+      message = "Password must be at least 6 characters.";
+    }
+    if (message == 'internal-error') {
+      message = "Please enter a password.";
+    }
+    if (message == 'missing-email') {
+      message = "Please enter a valid email.";
+    }
     showDialog(
       context: context,
       builder: (context) {
-        return const AlertDialog(
+        return AlertDialog(
           backgroundColor: greenPrimary,
           title: Center(
             child: Text(
-              'Incorrect Username or Password',
+              message,
               style: TextStyle(color: brightText),
             ),
           ),
@@ -104,24 +115,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   const Text('Register below with your details',
                       style: TextStyle(fontSize: bodyFontSize)),
                   const SizedBox(height: 50),
-
-                  // Username text field and controller
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * maxFieldWidth,
-                    child: TextField(
-                      cursorColor: greenPrimary,
-                      controller: _usernameController,
-                      obscureText: false,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(width: 2, color: primaryLight),
-                        ),
-                        hintText: 'Username',
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
 
                   // email textfield UI and controller
                   SizedBox(

@@ -1,5 +1,4 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/classes/event_class.dart';
@@ -7,15 +6,14 @@ import 'package:intl/intl.dart';
 import 'package:my_app/classes/theme_class.dart';
 import 'package:my_app/pages/event_home_page.dart';
 import '../classes/comment.dart';
-import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:like_button/like_button.dart';
 
 class ViewEvent extends StatefulWidget {
   // Initializing currentEventId
-  String currentEventId;
+  final String currentEventId;
   // Making currentEventId a required part of the constructor
-  ViewEvent({Key? key, required this.currentEventId}) : super(key: key);
+  const ViewEvent({Key? key, required this.currentEventId}) : super(key: key);
   @override
   State<ViewEvent> createState() => _ViewEvent();
 }
@@ -38,7 +36,7 @@ class _ViewEvent extends State<ViewEvent> {
   @override
   Widget build(BuildContext context) {
     final snap = ModalRoute.of(context)!.settings.arguments as dynamic;
-    debugPrint('Snap: $snap');
+    Size size = MediaQuery.of(context).size; //height and width of screen
     DateTime dateTimeStartTime = (snap['StartTime']).toDate();
     DateTime dateTimeDatePosted = (snap['DatePosted']).toDate();
     final userEmail = FirebaseAuth.instance.currentUser!.email.toString();
@@ -83,138 +81,170 @@ class _ViewEvent extends State<ViewEvent> {
 
     return Scaffold(
       backgroundColor: lightBackground,
-      body: Padding(
-        padding: const EdgeInsets.all(30),
-        child: Column(children: [
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                'Sport: ${currentEvent.sport}',
-                style: TextStyle(
-                    fontSize: largeFontSize, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.left,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Text('Skill: ${currentEvent.skill}',
-                  style: TextStyle(
-                      fontSize: largeFontSize, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.left),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Text('Location: ${currentEvent.address}',
-                  style: TextStyle(
-                      fontSize: largeFontSize, fontWeight: FontWeight.bold)),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Text('Date: ${currentEvent.getDate}',
-                  style: TextStyle(
-                      fontSize: largeFontSize, fontWeight: FontWeight.bold)),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Text('Start Time: ${currentEvent.getTime}',
-                  style: TextStyle(
-                      fontSize: largeFontSize, fontWeight: FontWeight.bold)),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Text('Duration: ${currentEvent.duration}',
-                  style: TextStyle(
-                      fontSize: largeFontSize, fontWeight: FontWeight.bold)),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Text('Description: ${currentEvent.description}',
-                  style: TextStyle(
-                      fontSize: largeFontSize, fontWeight: FontWeight.bold)),
-            ),
-          ),
-          Container(
-            alignment: Alignment.bottomRight,
-            child: LikeButton(
-              size: 50,
-              mainAxisAlignment: MainAxisAlignment.end,
-              likeCount: currentEvent.interested.isNotEmpty
-                  ? currentEvent.interested.length
-                  : 0,
-              countPostion: CountPostion.top,
-              countBuilder: (int? count, bool isLiked, String text) {
-                var color = isLiked ? primaryAccent : darkColor;
-                return Text(
-                  text,
-                  style: TextStyle(
-                    color: blackText,
-                    fontSize: bodyFontSize,
-                    fontWeight: FontWeight.bold,
-                  ),
-                );
-              },
-              likeBuilder: ((isLiked) {
-                return Icon(
-                  Icons.star_rounded,
-                  color: isLiked ? primaryAccent : darkColor,
-                  size: 50,
-                );
-              }),
-              onTap: onInterestButtonTapped,
-              isLiked: currentEvent.interested.contains(user) ? true : false,
-            ),
-          ),
-          Container(
-            alignment: Alignment.bottomRight,
-            child: FloatingActionButton(
-              backgroundColor: greenPrimary,
-              // button that opens the comment section, a Modal Bottom Sheet
-              onPressed: () => showModalBottomSheet(
-                // this is what opens the modal bottom sheet that the comment section will be in
-                context: context,
-                builder: (context) =>
-                    buildSheet(), // Call to buildSheet() method that builds the sheet into the comment section
-              ),
-              child: const Icon(
-                Icons.comment_rounded,
-                color: brightColor,
-              ), // add comment icon to floating button)
-            ),
-          ),
-          Positioned(
-            bottom: 100,
-            right: 100,
-            child: FloatingActionButton.extended(
-              heroTag: "back",
-              label: const Text("go back"),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(Icons.undo_rounded),
-            ),
-          ),
-        ]),
+      appBar: AppBar(
+        title: const Text("Event Info"),
       ),
+      body: Stack(children: [
+        Center(
+          child: Card(
+            elevation: 50,
+            shadowColor: Colors.black,
+            color: Colors.white,
+            child: SizedBox(
+              width: size.width - 50,
+              height: size.height - 100,
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  children: [
+                    /*CircleAvatar(
+                    backgroundColor: Colors.green[500],
+                    radius: 108,
+                    child: const CircleAvatar(
+                      backgroundImage: NetworkImage(
+                          "https://media.geeksforgeeks.org/wp-content/uploads/20210101144014/gfglogo.png"), //NetworkImage
+                      radius: 100,
+                    ),
+                  ),*/
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      currentEvent.sport,
+                      style: TextStyle(
+                        fontSize: 60,
+                        color: Colors.green[900],
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      '${currentEvent.getDate} at ${currentEvent.getTime}',
+                      style: TextStyle(
+                          fontSize: 25,
+                          color: Colors.green,
+                          fontWeight: FontWeight.w400),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Card(
+                        elevation: 50,
+                        shadowColor: Colors.black,
+                        color: Colors.green[100],
+                        child: Column(children: [
+                          SizedBox(
+                              width: size.width / 2.5,
+                              height: size.height / 1.75,
+                              child: Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: Column(children: [
+                                    Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          'Skill Level: ${currentEvent.skill}',
+                                          style: TextStyle(
+                                              fontSize: largeFontSize,
+                                              fontWeight: FontWeight.bold),
+                                        )),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                            'Duration: ${currentEvent.duration}',
+                                            style: TextStyle(
+                                                fontSize: largeFontSize,
+                                                fontWeight: FontWeight.bold))),
+                                    SizedBox(height: 20),
+                                    Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                            'Location: ${currentEvent.address}',
+                                            style: TextStyle(
+                                                fontSize: largeFontSize,
+                                                fontWeight: FontWeight.bold))),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                            'Description: ${currentEvent.description}',
+                                            style: TextStyle(
+                                                fontSize: largeFontSize,
+                                                fontWeight: FontWeight.bold))),
+                                    Expanded(
+                                        child: Align(
+                                            alignment: Alignment.bottomRight,
+                                            child: LikeButton(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              size: 65,
+                                              likeCount: currentEvent
+                                                      .interested.isNotEmpty
+                                                  ? currentEvent
+                                                      .interested.length
+                                                  : 0,
+                                              countPostion: CountPostion.left,
+                                              countBuilder: (int? count,
+                                                  bool isLiked, String text) {
+                                                return Text(
+                                                  text,
+                                                  style: TextStyle(
+                                                    color: blackText,
+                                                    fontSize: 17,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                );
+                                              },
+                                              likeBuilder: ((isLiked) {
+                                                return Icon(
+                                                  Icons.star_rounded,
+                                                  color: isLiked
+                                                      ? primaryAccent
+                                                      : darkColor,
+                                                  size: 65,
+                                                );
+                                              }),
+                                              onTap: onInterestButtonTapped,
+                                              isLiked: currentEvent.interested
+                                                      .contains(user)
+                                                  ? true
+                                                  : false,
+                                            ))),
+                                  ]))),
+                        ])),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+        Container(
+            alignment: Alignment.bottomRight,
+            child: Padding(
+              padding: const EdgeInsets.all(80.0),
+              child: FloatingActionButton(
+                backgroundColor: greenPrimary,
+
+                // button that opens the comment section, a Modal Bottom Sheet
+                onPressed: () => showModalBottomSheet(
+                  // this is what opens the modal bottom sheet that the comment section will be in
+                  context: context,
+                  builder: (context) =>
+                      buildSheet(), // Call to buildSheet() method that builds the sheet into the comment section
+                ),
+                child: const Icon(
+                  Icons.comment_rounded,
+                  color: brightColor,
+                ), // add comment icon to floating button)
+              ),
+            )),
+      ]),
     );
   }
 

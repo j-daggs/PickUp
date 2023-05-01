@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/classes/event_class.dart';
@@ -11,7 +10,7 @@ import 'package:my_app/classes/theme_class.dart';
 
 /// fetchPlacesData is a function that can be called in order to work around the security feature (CORS) of Google Places and the web browser so that it can run without having to disable web security.
 Future<http.Response> fetchPlacesData(String address) async {
-  final proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+  const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
   final apiUrl =
       'https://maps.googleapis.com/maps/api/place/textsearch/json?query=$address&key=<api-key>';
   final response = await http.get(Uri.parse('$proxyUrl$apiUrl'));
@@ -77,6 +76,7 @@ class _CreateEventPage extends State<CreateEventPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      appBar: AppBar(title: const Text("Create an Event")),
       body: Padding(
           padding: const EdgeInsets.all(30),
           child: SingleChildScrollView(
@@ -314,7 +314,7 @@ class _CreateEventPage extends State<CreateEventPage> {
             ]),
           )),
       floatingActionButton: Stack(children: [
-        Positioned(
+        /*Positioned(
           bottom: 80,
           right: 16,
           child: FloatingActionButton.extended(
@@ -326,7 +326,7 @@ class _CreateEventPage extends State<CreateEventPage> {
             backgroundColor: greenPrimary,
             icon: const Icon(Icons.undo_rounded),
           ),
-        ),
+        ),*/
         Positioned(
           bottom: 16,
           right: 16,

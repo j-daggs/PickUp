@@ -1,10 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:my_app/classes/text_field_class.dart';
 import 'package:my_app/classes/theme_class.dart';
-
 import '../login_button.dart';
-import 'package:get_storage/get_storage.dart';
 
 class LoginForm extends StatefulWidget {
   final VoidCallback showRegisterPage;
@@ -36,6 +33,7 @@ class _LoginFormState extends State<LoginForm> {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: _emailController.text.trim(),
           password: _passwordController.text.trim());
+      // ignore: use_build_context_synchronously
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       Navigator.pop(context);
@@ -90,7 +88,7 @@ class _LoginFormState extends State<LoginForm> {
                   const SizedBox(height: 25),
 
                   // email textfield UI and controller
-                  Container(
+                  SizedBox(
                     width: MediaQuery.of(context).size.width * maxFieldWidth,
                     child: TextField(
                       cursorColor: greenPrimary,
@@ -101,7 +99,7 @@ class _LoginFormState extends State<LoginForm> {
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(width: 2, color: primaryLight),
                         ),
-                        hintText: 'Username',
+                        hintText: 'Email',
                       ),
                     ),
                   ),
@@ -109,7 +107,7 @@ class _LoginFormState extends State<LoginForm> {
                   const SizedBox(height: 10),
 
                   // password textfield and controller
-                  Container(
+                  SizedBox(
                     width: MediaQuery.of(context).size.width * maxFieldWidth,
                     child: TextField(
                       cursorColor: greenPrimary,
