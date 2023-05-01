@@ -2,7 +2,7 @@
   "id": "01e9e499-bba1-4ce6-9935-917171004a45",
   "version": "2.0",
   "name": "view event/comment testing",
-  "url": "http://localhost:59380/#/",
+  "url": "http://localhost:49948/#/",
   "tests": [{
     "id": "b70b332a-8e71-4c6d-a1ba-f3c23e2d1615",
     "name": "View Event Page Open",
@@ -301,6 +301,172 @@
       "target": "css=flt-glass-pane",
       "targets": [],
       "value": "Added a comment"
+    }]
+  }, {
+    "id": "9c69fb91-2a7b-4db2-9977-77bc8434a3a9",
+    "name": "Denies Comment Text With Spaces Only",
+    "commands": [{
+      "id": "290ec171-a293-473b-909d-45ea28c613fe",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:56078/#/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "90a39730-02fa-4ca3-b02d-29be40c3c448",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "650x672",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "f3d473f9-0193-4a28-a7bf-d77a3f54983c",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "72d0b80d-e32b-4f9e-b9c9-198fe3322b53",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "195d7e3f-86d9-462d-9837-22b9521986bb",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7aeda9ad-642c-428a-b417-3b3813209152",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "6215a561-dce9-4b7b-8afc-8a2dd05a99e7",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "38268779-c398-423a-a8ac-cbc286945a50",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": "Comments must have text!"
+    }]
+  }, {
+    "id": "7fb0e5ef-6f43-40ed-a843-7172ed4e87fd",
+    "name": "Denies Empty Comment text",
+    "commands": [{
+      "id": "c056a4b6-347c-484c-9c2d-72caf8a70fe4",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:49948/#/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "62648c4b-b398-4341-8989-7b50f56ebd59",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "650x672",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "6f3c6ceb-3dd6-48ac-a4ee-8dd0a1fb72ac",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "b51b2ae3-f608-464d-870b-6a5d82a8710e",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d2cc73d8-fe46-463c-9488-f9fa745a53e5",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7bc1a9f3-d74c-422e-8947-4a192d3d87f2",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d8d64c13-66dc-4aac-ba1e-816f4e53a72e",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f491dfdd-9500-43d2-aae1-ddc77427efcd",
+      "comment": "",
+      "command": "click",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "b20a2126-8a6e-4a7e-a9bc-23758d8a5c1b",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "css=flt-glass-pane",
+      "targets": [
+        ["css=flt-glass-pane", "css:finder"],
+        ["xpath=//flt-glass-pane", "xpath:position"]
+      ],
+      "value": "Comments must have text!"
     }]
   }],
   "suites": [{
