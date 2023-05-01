@@ -147,6 +147,7 @@ class _HomePageState extends State<HomePage> {
                       splashColor: errorColor,
                       hoverColor: primaryLightLowAlpha,
                       child: Card(
+                        clipBehavior: Clip.hardEdge,
                         elevation: 5,
                         child: Container(
                           decoration: const BoxDecoration(
