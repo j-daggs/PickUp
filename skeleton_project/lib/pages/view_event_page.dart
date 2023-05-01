@@ -11,7 +11,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:like_button/like_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-
 class ViewEvent extends StatefulWidget {
   // Initializing currentEventId
   final String currentEventId;
@@ -33,16 +32,17 @@ class _ViewEvent extends State<ViewEvent> {
         .collection('Comment')
         .add({'DateTime': dateTime, 'Username': username, 'Text': text});
   }
-  
+
   Future<void> _copyUrlToClipboard() async {
     String currentUrl = Uri.base.toString();
 
-    final String url = currentUrl; 
+    final String url = currentUrl;
     Clipboard.setData(ClipboardData(text: url));
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('URL copied to clipboard!')),
     );
   }
+
   List commentList = Comment.testingList;
   TextEditingController textController = TextEditingController();
   static String textControllerHintText = "Start typing a comment";
@@ -108,17 +108,18 @@ class _ViewEvent extends State<ViewEvent> {
       body: Stack(children: [
         Center(
           child: Card(
-            elevation: 50,
-            shadowColor: Colors.black,
-            color: Colors.white,
-            child: SizedBox(
-              width: size.width - 50,
-              height: size.height - 100,
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  children: [
-                    /*CircleAvatar(
+              clipBehavior: Clip.hardEdge,
+              elevation: 50,
+              shadowColor: Colors.black,
+              color: Colors.white,
+              child: SizedBox(
+                width: size.width - 50,
+                height: size.height - 100,
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    children: [
+                      /*CircleAvatar(
                     backgroundColor: Colors.green[500],
                     radius: 108,
                     child: const CircleAvatar(
@@ -127,123 +128,135 @@ class _ViewEvent extends State<ViewEvent> {
                       radius: 100,
                     ),
                   ),*/
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      currentEvent.sport,
-                      style: TextStyle(
-                        fontSize: 60,
-                        color: Colors.green[900],
-                        fontWeight: FontWeight.bold,
+                      const SizedBox(
+                        height: 10,
                       ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      '${currentEvent.getDate} at ${currentEvent.getTime}',
-                      style: TextStyle(
-                          fontSize: 25,
-                          color: Colors.green,
-                          fontWeight: FontWeight.w400),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Card(
-                        elevation: 50,
-                        shadowColor: Colors.black,
-                        color: Colors.green[100],
-                        child: Column(children: [
-                          SizedBox(
-                              width: size.width / 2.5,
-                              height: size.height / 1.75,
-                              child: Padding(
-                                  padding: const EdgeInsets.all(20.0),
-                                  child: Column(children: [
-                                    Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          'Skill Level: ${currentEvent.skill}',
-                                          style: TextStyle(
-                                              fontSize: largeFontSize,
-                                              fontWeight: FontWeight.bold),
-                                        )),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                            'Duration: ${currentEvent.duration}',
-                                            style: TextStyle(
-                                                fontSize: largeFontSize,
-                                                fontWeight: FontWeight.bold))),
-                                    SizedBox(height: 20),
-                                    Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                            'Location: ${currentEvent.address}',
-                                            style: TextStyle(
-                                                fontSize: largeFontSize,
-                                                fontWeight: FontWeight.bold))),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                            'Description: ${currentEvent.description}',
-                                            style: TextStyle(
-                                                fontSize: largeFontSize,
-                                                fontWeight: FontWeight.bold))),
-                                    Expanded(
-                                        child: Align(
-                                            alignment: Alignment.bottomRight,
-                                            child: LikeButton(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              size: 65,
-                                              likeCount: currentEvent
-                                                      .interested.isNotEmpty
-                                                  ? currentEvent
-                                                      .interested.length
-                                                  : 0,
-                                              countPostion: CountPostion.left,
-                                              countBuilder: (int? count,
-                                                  bool isLiked, String text) {
-                                                return Text(
-                                                  text,
+                      Text(
+                        currentEvent.sport,
+                        style: TextStyle(
+                          fontSize: 60,
+                          color: Colors.green[900],
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        '${currentEvent.getDate} at ${currentEvent.getTime}',
+                        style: TextStyle(
+                            fontSize: 25,
+                            color: Colors.green,
+                            fontWeight: FontWeight.w400),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Flexible(
+                          child: Card(
+                              clipBehavior: Clip.hardEdge,
+                              elevation: 50,
+                              shadowColor: Colors.black,
+                              color: Colors.green[100],
+                              child: Column(children: [
+                                SizedBox(
+                                    width: size.width / 2.5,
+                                    height: size.height / 1.75,
+                                    child: Padding(
+                                        padding: const EdgeInsets.all(20.0),
+                                        child: Column(children: [
+                                          Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Text(
+                                                'Skill Level: ${currentEvent.skill}',
+                                                style: TextStyle(
+                                                    fontSize: largeFontSize,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              )),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Text(
+                                                  'Duration: ${currentEvent.duration}',
                                                   style: TextStyle(
-                                                    color: blackText,
-                                                    fontSize: 17,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                );
-                                              },
-                                              likeBuilder: ((isLiked) {
-                                                return Icon(
-                                                  Icons.star_rounded,
-                                                  color: isLiked
-                                                      ? primaryAccent
-                                                      : darkColor,
-                                                  size: 65,
-                                                );
-                                              }),
-                                              onTap: onInterestButtonTapped,
-                                              isLiked: currentEvent.interested
-                                                      .contains(user)
-                                                  ? true
-                                                  : false,
-                                            ))),
-                                  ]))),
-                        ])),
-                  ],
+                                                      fontSize: largeFontSize,
+                                                      fontWeight:
+                                                          FontWeight.bold))),
+                                          SizedBox(height: 20),
+                                          Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Text(
+                                                  'Location: ${currentEvent.address}',
+                                                  style: TextStyle(
+                                                      fontSize: largeFontSize,
+                                                      fontWeight:
+                                                          FontWeight.bold))),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Text(
+                                                  'Description: ${currentEvent.description}',
+                                                  style: TextStyle(
+                                                      fontSize: largeFontSize,
+                                                      fontWeight:
+                                                          FontWeight.bold))),
+                                          Expanded(
+                                              child: Align(
+                                                  alignment:
+                                                      Alignment.bottomRight,
+                                                  child: LikeButton(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.end,
+                                                    size: 65,
+                                                    likeCount: currentEvent
+                                                            .interested
+                                                            .isNotEmpty
+                                                        ? currentEvent
+                                                            .interested.length
+                                                        : 0,
+                                                    countPostion:
+                                                        CountPostion.left,
+                                                    countBuilder: (int? count,
+                                                        bool isLiked,
+                                                        String text) {
+                                                      return Text(
+                                                        text,
+                                                        style: TextStyle(
+                                                          color: blackText,
+                                                          fontSize: 17,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      );
+                                                    },
+                                                    likeBuilder: ((isLiked) {
+                                                      return Icon(
+                                                        Icons.star_rounded,
+                                                        color: isLiked
+                                                            ? primaryAccent
+                                                            : darkColor,
+                                                        size: 65,
+                                                      );
+                                                    }),
+                                                    onTap:
+                                                        onInterestButtonTapped,
+                                                    isLiked: currentEvent
+                                                            .interested
+                                                            .contains(user)
+                                                        ? true
+                                                        : false,
+                                                  ))),
+                                        ]))),
+                              ]))),
+                    ],
+                  ),
                 ),
-              ),
-            ),
-          ),
+              )),
         ),
         Container(
             alignment: Alignment.bottomRight,
