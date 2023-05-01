@@ -37,7 +37,7 @@ class _ViewEvent extends State<ViewEvent> {
   Future<void> _copyUrlToClipboard() async {
     String currentUrl = Uri.base.toString();
 
-    final String url = currentUrl; // Replace with your URL
+    final String url = currentUrl; 
     Clipboard.setData(ClipboardData(text: url));
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('URL copied to clipboard!')),
