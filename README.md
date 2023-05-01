@@ -11,8 +11,17 @@ Created by...
 - Download and install [VSCode](https://code.visualstudio.com/download)
 - Download [Google Chrome](https://www.google.com/chrome/)
 - Install [Flutter](https://docs.flutter.dev/get-started/install) and follow directions on the page
-- Make sure you have the updated files using git pull
-- Ensure the device you want to run the application on it set to "Chrome" (You can change this by clicking on the bottom right of the window on the blue bar. It may say ios simulator or android simulator. Then select "Chrome")
-- Use the <pub get> command to get all necessary packages 
-- Follow [this link](https://firebase.google.com/docs/flutter/setup?platform=web) to get connected to Firebase
+- Download the ZIP file from the [GitHub page](https://github.com/UNCW-CSC-450/csc450-sp23-project-team-4.git) and open it to get the project folder
+- Open VSCode and open the project folder in it 
+- When the project opens, open a terminal in VSCode and run the command <flutter pub get> to get all necessary packages
+- Ensure the device you want to run the application on it set to "Chrome" (It may ask you or you can change this by clicking on the bottom right of the window on the blue bar. It may say ios simulator or android simulator. Then select "Chrome")
 - You should now be able to run the application using the Run button on VSCode
+
+**To run testing with Selenium:**
+- Follow the above instructions to download the project 
+- Open Google Chrome and install the [Selenium IDE Chrome extenstion](https://chrome.google.com/webstore/detail/selenium-ide/mooikfkahbdckldjjndioackbalphokd)
+- Run the project which will open it in Google Chrome
+- Open a seperate Google Chrome window and in that window, open the Selenium IDE extension 
+- Click "Open existing project". Find the test projects located in the "test" folder in the project 
+- Before running the test, copy the link from the running project Chrome window and paste it into the URL box in Selenium IDE. Keep the project window open while testing. 
+- Run the tests in the test porject and open the next one when you are done with the current tests. 
