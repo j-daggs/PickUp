@@ -33,8 +33,10 @@ class _ViewEvent extends State<ViewEvent> {
 
   List commentList = Comment.testingList;
   TextEditingController textController = TextEditingController();
+  static String textControllerHintText = "Add a comment!";
   @override
   Widget build(BuildContext context) {
+    textControllerHintText = "Add a comment!";
     final snap = ModalRoute.of(context)!.settings.arguments as dynamic;
     debugPrint('Snap: $snap');
     DateTime dateTimeStartTime = (snap['StartTime']).toDate();
@@ -188,12 +190,16 @@ class _ViewEvent extends State<ViewEvent> {
               appBar: AppBar(
                 title: TextField(
                   controller: textController,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     border: OutlineInputBorder(),
-                    hintText: 'Add a comment',
+                    hintText: textControllerHintText,
                   ),
                   onSubmitted: (String value) {
-                    if (textController.text.isNotEmpty) {
+                    if (textController.text.isNotEmpty &&
+                        textController.text
+                            .trim()
+                            .replaceAll(' ', '')
+                            .isNotEmpty) {
                       setState(() {
                         commentList.insert(
                             0,
@@ -202,6 +208,11 @@ class _ViewEvent extends State<ViewEvent> {
                         addCommentDetails(DateTime.now(), user.toString(),
                             textController.text);
                         textController.clear();
+                      });
+                    } else {
+                      setState(() {
+                        textController.clear();
+                        textControllerHintText = "Comment's must have text!";
                         Navigator.of(context).pop();
                         showModalBottomSheet(
                             context: context,
@@ -255,7 +266,11 @@ class _ViewEvent extends State<ViewEvent> {
               floatingActionButton: FloatingActionButton(
                 child: const Icon(Icons.add_comment_rounded),
                 onPressed: () {
-                  if (textController.text.isNotEmpty) {
+                  if (textController.text.isNotEmpty &&
+                      textController.text
+                          .trim()
+                          .replaceAll(' ', '')
+                          .isNotEmpty) {
                     setState(() {
                       commentList.insert(
                           0,
@@ -263,6 +278,15 @@ class _ViewEvent extends State<ViewEvent> {
                               textController.text));
                       addCommentDetails(
                           DateTime.now(), user.toString(), textController.text);
+                      textController.clear();
+                    });
+                  } else {
+                    setState(() {
+                      textController.clear();
+                      textControllerHintText = "Comment's must have text!";
+                      Navigator.of(context).pop();
+                      showModalBottomSheet(
+                          context: context, builder: (context) => buildSheet());
                     });
                   }
                 },
